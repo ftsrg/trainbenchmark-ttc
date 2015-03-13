@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Benchmark
+Bundle-SymbolicName: hu.bme.mit.trainbenchmark.ttc.benchmark
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases,
+ hu.bme.mit.trainbenchmark.ttc.benchmark.config,
+ hu.bme.mit.trainbenchmark.ttc.benchmark.scenarios,
+ hu.bme.mit.trainbenchmark.ttc.benchmark.test,
+ hu.bme.mit.trainbenchmark.ttc.config,
+ hu.bme.mit.trainbenchmark.ttc.constants
+Require-Bundle: org.apache.commons.cli;bundle-version="1.2.0",
+ org.junit;bundle-version="4.11.0"

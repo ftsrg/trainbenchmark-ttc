@@ -1,0 +1,21 @@
+{
+  "MinSize": 1,
+  "MaxSize": 2,
+  "Queries": [
+    "PosLength",
+    "RouteSensor",
+    "SwitchSensor",
+    "SwitchSet",
+    "SemaphoreNeighbor"
+  ],
+  "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"],
+  "ChangeSets": [
+    "fixed",
+    "proportional"
+  ],
+  "Runs": 1,
+  "IterationCount": 5,
+  "JVM": {
+    "vmargs": "-Xmx4G"
+  }
+}

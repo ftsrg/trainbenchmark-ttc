@@ -1,0 +1,16 @@
+package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery
+
+import "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark" 
+
+pattern switchSet(switchPosition)
+{
+	Route.entry(route, semaphore);
+	Route.follows(route, switchPosition);
+	SwitchPosition.^switch(switchPosition, sw);
+	
+	Semaphore.signal(semaphore, ::GO);
+	SwitchPosition.position(switchPosition, swPP);
+	Switch.currentPosition(sw, swCP);
+
+	swPP != swCP;
+}

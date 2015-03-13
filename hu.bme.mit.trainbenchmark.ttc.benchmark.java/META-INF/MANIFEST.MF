@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java
+Bundle-SymbolicName: hu.bme.mit.trainbenchmark.ttc.benchmark.java
+Bundle-Version: 1.0.0.qualifier
+Export-Package: hu.bme.mit.trainbenchmark.ttc.benchmark.java,
+ hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases
+Require-Bundle: hu.bme.mit.trainbenchmark.ttc.benchmark;bundle-version="1.0.0",
+ hu.bme.mit.trainbenchmark.ttc.emf.model;bundle-version="1.0.0",
+ hu.bme.mit.trainbenchmark.ttc.emf;bundle-version="1.0.0",
+ org.apache.commons.cli;bundle-version="1.2.0",
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Patterns
+Bundle-SymbolicName: hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Export-Package: hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery,
+ hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util
+Require-Bundle: hu.bme.mit.trainbenchmark.ttc.emf.model,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.incquery.runtime;bundle-version="0.9.1",
+ org.apache.log4j;bundle-version="1.2.15"
