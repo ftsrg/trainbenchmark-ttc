@@ -1,2 +1,5 @@
+language: python
+python:
+  - "3.4"
 script:
-  - mvn clean install -DskipTests
+  - scripts/test.sh
