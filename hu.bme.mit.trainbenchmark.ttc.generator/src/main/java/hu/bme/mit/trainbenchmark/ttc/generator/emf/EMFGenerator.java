@@ -80,7 +80,7 @@ public class EMFGenerator extends Generator {
 		for (final Entry<String, Object> attribute : attributes.entrySet()) {
 			setAttribute(clazz, railwayElement, attribute.getKey(), attribute.getValue());
 		}
-		// container.getContains().add(railwayElement);
+
 		switch (type) {
 		case ModelConstants.SEMAPHORE:
 			container.getSemaphores().add((Semaphore) railwayElement);

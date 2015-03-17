@@ -117,10 +117,10 @@ public abstract class Generator {
 				sig2 = firstSig;
 			}
 
-			final boolean semaphoreNeighborError1 = nextRandom() >= semaphoreNeighborErrorPercent;
-			final Object entry = semaphoreNeighborError1 ? prevSig : null;
-			final boolean semaphoreNeighborError2 = nextRandom() >= semaphoreNeighborErrorPercent;
-			final Object exit = semaphoreNeighborError2 ? sig2 : null;
+			final boolean semaphoreNeighborError1 = nextRandom() < semaphoreNeighborErrorPercent;
+			final Object entry = semaphoreNeighborError1 ? null : prevSig;
+			final boolean semaphoreNeighborError2 = nextRandom() < semaphoreNeighborErrorPercent;
+			final Object exit = semaphoreNeighborError2 ? null : sig2;
 
 			final Map<String, Object> routeReferences = new HashMap<>();
 			routeReferences.put(ENTRY, entry);
@@ -142,12 +142,12 @@ public abstract class Generator {
 					final Object sen = createVertex(SENSOR);
 
 					// add "sensor" edge from switch to sensor
-					final boolean switchSensorError = nextRandom() >= switchSensorErrorPercent;
-					final Object targetSensor = switchSensorError ? sen : null;
+					final boolean switchSensorError = nextRandom() < switchSensorErrorPercent;
+					final Object targetSensor = switchSensorError ? null : sen;
 					createEdge(SENSOR_EDGE, sw, targetSensor);
 					// add "sensors" edge from route to sensor
-					final boolean routeSensorError = nextRandom() >= routeSensorErrorPercent;
-					final Object sourceRoute = routeSensorError ? route : null;
+					final boolean routeSensorError = nextRandom() < routeSensorErrorPercent;
+					final Object sourceRoute = routeSensorError ? null : route;
 					createEdge(DEFINED_BY, sourceRoute, sen);
 
 					for (int m = 0; m < maxSegments; m++) {
@@ -160,7 +160,8 @@ public abstract class Generator {
 				setAttribute(SWITCH, sw, CURRENTPOSITION, stateEnum);
 
 				// the errorInjectedState may contain a bad value
-				final int errorInjectedStateNumber = (nextRandom() < switchSetErrorPercent) ? 3 - stateNumber : stateNumber;
+				boolean switchSensorError = nextRandom() < switchSetErrorPercent;
+				final int errorInjectedStateNumber = switchSensorError ? 3 - stateNumber : stateNumber;
 				final Position errorInjectedStateEnum = Position.values()[errorInjectedStateNumber];
 				final Map<String, Object> switchPosititonAttributes = new HashMap<>();
 				switchPosititonAttributes.put(POSITION, errorInjectedStateEnum);
