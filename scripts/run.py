@@ -99,10 +99,10 @@ if __name__ == "__main__":
     if args.measure:
         benchmark(config)
     if args.visualize:
-        util.set_working_directory("../hu.bme.mit.trainbenchmark.ttc.reporting")
+        util.set_working_directory("../reporting")
         subprocess.call(["Rscript", "generate_diagrams.R"])
     if args.results:
-        util.set_working_directory("../hu.bme.mit.trainbenchmark.ttc.reporting")
+        util.set_working_directory("../reporting")
         subprocess.call(["Rscript", "report_references.R"])
 
     # if there are no args, we execute a test sequence
@@ -112,5 +112,5 @@ if __name__ == "__main__":
         generate(config)
         build(False)
         benchmark(config)
-        util.set_working_directory("../hu.bme.mit.trainbenchmark.ttc.reporting")
+        util.set_working_directory("../reporting")
         subprocess.call(["Rscript", "report_references.R"])

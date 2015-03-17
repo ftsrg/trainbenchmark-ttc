@@ -3,5 +3,6 @@ python:
   - "3.4"
 script:
   - sudo apt-get install r-base-core
+  - sudo R -f reporting/install.R
   - scripts/run.py
   - cat output/*

@@ -11,7 +11,7 @@
 1. Install the required R packages by issuing the following command:
 
     ```bash
-    cd hu.bme.mit.trainbenchmark.ttc.reporting/
+    cd reporting/
     sudo R -f install.R
     ```
 
@@ -19,7 +19,7 @@
 
 ## Usage
     
-1. Adjust the configuration parameters in the `/hu.bme.mit.trainbenchmark.ttc.reporting/src/config.json` file.
+1. Adjust the configuration parameters in the `config/reporting.json` file.
 1. Execute the following command from the same directory:
 
      `Rscript generate_diagrams.R` 
