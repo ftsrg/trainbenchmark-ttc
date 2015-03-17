@@ -205,8 +205,6 @@ public abstract class Generator {
 		}
 	}
 
-	protected abstract void addToC(final Object o);
-
 	private void createSegment(final List<Object> currTracks, final Object sen) throws IOException {
 		final boolean posLengthError = nextRandom() < posLengthErrorPercent;
 		final int segmentLength = ((posLengthError ? -1 : 1) * random.nextInt(MAX_SEGMENT_LENGTH)) + 1;

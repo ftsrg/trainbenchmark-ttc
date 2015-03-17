@@ -152,9 +152,4 @@ public class EMFGenerator extends Generator {
 		node.eSet(feature, value);
 	}
 
-	@Override
-	protected void addToC(final Object o) {
-		container.getInvalids().add((RailwayElement) o);		
-	}
-
 }
