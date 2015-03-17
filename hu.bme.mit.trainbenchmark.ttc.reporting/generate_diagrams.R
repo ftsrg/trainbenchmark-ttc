@@ -11,13 +11,13 @@ results <-read.csv(resultsPath, header=TRUE, sep='\t')
 config <- fromJSON(configPath)
 
 if (validPhase(results, config$Summarize_Functions$Phases) == FALSE){
-  print("Non existing phasename was given!")
+  print("Non existing phasename provided!")
   quit()
 }
 
 for(row in 1:nrow(config$Summarize_Functions)){
   if (validMetric(results, config$Summarize_Functions[row,]$Metric) == FALSE){
-    print("Non existing metricname was given!")
+    print("Non existing metricname provided!")
     quit()
   }
 }

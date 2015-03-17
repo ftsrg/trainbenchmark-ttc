@@ -79,9 +79,13 @@ if __name__ == "__main__":
                         help="skip JUNIT tests",
                         action="store_true")
     parser.add_argument("-v", "--visualize",
-                        help="create reports",
+                        help="create visualizations",
+                        action="store_true")
+    parser.add_argument("-r", "--results",
+                        help="extract results",
                         action="store_true")
     args = parser.parse_args()
+
 
     util.set_working_directory()
     logger.init()
@@ -97,4 +101,16 @@ if __name__ == "__main__":
     if args.visualize:
         util.set_working_directory("../hu.bme.mit.trainbenchmark.ttc.reporting")
         subprocess.call(["Rscript", "generate_diagrams.R"])
+    if args.results:
+        util.set_working_directory("../hu.bme.mit.trainbenchmark.ttc.reporting")
+        subprocess.call(["Rscript", "report_references.R"])
 
+    # if there are no args, we execute a test sequence
+    no_args = all(val==False for val in vars(args).values())
+    if no_args:
+        build(True)
+        generate(config)
+        build(False)
+        benchmark(config)
+        util.set_working_directory("../hu.bme.mit.trainbenchmark.ttc.reporting")
+        subprocess.call(["Rscript", "report_references.R"])

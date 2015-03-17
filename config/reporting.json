@@ -1,0 +1,32 @@
+{
+  "Dimensions": {
+    "X_Dimensions": {
+      "Size": true,
+      "Iteration": true
+    },
+    "Groups": {
+      "Query": true,
+      "Tool": true
+    }
+  },
+  "Summarize_Functions": [
+    {
+      "Phases": [
+        "check",
+        "transform"
+      ],
+      "Metric": "time",
+      "Y_Label": "Time (ms)",
+      "Y_Axis_Scale": -6
+    },
+    {
+      "Phases": [
+        "read"
+      ],
+      "Metric": "time",
+      "Y_Label": "Time (ms)",
+      "Y_Axis_Scale": -9
+    }
+  ],
+  "Extension": ["png", "pdf"]
+}

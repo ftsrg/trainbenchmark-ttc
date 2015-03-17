@@ -10,7 +10,7 @@ for (change in changes){
   subData <- subset(results, ChangeSet == change)
   queries <- unique(subData$Query)
   for (query in queries){
-    fileName <- paste("../reference-output/",change, "-", query, ".tsv", sep="")
+    fileName <- paste("../output/",change, "-", query, ".tsv", sep="")
     if (file.exists(fileName)){
       file.remove(fileName)  
     }
