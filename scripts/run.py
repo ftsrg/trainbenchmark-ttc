@@ -112,5 +112,3 @@ if __name__ == "__main__":
         generate(config)
         build(False)
         benchmark(config)
-        util.set_working_directory("../reporting")
-        subprocess.call(["Rscript", "report_references.R"])
