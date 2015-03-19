@@ -21,8 +21,11 @@ import java.util.Random;
 
 public class BenchmarkResult {
 
-	private static final String TRANSFORM = "transform";
+	private static final String SIZE = "scalar";
+	private static final String RESULT = "result";
+	private static final String REPAIR = "repair";
 	private static final String CHECK = "check";
+	private static final String RECHECK = "recheck";
 	private static final String READ = "read";
 	private static final String MEMORY = "memory";
 	private static final String TIME = "time";
@@ -46,8 +49,8 @@ public class BenchmarkResult {
 	protected List<Long> checkTimes = new ArrayList<>();
 	protected List<Long> checkMemory = new ArrayList<>();
 	// phase 3
-	protected List<Long> transformationTimes = new ArrayList<>();
-	protected List<Long> transformationMemory = new ArrayList<>();
+	protected List<Long> repairTimes = new ArrayList<>();
+	protected List<Long> repairMemory = new ArrayList<>();
 
 	public BenchmarkResult(final String tool, final String query) {
 		this.tool = tool;
@@ -97,11 +100,11 @@ public class BenchmarkResult {
 
 	// phase 3
 	public void addTransformationTime() {
-		transformationTimes.add(stopClock());
+		repairTimes.add(stopClock());
 	}
 
 	public void addTransformationMemory(final long memoryUsage) {
-		transformationMemory.add(memoryUsage);
+		repairMemory.add(memoryUsage);
 	}
 
 	// random
@@ -145,19 +148,21 @@ public class BenchmarkResult {
 		final StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < resultSizes.size(); i++) {
-			generateRow(builder, "result", "scalar", i, resultSizes.get(i));
+			String phase = (i == 0) ? phase = CHECK : RECHECK;
+			generateRow(builder, phase, SIZE, i, resultSizes.get(i));
 		}
 
 		// phases
 		generateRow(builder, READ, TIME, 0, readTime);
 		generateRow(builder, READ, MEMORY, 0, readMemory);
 		for (int i = 0; i < checkTimes.size(); i++) {
-			generateRow(builder, CHECK, TIME, i, checkTimes.get(i));
-			generateRow(builder, CHECK, MEMORY, i, checkMemory.get(i));
+			String phase = (i == 0) ? phase = CHECK : RECHECK;
+			generateRow(builder, phase, TIME, i, checkTimes.get(i));
+			generateRow(builder, phase, MEMORY, i, checkMemory.get(i));
 		}
-		for (int i = 0; i < transformationTimes.size(); i++) {
-			generateRow(builder, TRANSFORM, TIME, i, transformationTimes.get(i));
-			generateRow(builder, TRANSFORM, MEMORY, i, transformationMemory.get(i));
+		for (int i = 0; i < repairTimes.size(); i++) {
+			generateRow(builder, REPAIR, TIME, i, repairTimes.get(i));
+			generateRow(builder, REPAIR, MEMORY, i, repairMemory.get(i));
 		}
 
 		return builder.toString();
@@ -165,7 +170,7 @@ public class BenchmarkResult {
 
 	protected void generateRow(final StringBuilder builder, final String phase, final String metricName, final int i, final long value) {
 		// Scenario
-		builder.append(bc.getChangeSet());
+		builder.append(bc.getChangeSet().toString().toLowerCase());
 		builder.append(SEPARATOR);
 		// RunIndex
 		builder.append(bc.getRunIndex());

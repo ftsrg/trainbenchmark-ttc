@@ -13,8 +13,9 @@ workspace
 Thumbs.db
 .Rhistory
 .RData
-results/results*.tsv
+output/output*.tsv
 .pydevproject
 deps/
 diagrams/
+results/
 __pycache__/

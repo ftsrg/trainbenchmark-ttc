@@ -1,4 +1,4 @@
-resultsPath <- "../results/results.tsv"
+resultsPath <- "../output/output.tsv"
 configPath <- "../config/reporting.json"
 
 # y-axis scaling
@@ -26,7 +26,6 @@ labels <- list("1" = "1\n ",
                "1024" = "512\n ",
                "2048" = "2048\n ",
                "4096" = "4096\n ",
-               "8192" = "8192\n "
+               "8192" = "8192\n ",
+               "16384" = "16384\n "
                )
-
-

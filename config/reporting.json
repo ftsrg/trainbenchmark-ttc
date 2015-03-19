@@ -12,8 +12,8 @@
   "Summarize_Functions": [
     {
       "Phases": [
-        "check",
-        "transform"
+        "read",
+        "check"
       ],
       "Metric": "time",
       "Y_Label": "Time (ms)",
@@ -21,7 +21,8 @@
     },
     {
       "Phases": [
-        "read"
+        "repair",
+        "recheck"
       ],
       "Metric": "time",
       "Y_Label": "Time (ms)",

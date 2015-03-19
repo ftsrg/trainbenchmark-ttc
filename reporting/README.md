@@ -15,12 +15,13 @@
     sudo R -f install.R
     ```
 
-  As a consequence, the `ggplot2`, `jsonlite`, `plyr` R packages will be deployed.
+  As a consequence, the `ggplot2`, `jsonlite`, `plyr` packages will be installed.
 
 ## Usage
     
 1. Adjust the configuration parameters in the `config/reporting.json` file.
-1. Execute the following command from the same directory:
+1. Use the `scripts/run.py -v` command.
+1. Alternatively, execute the following command from the `reporting` directory:
 
      `Rscript generate_diagrams.R` 
     
@@ -62,9 +63,7 @@
   "Extension": ["png", "pdf"]
 }
      ```
-* The first function: `check+transformation`
-* The second one: `result`
 
-* Arbitrary number of functions can be declared.
+* An arbitrary number of functions can be declared.
  
-* The dimension and group parameters can be changed independently from each other, which means for example every variable can be `true` at the same time. As a consequent, more diagrams will be generated.
+* The dimension and group parameters can be changed independently from each other, which means for example every variable can be `true` at the same time. As a consequence, more diagrams will be generated.

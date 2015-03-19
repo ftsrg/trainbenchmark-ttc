@@ -4,16 +4,14 @@
 
 """
 import argparse
+import logger
 import logging
-import subprocess
-import sys
 import os
 import shutil
-
+import subprocess
+import sys
 import util
-import logger
 from loader import Loader
-
 
 def build(skip_tests):
     """Builds the project.
@@ -38,8 +36,8 @@ def generate(conf):
 def benchmark(conf):
     """Runs measurements.
     """
-    header = "../results/header.tsv"
-    result_file = "../results/results.tsv"
+    header = "../output/header.tsv"
+    result_file = "../output/output.tsv"
     if os.path.exists(result_file):
         os.remove(result_file)
     shutil.copy(header, result_file)
@@ -64,6 +62,35 @@ def benchmark(conf):
     pass
 
 
+def clean_dir(dir):
+    if os.path.exists(dir):
+        shutil.rmtree(dir)
+    os.mkdir(dir)
+
+
+def visualize():
+    """Visualizes the benchmark results
+    """
+    clean_dir("../diagrams")
+    util.set_working_directory("../reporting")
+    subprocess.call(["Rscript", "visualize.R"])
+
+
+def extract_results():
+    """Extracts the benchmark results
+    """
+    clean_dir("../results")
+    util.set_working_directory("../reporting")
+    subprocess.call(["Rscript", "extract_results.R"])
+
+
+def test():
+    build(True)
+    generate(config)
+    build(False)
+    benchmark(config)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--build",
@@ -81,7 +108,7 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--visualize",
                         help="create visualizations",
                         action="store_true")
-    parser.add_argument("-r", "--results",
+    parser.add_argument("-e", "--extract",
                         help="extract results",
                         action="store_true")
     args = parser.parse_args()
@@ -99,16 +126,16 @@ if __name__ == "__main__":
     if args.measure:
         benchmark(config)
     if args.visualize:
-        util.set_working_directory("../reporting")
-        subprocess.call(["Rscript", "generate_diagrams.R"])
-    if args.results:
-        util.set_working_directory("../reporting")
-        subprocess.call(["Rscript", "report_references.R"])
+        visualize()
+    if args.extract:
+        extract_results()
+    if args.test:
+        test()
 
-    # if there are no args, we execute a test sequence
+
+    # if there are no args, execute a full sequence with the test and the visualization/reporting
     no_args = all(val==False for val in vars(args).values())
     if no_args:
-        build(True)
-        generate(config)
-        build(False)
-        benchmark(config)
+        test()
+        visualize()
+        extract_results()
