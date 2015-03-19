@@ -111,6 +111,9 @@ if __name__ == "__main__":
     parser.add_argument("-e", "--extract",
                         help="extract results",
                         action="store_true")
+    parser.add_argument("-t", "--test",
+                        help="run test",
+                        action="store_true")
     args = parser.parse_args()
 
 
