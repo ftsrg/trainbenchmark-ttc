@@ -1,13 +1,19 @@
 {
   "MinSize": 1,
-  "MaxSize": 4,
+  "MaxSize": 8,
+  "_AllQueries": [
+  ],
   "Queries": [
     "PosLength",
+    "RouteSensor",
+    "SemaphoreNeighbor",
+    "SwitchSensor",
     "SwitchSet"
   ],
   "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"],
   "ChangeSets": [
-    "fixed"
+    "fixed",
+    "proportional"
   ],
   "Runs": 1,
   "IterationCount": 5,
