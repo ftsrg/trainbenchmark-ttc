@@ -21,8 +21,7 @@ import java.util.Random;
 
 public class BenchmarkResult {
 
-	private static final String SIZE = "scalar";
-	private static final String RESULT = "result";
+	private static final String RSS = "rss";
 	private static final String REPAIR = "repair";
 	private static final String CHECK = "check";
 	private static final String RECHECK = "recheck";
@@ -149,7 +148,7 @@ public class BenchmarkResult {
 
 		for (int i = 0; i < resultSizes.size(); i++) {
 			String phase = (i == 0) ? phase = CHECK : RECHECK;
-			generateRow(builder, phase, SIZE, i, resultSizes.get(i));
+			generateRow(builder, phase, RSS, i, resultSizes.get(i));
 		}
 
 		// phases

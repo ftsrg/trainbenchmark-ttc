@@ -32,27 +32,27 @@ public abstract class TrainBenchmarkTest {
 	
 	@Test
 	public void posLength() throws IOException {
-		testTransformation(QueryConstants.POSLENGTH, 96, 95);
+		testTransformation(QueryConstants.POSLENGTH, 43, 42);
 	}
 
 	@Test
 	public void routeSensor() throws IOException {
-		testTransformation(QueryConstants.ROUTESENSOR, 8, 7);
+		testTransformation(QueryConstants.ROUTESENSOR, 7, 6);
 	}
 
 	@Test
 	public void semaphoreNeighbor() throws IOException {
-		testTransformation(QueryConstants.SEMAPHORENEIGHBOR, 2, 1);
+		testTransformation(QueryConstants.SEMAPHORENEIGHBOR, 1, 0);
 	}
 
 	@Test
 	public void switchSensor() throws IOException {
-		testTransformation(QueryConstants.SWITCHSENSOR, 5, 4);
+		testTransformation(QueryConstants.SWITCHSENSOR, 2, 1);
 	}
 
 	@Test
 	public void switchSet() throws IOException {
-		testTransformation(QueryConstants.SWITCHSET, 4, 3);
+		testTransformation(QueryConstants.SWITCHSET, 3, 2);
 	}
 	
 	protected abstract AbstractBenchmarkLogic getBenchmarkLogic(BenchmarkConfig bc);

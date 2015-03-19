@@ -58,10 +58,10 @@ public abstract class Generator {
 	protected int maxSensors;
 
 	protected final int posLengthErrorPercent = 6;
-	protected final int switchSensorErrorPercent = 10;
-	protected final int routeSensorErrorPercent = 15;
-	protected final int semaphoreNeighborErrorPercent = 35;
-	protected final int switchSetErrorPercent = 30;
+	protected final int routeSensorErrorPercent = 10;
+	protected final int semaphoreNeighborErrorPercent = 80;
+	protected final int switchSensorErrorPercent = 8;
+	protected final int switchSetErrorPercent = 60;
 
 	protected Random random = new Random(TrainBenchmarkConstants.RANDOM_SEED);
 
@@ -91,36 +91,35 @@ public abstract class Generator {
 	protected abstract void initModel() throws IOException;
 
 	protected void generateModel() throws FileNotFoundException, IOException {
-		Object prevSig = null;
-		Object firstSig = null;
+		Object prevSemaphore = null;
+		Object firstSemaphore = null;
 		List<Object> firstTracks = null;
 		List<Object> prevTracks = null;
 
 		for (long i = 0; i < maxRoutes; i++) {
 			beginRoute();
 
-			if (prevSig == null) {
+			if (prevSemaphore == null) {
 				final Map<String, Object> semaphoreAttributes = new HashMap<>();
 				semaphoreAttributes.put(SIGNAL, Signal.GO);
 
-				prevSig = createVertex(SEMAPHORE, semaphoreAttributes);
-				firstSig = prevSig;
+				prevSemaphore = createVertex(SEMAPHORE, semaphoreAttributes);
+				firstSemaphore = prevSemaphore;
 			}
 
-			Object sig2;
+			Object semaphore2;
 			if (i != maxRoutes - 1) {
 				final Map<String, Object> semaphoreAttributes = new HashMap<>();
 				semaphoreAttributes.put(SIGNAL, Signal.GO);
-
-				sig2 = createVertex(SEMAPHORE, semaphoreAttributes);
+				semaphore2 = createVertex(SEMAPHORE, semaphoreAttributes);
 			} else {
-				sig2 = firstSig;
+				semaphore2 = firstSemaphore;
 			}
 
+			// the semaphoreNeighborErrorPercent
 			final boolean semaphoreNeighborError1 = nextRandom() < semaphoreNeighborErrorPercent;
-			final Object entry = semaphoreNeighborError1 ? null : prevSig;
-			final boolean semaphoreNeighborError2 = nextRandom() < semaphoreNeighborErrorPercent;
-			final Object exit = semaphoreNeighborError2 ? null : sig2;
+			final Object entry = semaphoreNeighborError1 ? null : prevSemaphore;
+			final Object exit = semaphore2;
 
 			final Map<String, Object> routeReferences = new HashMap<>();
 			routeReferences.put(ENTRY, entry);
@@ -129,39 +128,41 @@ public abstract class Generator {
 			final Object route = createVertex(ROUTE, emptyMap, routeReferences);
 
 			final int swps = random.nextInt(maxSwitchPositions);
-
-			final List<Object> currTracks = new ArrayList<>();
+			final List<Object> currentTrack = new ArrayList<>();
 
 			for (int j = 0; j < swps; j++) {
 				final Object sw = createVertex(SWITCH);
-				currTracks.add(sw);
+				currentTrack.add(sw);
 
 				final int sensors = random.nextInt(maxSensors - 1) + 1;
 
+				Object lastSensor = null;
 				for (int k = 0; k < sensors; k++) {
-					final Object sen = createVertex(SENSOR);
+					final Object sensor = createVertex(SENSOR);
 
-					// add "sensor" edge from switch to sensor
-					final boolean switchSensorError = nextRandom() < switchSensorErrorPercent;
-					final Object targetSensor = switchSensorError ? null : sen;
-					createEdge(SENSOR_EDGE, sw, targetSensor);
 					// add "sensors" edge from route to sensor
 					final boolean routeSensorError = nextRandom() < routeSensorErrorPercent;
 					final Object sourceRoute = routeSensorError ? null : route;
-					createEdge(DEFINED_BY, sourceRoute, sen);
+					createEdge(DEFINED_BY, sourceRoute, sensor);
 
 					for (int m = 0; m < maxSegments; m++) {
-						createSegment(currTracks, sen);
+						createSegment(currentTrack, sensor);
 					}
+					
+					lastSensor = sensor;					
 				}
+				// add "sensor" edge from switch to sensor
+				final boolean switchSensorError = nextRandom() < switchSensorErrorPercent;
+				final Object targetSensor = switchSensorError ? null : lastSensor;
+				createEdge(SENSOR_EDGE, sw, targetSensor);
 
 				final int stateNumber = random.nextInt(4);
 				final Position stateEnum = Position.values()[stateNumber];
 				setAttribute(SWITCH, sw, CURRENTPOSITION, stateEnum);
 
 				// the errorInjectedState may contain a bad value
-				boolean switchSensorError = nextRandom() < switchSetErrorPercent;
-				final int errorInjectedStateNumber = switchSensorError ? 3 - stateNumber : stateNumber;
+				final boolean switchSetError = nextRandom() < switchSetErrorPercent;
+				final int errorInjectedStateNumber = switchSetError ? 3 - stateNumber : stateNumber;
 				final Position errorInjectedStateEnum = Position.values()[errorInjectedStateNumber];
 				final Map<String, Object> switchPosititonAttributes = new HashMap<>();
 				switchPosititonAttributes.put(POSITION, errorInjectedStateEnum);
@@ -176,31 +177,31 @@ public abstract class Generator {
 			}
 
 			Object prevte = null;
-			for (final Object trackelement : currTracks) {
+			for (final Object trackelement : currentTrack) {
 				if (prevte != null) {
 					createEdge(CONNECTSTO, prevte, trackelement);
 				}
 				prevte = trackelement;
 			}
 
-			if (prevTracks != null && prevTracks.size() > 0 && currTracks.size() > 0) {
-				createEdge(CONNECTSTO, prevTracks.get(prevTracks.size() - 1), currTracks.get(0));
+			if (prevTracks != null && prevTracks.size() > 0 && currentTrack.size() > 0) {
+				createEdge(CONNECTSTO, prevTracks.get(prevTracks.size() - 1), currentTrack.get(0));
 			}
 
 			// Loop the last track element of the last route to the first track
 			// element of the first route.
 			if (i == maxRoutes - 1) {
-				if (currTracks != null && currTracks.size() > 0 && firstTracks.size() > 0) {
-					createEdge(CONNECTSTO, currTracks.get(currTracks.size() - 1), firstTracks.get(0));
+				if (currentTrack != null && currentTrack.size() > 0 && firstTracks.size() > 0) {
+					createEdge(CONNECTSTO, currentTrack.get(currentTrack.size() - 1), firstTracks.get(0));
 				}
 			}
 
 			if (prevTracks == null) {
-				firstTracks = currTracks;
+				firstTracks = currentTrack;
 			}
 
-			prevTracks = currTracks;
-			prevSig = sig2;
+			prevTracks = currentTrack;
+			prevSemaphore = semaphore2;
 
 			endRoute();
 		}

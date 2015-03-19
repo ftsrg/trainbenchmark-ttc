@@ -3,8 +3,7 @@ source("constants.R")
 results <-read.csv(resultsPath, header=TRUE, sep='\t')
 
 changes <- unique(results$ChangeSet)
-
-phase <- "result"
+metricName <- "rss"
 
 for (change in changes){
   subData <- subset(results, ChangeSet == change)
@@ -18,7 +17,7 @@ for (change in changes){
     firstRow <- list("Size")
     subData2 <- subset(subData, Query == query)
     iterations <- unique(subData2$Iteration)
-    for(iter in iterations){
+    for (iter in iterations){
       firstRow <- paste(firstRow, iter, sep="\t")
     }
     write(firstRow, fileName, append=TRUE)
@@ -26,7 +25,7 @@ for (change in changes){
     for (size in sizes){
       row <- list(size)
       for (iter in iterations){
-        metricValue <- subset(subData2, Size==size & Iteration==iter & PhaseName==phase & RunIndex==1)$MetricValue
+        metricValue <- subset(subData2, Size==size & Iteration==iter & MetricName==metricName & RunIndex==1)$MetricValue
         row <- paste(row, metricValue, sep="\t")
       }
       write(row, fileName, append=TRUE)

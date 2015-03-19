@@ -13,6 +13,7 @@ import sys
 import util
 from loader import Loader
 
+
 def build(skip_tests):
     """Builds the project.
     """
@@ -128,13 +129,12 @@ if __name__ == "__main__":
         generate(config)
     if args.measure:
         benchmark(config)
+    if args.test:
+        test()
     if args.visualize:
         visualize()
     if args.extract:
         extract_results()
-    if args.test:
-        test()
-
 
     # if there are no args, execute a full sequence with the test and the visualization/reporting
     no_args = all(val==False for val in vars(args).values())
