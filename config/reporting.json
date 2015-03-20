@@ -2,31 +2,27 @@
   "Dimensions": {
     "X_Dimensions": {
       "Size": true,
-      "Iteration": true
+      "Iteration": false
     },
     "Groups": {
       "Query": true,
-      "Tool": true
+      "Tool": false
     }
   },
   "Summarize_Functions": [
     {
+      "Name": "batch-validation",
       "Phases": [
         "read",
         "check"
-      ],
-      "Metric": "time",
-      "Y_Label": "Time (ms)",
-      "Y_Axis_Scale": -6
+      ]
     },
     {
+      "Name": "revalidation",
       "Phases": [
         "repair",
         "recheck"
-      ],
-      "Metric": "time",
-      "Y_Label": "Time (ms)",
-      "Y_Axis_Scale": -9
+      ]
     }
   ],
   "Extension": ["png", "pdf"]

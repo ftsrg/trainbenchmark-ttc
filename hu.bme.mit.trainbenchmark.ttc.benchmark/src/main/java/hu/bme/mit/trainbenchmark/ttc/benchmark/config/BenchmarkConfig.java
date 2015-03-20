@@ -35,6 +35,11 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 	protected String query;
 	protected String tool;
 
+	public BenchmarkConfig(final String args[], final String tool) throws ParseException {
+		super(args);
+		this.tool = tool;
+	}
+	
 	public BenchmarkConfig(final String tool, final int size, final int runIndex, final String query, final int iterationCount,
 			final ChangeSet changeSet, final long transformationConstant) {
 		super(size);
@@ -44,11 +49,6 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 		this.iterationCount = iterationCount;
 		this.transformationConstant = transformationConstant;
 		this.changeSet = changeSet;
-	}
-
-	public BenchmarkConfig(final String args[], final String tool) throws ParseException {
-		super(args);
-		this.tool = tool;
 	}
 
 	@Override

@@ -60,7 +60,6 @@ def benchmark(conf):
                              "-iterationCount", str(conf.iterations)])
                         with open(result_file, "ab") as file:
                             file.write(output)
-    pass
 
 
 def clean_dir(dir):
@@ -136,7 +135,8 @@ if __name__ == "__main__":
     if args.extract:
         extract_results()
 
-    # if there are no args, execute a full sequence with the test and the visualization/reporting
+    # if there are no args, execute a full sequence
+    # with the test and the visualization/reporting
     no_args = all(val==False for val in vars(args).values())
     if no_args:
         test()

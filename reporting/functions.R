@@ -52,7 +52,7 @@ savePlot <-function(results, settings, phases, fileName){
   if (settings@xAxis == "Continuous"){
     plot <- plot + scale_x_continuous(breaks = c(artifacts))
   }
-  else if (settings@xAxis == "Log10"){
+  else if (settings@xAxis == "Log2"){
     plot <- plot + scale_x_log10(breaks = c(artifacts), labels = xLabels)
   }
   if (minValue == 0){

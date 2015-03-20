@@ -9,6 +9,7 @@ MANIFEST.MF_gen
 runtimeInfo
 workspace
 *.~vsdx
+.~*#
 *._trace
 Thumbs.db
 .Rhistory
