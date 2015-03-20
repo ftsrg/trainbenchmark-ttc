@@ -160,8 +160,8 @@ public class BenchmarkResult {
 			generateRow(builder, phase, MEMORY, i, checkMemory.get(i));
 		}
 		for (int i = 0; i < repairTimes.size(); i++) {
-			generateRow(builder, REPAIR, TIME, i, repairTimes.get(i));
-			generateRow(builder, REPAIR, MEMORY, i, repairMemory.get(i));
+			generateRow(builder, REPAIR, TIME, (i + 1), repairTimes.get(i));
+			generateRow(builder, REPAIR, MEMORY, (i + 1), repairMemory.get(i));
 		}
 
 		return builder.toString();

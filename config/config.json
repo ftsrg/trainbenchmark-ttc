@@ -1,12 +1,12 @@
 {
   "MinSize": 1,
-  "MaxSize": 128,
+  "MaxSize": 32,
   "Queries": [
+    "PosLength",
     "SwitchSet"
   ],
   "_Comment": "The _AllQueries field is not used by the framework.",
   "_AllQueries": [
-    "PosLength",
     "SwitchSensor",
     "RouteSensor",
     "SemaphoreNeighbor"

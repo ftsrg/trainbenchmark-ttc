@@ -1,8 +1,8 @@
 {
   "Dimensions": {
     "X_Dimensions": {
-      "Size": true,
-      "Iteration": false
+      "Size": false,
+      "Iteration": true
     },
     "Groups": {
       "Query": true,
@@ -10,13 +10,6 @@
     }
   },
   "Summarize_Functions": [
-    {
-      "Name": "batch-validation",
-      "Phases": [
-        "read",
-        "check"
-      ]
-    },
     {
       "Name": "revalidation",
       "Phases": [

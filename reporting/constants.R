@@ -1,5 +1,4 @@
 resultsPath <- "../output/output.tsv"
-configPath <- "../config/reporting.json"
 
 # y-axis scaling
 scaleDivisor <- 10**6

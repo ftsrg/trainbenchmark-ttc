@@ -1,0 +1,29 @@
+{
+  "Dimensions": {
+    "X_Dimensions": {
+      "Size": true,
+      "Iteration": false
+    },
+    "Groups": {
+      "Query": true,
+      "Tool": false
+    }
+  },
+  "Summarize_Functions": [
+    {
+      "Name": "batch-validation",
+      "Phases": [
+        "read",
+        "check"
+      ]
+    },
+    {
+      "Name": "revalidation",
+      "Phases": [
+        "repair",
+        "recheck"
+      ]
+    }
+  ],
+  "Extension": ["png", "pdf"]
+}
