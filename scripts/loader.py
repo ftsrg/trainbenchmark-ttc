@@ -56,6 +56,7 @@ class Loader():
         config.iterations = config_json["IterationCount"]
         config.runs = config_json["Runs"]
         config.vmargs = config_json["JVM"]["vmargs"]
+        config.timeout = config_json["Timeout"]
 
         return config
 

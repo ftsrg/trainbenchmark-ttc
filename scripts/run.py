@@ -57,7 +57,7 @@ def benchmark(conf):
                              "-size", str(size),
                              "-query", query,
                              "-changeSet", change_set,
-                             "-iterationCount", str(conf.iterations)])
+                             "-iterationCount", str(conf.iterations)], timeout=conf.timeout)
                         with open(result_file, "ab") as file:
                             file.write(output)
 

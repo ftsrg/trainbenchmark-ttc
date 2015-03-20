@@ -18,7 +18,7 @@ import hu.bme.mit.trainbenchmark.ttc.benchmark.util.BenchmarkResult;
 
 import java.io.IOException;
 
-public class Scenario {
+public class ScenarioLogic {
 
 	public BenchmarkResult runBenchmark(final BenchmarkConfig bc, final AbstractBenchmarkCase<?> testCase) throws IOException {
 		testCase.benchmarkInit(bc);

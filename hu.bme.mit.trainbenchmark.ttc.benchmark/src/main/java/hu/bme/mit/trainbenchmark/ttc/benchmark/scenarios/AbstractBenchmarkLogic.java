@@ -25,7 +25,7 @@ public abstract class AbstractBenchmarkLogic {
 	public BenchmarkResult runBenchmark() throws IOException {
 		final AbstractBenchmarkCase<?> benchmarkCase = getBenchmarkCase(benchmarkConfig.getQuery());
 
-		final Scenario scenario = new Scenario();
+		final ScenarioLogic scenario = new ScenarioLogic();
 		final BenchmarkResult bmr = scenario.runBenchmark(benchmarkConfig, benchmarkCase);
 		return bmr;
 	}
