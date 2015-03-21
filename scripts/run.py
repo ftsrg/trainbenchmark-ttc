@@ -12,6 +12,7 @@ import subprocess
 import sys
 import util
 from loader import Loader
+from subprocess import TimeoutExpired
 
 
 def build(skip_tests):
@@ -45,12 +46,13 @@ def benchmark(conf):
     for change_set in conf.change_sets:
         for run_index in range(1, conf.runs+1):
             for tool in conf.tools:
-                for size in conf.sizes:
-                    for query in conf.queries:
+                for query in conf.queries:
+                    for size in conf.sizes:
                         target = util.get_tool_jar(tool)
                         print("Benchmark: ", tool, " ", change_set, " ",
                               query, " Size:", size, " Run:", run_index)
-                        output = subprocess.check_output(
+                        try:
+                            output = subprocess.check_output(
                             ["java", conf.vmargs,
                              "-jar", target,
                              "-runIndex", str(run_index),
@@ -58,9 +60,11 @@ def benchmark(conf):
                              "-query", query,
                              "-changeSet", change_set,
                              "-iterationCount", str(conf.iterations)], timeout=conf.timeout)
-                        with open(result_file, "ab") as file:
-                            file.write(output)
-
+                            with open(result_file, "ab") as file:
+                                file.write(output)
+                        except TimeoutExpired:
+                            print("Timed out after", conf.timeout, "s, continuing with the next query.")
+                            break
 
 def clean_dir(dir):
     if os.path.exists(dir):
