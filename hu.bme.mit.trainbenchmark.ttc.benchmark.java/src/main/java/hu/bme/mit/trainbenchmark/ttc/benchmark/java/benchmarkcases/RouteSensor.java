@@ -12,7 +12,9 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.RouteSensorTransformation;
+import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
 import hu.bme.mit.trainbenchmark.ttc.railway.Switch;
 import hu.bme.mit.trainbenchmark.ttc.railway.SwitchPosition;
@@ -24,13 +26,13 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class RouteSensor extends JavaBenchmarkCase<Sensor> {
+public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
 
 	@Override
-	protected Collection<Sensor> check() {
+	protected Collection<EMFRouteSensorMatch> check() {
 		results = new ArrayList<>();
 
-		final TreeIterator<EObject> contents = container.eAllContents();	
+		final TreeIterator<EObject> contents = container.eAllContents();
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
 
@@ -41,21 +43,23 @@ public class RouteSensor extends JavaBenchmarkCase<Sensor> {
 						final Switch sw = (Switch) te;
 						for (final SwitchPosition swP : sw.getPositions()) {
 							if (!swP.getRoute().getDefinedBy().contains(sensor)) {
-								results.add(sensor);
+								final Route route = swP.getRoute();
+								final EMFRouteSensorMatch match = new EMFRouteSensorMatch(route, sensor, swP, sw);
+								results.add(match);
 							}
 						}
 					}
 				}
 			}
 		}
-		
+
 		return results;
 	}
 
 	@Override
-	protected void modify(final Collection<Sensor> vertices, final long nElementsToModify) {
-		final RouteSensorTransformation transformation = new RouteSensorTransformation();
-		transformation.transform(vertices, nElementsToModify);
+	protected void modify(final Collection<EMFRouteSensorMatch> matches, final long nElementsToModify) {
+		 final RouteSensorTransformation transformation = new RouteSensorTransformation();
+		 transformation.transform(matches, nElementsToModify);
 	}
-	
+
 }

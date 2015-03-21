@@ -21,10 +21,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractBenchmarkCase<T> {
+public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
 
 	protected BenchmarkResult bmr;
 	protected BenchmarkConfig bc;
@@ -56,7 +55,7 @@ public abstract class AbstractBenchmarkCase<T> {
 
 	protected abstract Collection<T> check() throws IOException;
 
-	protected abstract void modify(Collection<T> vertices, long nElementsToModify);
+	protected abstract void modify(Collection<T> matches, long nElementsToModify);
 
 	protected long getMemoryUsage() throws IOException {
 		Util.runGC();
@@ -99,7 +98,7 @@ public abstract class AbstractBenchmarkCase<T> {
 
 		// we do not measure this in the benchmark results
 		final List<T> candidatesList = new ArrayList<>(results);
-		Collections.sort(candidatesList, getComparator());
+		Collections.sort(candidatesList);
 		final List<T> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, candidatesList);
 		
 		// we measure the transformation
@@ -113,7 +112,5 @@ public abstract class AbstractBenchmarkCase<T> {
 	protected void runGC() throws IOException {
 		Util.runGC();
 	}
-	
-	protected abstract Comparator<? super T> getComparator();
 
 }

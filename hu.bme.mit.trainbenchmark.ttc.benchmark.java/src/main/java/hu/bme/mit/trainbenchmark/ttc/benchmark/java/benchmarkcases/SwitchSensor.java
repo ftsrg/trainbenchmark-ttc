@@ -12,6 +12,7 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSwitchSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SwitchSensorTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Switch;
 
@@ -21,10 +22,10 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SwitchSensor extends JavaBenchmarkCase<Switch> {
+public class SwitchSensor extends JavaBenchmarkCase<EMFSwitchSensorMatch> {
 
 	@Override
-	protected Collection<Switch> check() {
+	protected Collection<EMFSwitchSensorMatch> check() {
 		results = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();	
@@ -34,7 +35,7 @@ public class SwitchSensor extends JavaBenchmarkCase<Switch> {
 			if (eObject instanceof Switch) {
 				final Switch sw = (Switch) eObject;
 				if (sw.getSensor() == null) {
-					results.add(sw);
+					results.add(new EMFSwitchSensorMatch(sw));
 				}
 			}
 		}
@@ -43,9 +44,9 @@ public class SwitchSensor extends JavaBenchmarkCase<Switch> {
 	}
 
 	@Override
-	protected void modify(final Collection<Switch> vertices, final long nElementsToModify) {
+	protected void modify(final Collection<EMFSwitchSensorMatch> matches, final long nElementsToModify) {
 		final SwitchSensorTransformation transformation = new SwitchSensorTransformation();
-		transformation.transform(vertices, nElementsToModify);
+		transformation.transform(matches, nElementsToModify);
 	}
 	
 }

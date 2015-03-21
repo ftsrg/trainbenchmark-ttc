@@ -1,21 +1,26 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SemaphoreNeighborMatcher;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SemaphoreNeighborTransformation;
-import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-public class SemaphoreNeighbor extends EMFIncQueryBenchmarkCase<Route, SemaphoreNeighborMatch> {
+public class SemaphoreNeighbor extends EMFIncQueryBenchmarkCase<EMFSemaphoreNeighborMatch, SemaphoreNeighborMatch> {
 
 	@Override
-	protected Set<Route> getResultSet() throws IncQueryException {
-		return SemaphoreNeighborMatcher.on(engine).getAllValuesOfroute1();
+	protected Set<EMFSemaphoreNeighborMatch> getResultSet() throws IncQueryException {
+		final Set<EMFSemaphoreNeighborMatch> emfMatch = new HashSet<>();
+		for (final SemaphoreNeighborMatch match : SemaphoreNeighborMatcher.on(engine).getAllMatches()) {
+			emfMatch.add(convertMatch(match));
+		}
+		return emfMatch;
 	}
 
 	@Override
@@ -24,14 +29,15 @@ public class SemaphoreNeighbor extends EMFIncQueryBenchmarkCase<Route, Semaphore
 	}
 
 	@Override
-	protected Route extract(final SemaphoreNeighborMatch match) {
-		return match.getRoute1();
+	protected EMFSemaphoreNeighborMatch convertMatch(final SemaphoreNeighborMatch match) {
+		return new EMFSemaphoreNeighborMatch(match.getSemaphore(), match.getRoute1(), match.getRoute3(), match.getSensor1(),
+				match.getSensor2(), match.getTe1(), match.getTe2());
 	}
 
 	@Override
-	protected void modify(final Collection<Route> vertices, final long nElementsToModify) {
+	protected void modify(final Collection<EMFSemaphoreNeighborMatch> matches, final long nElementsToModify) {
 		final SemaphoreNeighborTransformation transformation = new SemaphoreNeighborTransformation();
-		transformation.transform(vertices, nElementsToModify);
+		transformation.transform(matches, nElementsToModify);
 	}
-	
+
 }

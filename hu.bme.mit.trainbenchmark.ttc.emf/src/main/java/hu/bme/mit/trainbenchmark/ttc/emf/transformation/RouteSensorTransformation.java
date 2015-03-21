@@ -1,15 +1,15 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFRouteSensorMatch;
 
 import java.util.Collection;
 
-public class RouteSensorTransformation extends EMFTransformationAction<Sensor> {
+public class RouteSensorTransformation extends EMFTransformationAction<EMFRouteSensorMatch> {
 
 	@Override
-	public void transform(final Collection<Sensor> vertices, final long nElementsToModify) {
-		for (final Sensor sensor : vertices) {
-			sensor.getElements().clear();
+	public void transform(final Collection<EMFRouteSensorMatch> matches, final long nElementsToModify) {
+		for (final EMFRouteSensorMatch match : matches) {
+			match.getSensor().getElements().clear();
 		}		
 	}
 	

@@ -1,21 +1,19 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emf;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractBenchmarkCase;
-import hu.bme.mit.trainbenchmark.ttc.emf.EMFComparator;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.FileBroker;
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer;
-import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
 import hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayPackageImpl;
 
 import java.io.IOException;
-import java.util.Comparator;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-public abstract class EMFBenchmarkCase<T extends RailwayElement> extends AbstractBenchmarkCase<T> {
+public abstract class EMFBenchmarkCase<T extends AbstractMatch> extends AbstractBenchmarkCase<T> {
 
 	protected RailwayContainer container;
 	protected Resource resource;
@@ -32,11 +30,6 @@ public abstract class EMFBenchmarkCase<T extends RailwayElement> extends Abstrac
 		if (resource.getContents().size() > 0 && resource.getContents().get(0) instanceof RailwayContainer) {
 			container = (RailwayContainer) resource.getContents().get(0);
 		}
-	}
-	
-	@Override
-	protected Comparator<? super T> getComparator() {
-		return new EMFComparator();
 	}
 	
 }
