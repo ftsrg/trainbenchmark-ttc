@@ -1,7 +1,7 @@
-package hu.bme.mit.trainbenchmark.ttc.benchmark.emf;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractRouteSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
 import hu.bme.mit.trainbenchmark.ttc.railway.Switch;

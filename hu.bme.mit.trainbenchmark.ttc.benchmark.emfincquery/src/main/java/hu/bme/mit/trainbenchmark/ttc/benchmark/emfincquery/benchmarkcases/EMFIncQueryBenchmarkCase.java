@@ -11,8 +11,8 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
 
 import java.io.IOException;
 import java.util.Collection;

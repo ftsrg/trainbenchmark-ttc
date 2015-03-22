@@ -12,7 +12,7 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFRouteSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.RouteSensorTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;

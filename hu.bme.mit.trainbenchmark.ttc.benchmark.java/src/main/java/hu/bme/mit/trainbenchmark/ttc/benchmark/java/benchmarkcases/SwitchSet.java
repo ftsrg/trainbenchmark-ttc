@@ -12,7 +12,7 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSwitchSetMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SwitchSetTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Semaphore;

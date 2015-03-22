@@ -1,7 +1,7 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emf;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractBenchmarkCase;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.FileBroker;
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer;
 import hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayPackageImpl;

@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSwitchSetMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSetMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSetMatcher;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SwitchSetTransformation;

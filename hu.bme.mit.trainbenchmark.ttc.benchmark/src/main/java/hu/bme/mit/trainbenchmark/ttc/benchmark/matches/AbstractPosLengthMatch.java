@@ -1,4 +1,4 @@
-package hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.matches;
 
 public abstract class AbstractPosLengthMatch<Segment> extends AbstractMatch {
 

@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFPosLengthMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFPosLengthMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLengthMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLengthMatcher;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.PosLengthTransformation;

@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFRouteSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatcher;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.RouteSensorTransformation;

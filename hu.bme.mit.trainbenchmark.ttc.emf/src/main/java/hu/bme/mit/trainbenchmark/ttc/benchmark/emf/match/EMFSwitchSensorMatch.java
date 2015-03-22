@@ -1,7 +1,7 @@
-package hu.bme.mit.trainbenchmark.ttc.benchmark.emf;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractSwitchSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractSwitchSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.railway.Switch;
 
 public class EMFSwitchSensorMatch extends AbstractSwitchSensorMatch<Switch> {

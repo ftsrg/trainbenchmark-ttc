@@ -14,6 +14,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.transformations.TransformationUtil;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.BenchmarkResult;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.Util;
 

@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSemaphoreNeighborMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SemaphoreNeighborMatcher;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SemaphoreNeighborTransformation;

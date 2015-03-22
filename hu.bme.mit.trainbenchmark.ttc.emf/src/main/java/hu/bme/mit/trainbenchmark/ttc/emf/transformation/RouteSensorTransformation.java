@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFRouteSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFRouteSensorMatch;
 
 import java.util.Collection;
 

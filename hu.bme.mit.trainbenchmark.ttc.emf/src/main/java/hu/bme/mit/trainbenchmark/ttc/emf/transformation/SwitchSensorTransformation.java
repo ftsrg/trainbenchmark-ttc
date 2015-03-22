@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSwitchSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayFactory;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
 

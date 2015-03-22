@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSemaphoreNeighborMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSemaphoreNeighborMatch;
 
 import java.util.Collection;
 

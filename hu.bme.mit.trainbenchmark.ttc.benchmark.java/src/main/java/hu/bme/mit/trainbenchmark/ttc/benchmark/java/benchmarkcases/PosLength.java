@@ -12,7 +12,7 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFPosLengthMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFPosLengthMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.PosLengthTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
 

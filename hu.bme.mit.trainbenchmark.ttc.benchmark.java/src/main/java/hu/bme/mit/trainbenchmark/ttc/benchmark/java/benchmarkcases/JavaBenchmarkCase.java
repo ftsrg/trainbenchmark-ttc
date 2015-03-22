@@ -12,8 +12,8 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
 
 public abstract class JavaBenchmarkCase<TBM extends AbstractMatch> extends EMFBenchmarkCase<TBM> {
 

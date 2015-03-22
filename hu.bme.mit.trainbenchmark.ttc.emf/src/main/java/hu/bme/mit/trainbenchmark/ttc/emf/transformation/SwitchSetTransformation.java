@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFSwitchSetMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSetMatch;
 
 import java.util.Collection;
 

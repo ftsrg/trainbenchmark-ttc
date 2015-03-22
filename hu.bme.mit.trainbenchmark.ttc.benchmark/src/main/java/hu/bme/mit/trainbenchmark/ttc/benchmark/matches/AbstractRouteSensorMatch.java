@@ -1,26 +1,26 @@
-package hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.matches;
 
-public abstract class AbstractSwitchSetMatch<Semaphore, Route, SwitchPosition, Switch> extends AbstractMatch {
+public abstract class AbstractRouteSensorMatch<Route, Sensor, SwitchPosition, Switch> extends AbstractMatch {
 
-	protected Semaphore semaphore;
-	protected Route route;
-	protected SwitchPosition switchPosition;
-	protected Switch sw;
+	protected final Route route;
+	protected final Sensor sensor;
+	protected final SwitchPosition switchPosition;
+	protected final Switch sw;
 
-	public AbstractSwitchSetMatch(final Semaphore semaphore, final Route route, final SwitchPosition switchPosition, final Switch sw) {
+	public AbstractRouteSensorMatch(final Route route, final Sensor sensor, final SwitchPosition switchPosition, final Switch sw) {
 		super();
-		this.semaphore = semaphore;
 		this.route = route;
+		this.sensor = sensor;
 		this.switchPosition = switchPosition;
 		this.sw = sw;
 	}
 
-	public Semaphore getSemaphore() {
-		return semaphore;
-	}
-
 	public Route getRoute() {
 		return route;
+	}
+
+	public Sensor getSensor() {
+		return sensor;
 	}
 
 	public SwitchPosition getSwitchPosition() {
@@ -33,7 +33,7 @@ public abstract class AbstractSwitchSetMatch<Semaphore, Route, SwitchPosition, S
 
 	@Override
 	public String toString() {
-		return "SwitchSetMatch [semaphore=" + semaphore + ", route=" + route + ", switchPosition=" + switchPosition + ", sw=" + sw + "]";
+		return "RouteSensorMatch [route=" + route + ", sensor=" + sensor + ", switchPosition=" + switchPosition + ", sw=" + sw + "]";
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public abstract class AbstractSwitchSetMatch<Semaphore, Route, SwitchPosition, S
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((route == null) ? 0 : route.hashCode());
-		result = prime * result + ((semaphore == null) ? 0 : semaphore.hashCode());
+		result = prime * result + ((sensor == null) ? 0 : sensor.hashCode());
 		result = prime * result + ((sw == null) ? 0 : sw.hashCode());
 		result = prime * result + ((switchPosition == null) ? 0 : switchPosition.hashCode());
 		return result;
@@ -55,16 +55,16 @@ public abstract class AbstractSwitchSetMatch<Semaphore, Route, SwitchPosition, S
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final AbstractSwitchSetMatch other = (AbstractSwitchSetMatch) obj;
+		final AbstractRouteSensorMatch other = (AbstractRouteSensorMatch) obj;
 		if (route == null) {
 			if (other.route != null)
 				return false;
 		} else if (!route.equals(other.route))
 			return false;
-		if (semaphore == null) {
-			if (other.semaphore != null)
+		if (sensor == null) {
+			if (other.sensor != null)
 				return false;
-		} else if (!semaphore.equals(other.semaphore))
+		} else if (!sensor.equals(other.sensor))
 			return false;
 		if (sw == null) {
 			if (other.sw != null)

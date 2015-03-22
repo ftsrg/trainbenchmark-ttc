@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
 
 import java.util.Collection;
 
