@@ -4,7 +4,7 @@ import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
 
 import java.util.Comparator;
 
-public class EMFComparator implements Comparator<RailwayElement> {
+public class RailwayElementComparator implements Comparator<RailwayElement> {
 
 	@Override
 	public int compare(final RailwayElement e1, final RailwayElement e2) {

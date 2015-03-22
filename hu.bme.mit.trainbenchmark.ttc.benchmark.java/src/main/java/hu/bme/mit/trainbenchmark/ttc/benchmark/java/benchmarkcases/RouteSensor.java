@@ -30,7 +30,7 @@ public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
 
 	@Override
 	protected Collection<EMFRouteSensorMatch> check() {
-		results = new ArrayList<>();
+		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
 		while (contents.hasNext()) {
@@ -45,7 +45,7 @@ public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
 							if (!swP.getRoute().getDefinedBy().contains(sensor)) {
 								final Route route = swP.getRoute();
 								final EMFRouteSensorMatch match = new EMFRouteSensorMatch(route, sensor, swP, sw);
-								results.add(match);
+								matches.add(match);
 							}
 						}
 					}
@@ -53,7 +53,7 @@ public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
 			}
 		}
 
-		return results;
+		return matches;
 	}
 
 	@Override

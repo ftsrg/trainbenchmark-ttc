@@ -23,25 +23,14 @@ public abstract class AbstractBenchmarkLogic {
 	protected BenchmarkConfig benchmarkConfig;
 
 	public BenchmarkResult runBenchmark() throws IOException {
-		final AbstractBenchmarkCase<?> benchmarkCase = getBenchmarkCase(benchmarkConfig.getQuery());
+		final AbstractBenchmarkCase<?, ?> benchmarkCase = getBenchmarkCase(benchmarkConfig.getQuery());
 
 		final ScenarioLogic scenario = new ScenarioLogic();
 		final BenchmarkResult bmr = scenario.runBenchmark(benchmarkConfig, benchmarkCase);
 		return bmr;
 	}
 
-	protected abstract AbstractBenchmarkCase<?> getBenchmarkCase(String query);
-	
-//	protected AbstractBenchmarkCase<?> getTestCase(final ClassLoader classLoader) {
-//		try {
-//			final String queryClassName = "hu.bme.mit.trainbenchmark.ttc.benchmark." + getTool().toLowerCase() + ".benchmarkcases."
-//					+ benchmarkConfig.getQuery();
-//			final Class<?> queryClass = classLoader.loadClass(queryClassName);
-//			return (AbstractBenchmarkCase<?>) queryClass.newInstance();
-//		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-//			throw new UnsupportedOperationException(e);
-//		}
-//	}
+	protected abstract AbstractBenchmarkCase<?, ?> getBenchmarkCase(String query);
 
 	public BenchmarkConfig getBenchmarkConfig() {
 		return benchmarkConfig;

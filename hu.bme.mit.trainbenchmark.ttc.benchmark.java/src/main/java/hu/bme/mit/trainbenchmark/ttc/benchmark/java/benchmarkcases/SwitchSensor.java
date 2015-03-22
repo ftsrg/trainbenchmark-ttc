@@ -26,7 +26,7 @@ public class SwitchSensor extends JavaBenchmarkCase<EMFSwitchSensorMatch> {
 
 	@Override
 	protected Collection<EMFSwitchSensorMatch> check() {
-		results = new ArrayList<>();
+		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();	
 		while (contents.hasNext()) {
@@ -35,12 +35,12 @@ public class SwitchSensor extends JavaBenchmarkCase<EMFSwitchSensorMatch> {
 			if (eObject instanceof Switch) {
 				final Switch sw = (Switch) eObject;
 				if (sw.getSensor() == null) {
-					results.add(new EMFSwitchSensorMatch(sw));
+					matches.add(new EMFSwitchSensorMatch(sw));
 				}
 			}
 		}
 
-		return results;
+		return matches;
 	}
 
 	@Override

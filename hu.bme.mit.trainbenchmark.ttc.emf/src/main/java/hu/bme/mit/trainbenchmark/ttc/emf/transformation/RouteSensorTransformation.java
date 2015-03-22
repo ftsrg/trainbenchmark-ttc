@@ -9,7 +9,7 @@ public class RouteSensorTransformation extends EMFTransformationAction<EMFRouteS
 	@Override
 	public void transform(final Collection<EMFRouteSensorMatch> matches, final long nElementsToModify) {
 		for (final EMFRouteSensorMatch match : matches) {
-			match.getSensor().getElements().clear();
+			match.getRoute().getDefinedBy().add(match.getSensor());
 		}		
 	}
 	

@@ -2,22 +2,32 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emf;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractBenchmarkCase;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.MatchComparator;
 import hu.bme.mit.trainbenchmark.ttc.emf.FileBroker;
+import hu.bme.mit.trainbenchmark.ttc.emf.RailwayElementComparator;
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer;
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
 import hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayPackageImpl;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
-public abstract class EMFBenchmarkCase<T extends AbstractMatch> extends AbstractBenchmarkCase<T> {
+public abstract class EMFBenchmarkCase<M extends AbstractMatch<RailwayElement>> extends AbstractBenchmarkCase<RailwayElement, M> {
 
 	protected RailwayContainer container;
 	protected Resource resource;
-
+	
+	@Override
+	protected void registerComparator() {
+		final Comparator<RailwayElement> modelElementComparator = new RailwayElementComparator();
+		comparator = new MatchComparator<RailwayElement, M>(modelElementComparator);	
+	}
+	
 	@Override
 	public void read() throws IOException {
 		RailwayPackageImpl.init();
@@ -31,6 +41,5 @@ public abstract class EMFBenchmarkCase<T extends AbstractMatch> extends Abstract
 			container = (RailwayContainer) resource.getContents().get(0);
 		}
 	}
-	
-}
 
+}

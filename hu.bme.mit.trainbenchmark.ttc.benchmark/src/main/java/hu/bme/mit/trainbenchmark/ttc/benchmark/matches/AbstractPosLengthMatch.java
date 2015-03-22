@@ -1,46 +1,15 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.matches;
 
-public abstract class AbstractPosLengthMatch<Segment> extends AbstractMatch {
+@SuppressWarnings("unchecked")
+public abstract class AbstractPosLengthMatch<T, Segment extends T> extends AbstractMatch<T> {
 
-	protected Segment segment;
-	
 	public AbstractPosLengthMatch(final Segment segment) {
 		super();
-		this.segment = segment;
+		match = (T[]) new Object[] { segment };
 	}
 
 	public Segment getSegment() {
-		return segment;
-	}
-	
-	@Override
-	public String toString() {
-		return "PosLengthMatch [segment=" + segment + "]";
+		return (Segment) match[0];
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((segment == null) ? 0 : segment.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final AbstractPosLengthMatch other = (AbstractPosLengthMatch) obj;
-		if (segment == null) {
-			if (other.segment != null)
-				return false;
-		} else if (!segment.equals(other.segment))
-			return false;
-		return true;
-	}
-	
 }

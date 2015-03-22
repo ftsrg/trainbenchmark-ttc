@@ -13,6 +13,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -27,7 +28,7 @@ import org.eclipse.incquery.runtime.emf.EMFScope;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
 
-public abstract class EMFIncQueryBenchmarkCase<TBM extends AbstractMatch, Match extends IPatternMatch> extends EMFBenchmarkCase<TBM> {
+public abstract class EMFIncQueryBenchmarkCase<TBM extends AbstractMatch<RailwayElement>, Match extends IPatternMatch> extends EMFBenchmarkCase<TBM> {
 
 	protected AdvancedIncQueryEngine engine;
 	protected IncQueryMatcher<Match> matcher;
@@ -39,7 +40,7 @@ public abstract class EMFIncQueryBenchmarkCase<TBM extends AbstractMatch, Match 
 
 	@Override
 	public Collection<TBM> check() {
-		return results;
+		return matches;
 	}
 
 	@Override
@@ -50,16 +51,16 @@ public abstract class EMFIncQueryBenchmarkCase<TBM extends AbstractMatch, Match 
 			final EMFScope emfScope = new EMFScope(resource);
 			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);
 
-			results = getResultSet();
+			matches = getResultSet();
 			engine.addMatchUpdateListener(getMatcher(), new IMatchUpdateListener<Match>() {
 				@Override
 				public void notifyAppearance(final Match match) {
-					results.add(convertMatch(match));
+					matches.add(convertMatch(match));
 				}
 
 				@Override
 				public void notifyDisappearance(final Match match) {
-					results.remove(convertMatch(match));
+					matches.remove(convertMatch(match));
 				}
 			}, false);
 		} catch (final IncQueryException e) {

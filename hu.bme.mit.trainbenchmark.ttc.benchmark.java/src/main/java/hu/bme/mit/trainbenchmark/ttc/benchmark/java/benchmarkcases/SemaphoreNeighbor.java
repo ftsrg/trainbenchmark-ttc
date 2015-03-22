@@ -29,7 +29,7 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<EMFSemaphoreNeighborMat
 
 	@Override
 	protected Collection<EMFSemaphoreNeighborMatch> check() {
-		results = new ArrayList<>();
+		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
 		while (contents.hasNext()) {
@@ -41,7 +41,7 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<EMFSemaphoreNeighborMat
 			}
 		}
 
-		return results;
+		return matches;
 	}
 
 	private boolean checkValid(final Route route1) {
@@ -80,7 +80,7 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<EMFSemaphoreNeighborMat
 							}
 						}
 						if (semaphore != null) {
-							results.add(new EMFSemaphoreNeighborMatch(semaphore, route1, matchedRoute3, sensor1, sensor2, te1, te2));
+							matches.add(new EMFSemaphoreNeighborMatch(semaphore, route1, matchedRoute3, sensor1, sensor2, te1, te2));
 							return false;
 						}
 					}

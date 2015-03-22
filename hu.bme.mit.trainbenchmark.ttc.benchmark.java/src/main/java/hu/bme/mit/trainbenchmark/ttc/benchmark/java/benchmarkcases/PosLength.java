@@ -26,7 +26,7 @@ public class PosLength extends JavaBenchmarkCase<EMFPosLengthMatch> {
 
 	@Override
 	protected Collection<EMFPosLengthMatch> check() {
-		results = new ArrayList<>();
+		matches = new ArrayList<>();
 		
 		final TreeIterator<EObject> contents = container.eAllContents();	
 		while (contents.hasNext()) {
@@ -35,11 +35,11 @@ public class PosLength extends JavaBenchmarkCase<EMFPosLengthMatch> {
 			if (eObject instanceof Segment) {
 				final Segment segment = (Segment) eObject;
 				if (segment.getLength() <= 0)
-					results.add(new EMFPosLengthMatch(segment));
+					matches.add(new EMFPosLengthMatch(segment));
 			}
 		}
 		
-		return results;
+		return matches;
 	}
 
 	@Override

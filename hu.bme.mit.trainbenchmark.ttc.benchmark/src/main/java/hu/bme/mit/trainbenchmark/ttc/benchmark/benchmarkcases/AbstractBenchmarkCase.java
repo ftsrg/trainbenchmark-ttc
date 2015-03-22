@@ -15,6 +15,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.transformations.TransformationUtil;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.MatchComparator;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.BenchmarkResult;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.Util;
 
@@ -24,11 +25,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
+public abstract class AbstractBenchmarkCase<T, M extends AbstractMatch<T>> {
 
 	protected BenchmarkResult bmr;
 	protected BenchmarkConfig bc;
-	protected Collection<T> results;
+	protected Collection<M> matches;
+	protected MatchComparator<T, M> comparator;
 
 	// simple getters and setters
 	public BenchmarkResult getBenchmarkResult() {
@@ -40,10 +42,13 @@ public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
 		return bc.getQuery();
 	}
 
-	public Collection<T> getResults() {
-		return results;
+	public Collection<M> getResults() {
+		return matches;
 	}
 
+	// this should be implemented for each representation
+	protected abstract void registerComparator();
+	
 	// these should be implemented for each tool
 
 	protected void init() throws IOException {
@@ -54,10 +59,12 @@ public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
 
 	protected abstract void read() throws IOException;
 
-	protected abstract Collection<T> check() throws IOException;
+	protected abstract Collection<M> check() throws IOException;
 
-	protected abstract void modify(Collection<T> matches, long nElementsToModify);
-
+	protected abstract void modify(Collection<M> matches, long nElementsToModify);
+	
+	// generic methods
+	
 	protected long getMemoryUsage() throws IOException {
 		Util.runGC();
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
@@ -68,6 +75,7 @@ public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
 
 		bmr = new BenchmarkResult(bc.getTool(), bc.getQuery());
 		bmr.setBenchmarkConfig(bc);
+		registerComparator();
 		init();
 		runGC();
 	}
@@ -87,7 +95,7 @@ public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
 	public void benchmarkCheck() throws IOException {
 		bmr.restartClock();
 		check();
-		bmr.addResultSize(results.size());
+		bmr.addResultSize(matches.size());
 		bmr.addCheckTime();
 
 		bmr.addCheckMemory(getMemoryUsage());
@@ -98,9 +106,13 @@ public abstract class AbstractBenchmarkCase<T extends AbstractMatch> {
 		bmr.addModifiedElementsSize(nElementsToModify);
 
 		// we do not measure this in the benchmark results
-		final List<T> candidatesList = new ArrayList<>(results);
-		Collections.sort(candidatesList);
-		final List<T> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, candidatesList);
+		final List<M> sortedMatches = new ArrayList<>(matches);
+		Collections.sort(sortedMatches, comparator);
+//		for (final M iterable_element : sortedMatches) {
+//			System.out.println(iterable_element);
+//		}
+
+		final List<M> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
 		
 		// we measure the transformation
 		bmr.restartClock();

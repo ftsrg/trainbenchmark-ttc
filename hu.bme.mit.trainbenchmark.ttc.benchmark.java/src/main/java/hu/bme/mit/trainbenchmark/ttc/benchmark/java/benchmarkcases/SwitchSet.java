@@ -30,7 +30,7 @@ public class SwitchSet extends JavaBenchmarkCase<EMFSwitchSetMatch> {
 
 	@Override
 	protected Collection<EMFSwitchSetMatch> check() {
-		results = new ArrayList<>();
+		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
 		while (contents.hasNext()) {
@@ -46,14 +46,14 @@ public class SwitchSet extends JavaBenchmarkCase<EMFSwitchSetMatch> {
 					for (final SwitchPosition switchPosition : route.getFollows()) {
 						final Switch sw = switchPosition.getSwitch();
 						if (sw.getCurrentPosition() != switchPosition.getPosition()) {
-							results.add(new EMFSwitchSetMatch(semaphore, route, switchPosition, sw));
+							matches.add(new EMFSwitchSetMatch(semaphore, route, switchPosition, sw));
 						}
 					}
 				}
 			}
 		}
 
-		return results;
+		return matches;
 	}
 
 	@Override
