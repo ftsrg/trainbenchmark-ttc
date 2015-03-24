@@ -2,7 +2,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery
 
 import "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark"
 
-pattern semaphoreNeighbor(route1) {
+pattern semaphoreNeighbor(semaphore, route1, route3, sensor1, sensor2, te1, te2) {
 	Route.exit(route1, semaphore);
 	Route.definedBy(route1, sensor1);
 
@@ -11,7 +11,7 @@ pattern semaphoreNeighbor(route1) {
 	TrackElement.connectsTo(te1, te2);
 
 	Route.definedBy(route3, sensor2);
-	route3 != route1;
+	route1 != route3;
 	
 	neg find entrySemaphoreSensor(semaphore, sensor2);
 }

@@ -12,6 +12,7 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFPosLengthMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.PosLengthTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
 
@@ -21,11 +22,11 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class PosLength extends JavaBenchmarkCase<Segment> {
+public class PosLength extends JavaBenchmarkCase<EMFPosLengthMatch> {
 
 	@Override
-	protected Collection<Segment> check() {
-		results = new ArrayList<>();
+	protected Collection<EMFPosLengthMatch> check() {
+		matches = new ArrayList<>();
 		
 		final TreeIterator<EObject> contents = container.eAllContents();	
 		while (contents.hasNext()) {
@@ -34,17 +35,17 @@ public class PosLength extends JavaBenchmarkCase<Segment> {
 			if (eObject instanceof Segment) {
 				final Segment segment = (Segment) eObject;
 				if (segment.getLength() <= 0)
-					results.add(segment);
+					matches.add(new EMFPosLengthMatch(segment));
 			}
 		}
 		
-		return results;
+		return matches;
 	}
 
 	@Override
-	protected void modify(final Collection<Segment> vertices, final long nElementsToModify) {
+	protected void modify(final Collection<EMFPosLengthMatch> matches, final long nElementsToModify) {
 		final PosLengthTransformation transformation = new PosLengthTransformation();
-		transformation.transform(vertices, nElementsToModify);
+		transformation.transform(matches, nElementsToModify);
 	}
 	
 }

@@ -1,16 +1,16 @@
 package hu.bme.mit.trainbenchmark.ttc.emf.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFPosLengthMatch;
 
 import java.util.Collection;
 
-public class PosLengthTransformation extends EMFTransformationAction<Segment> {
+public class PosLengthTransformation extends EMFTransformationAction<EMFPosLengthMatch> {
 
 	@Override
-	public void transform(final Collection<Segment> vertices, final long nElementsToModify) {
-		for (final Segment segment : vertices) {
-			final int length = segment.getLength();
-			segment.setLength(-length + 1);
+	public void transform(final Collection<EMFPosLengthMatch> matches, final long nElementsToModify) {
+		for (final EMFPosLengthMatch match : matches) {
+			final int length = match.getSegment().getLength();
+			match.getSegment().setLength(-length + 1);
 		}
 	}
 
