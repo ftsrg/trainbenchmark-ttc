@@ -16,7 +16,7 @@ import hu.bme.mit.trainbenchmark.ttc.constants.QueryConstants;
 
 public class JavaBenchmarkCaseFactory {
 
-	public AbstractBenchmarkCase<?> create(final String query) {
+	public AbstractBenchmarkCase<?, ?> create(final String query) {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
 			return new PosLength();

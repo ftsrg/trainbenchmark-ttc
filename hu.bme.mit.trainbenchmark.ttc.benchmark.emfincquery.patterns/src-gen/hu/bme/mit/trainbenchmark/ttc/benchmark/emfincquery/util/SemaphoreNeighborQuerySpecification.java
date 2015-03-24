@@ -59,7 +59,7 @@ public final class SemaphoreNeighborQuerySpecification extends BaseGeneratedEMFQ
   
   @Override
   public SemaphoreNeighborMatch newMatch(final Object... parameters) {
-    return SemaphoreNeighborMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Route) parameters[0]);
+    return SemaphoreNeighborMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) parameters[0], (hu.bme.mit.trainbenchmark.ttc.railway.Route) parameters[1], (hu.bme.mit.trainbenchmark.ttc.railway.Route) parameters[2], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) parameters[3], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) parameters[4], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) parameters[5], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) parameters[6]);
   }
   
   private static class LazyHolder {
@@ -80,12 +80,12 @@ public final class SemaphoreNeighborQuerySpecification extends BaseGeneratedEMFQ
     
     @Override
     public List<String> getParameterNames() {
-      return Arrays.asList("route1");
+      return Arrays.asList("semaphore","route1","route3","sensor1","sensor2","te1","te2");
     }
     
     @Override
     public List<PParameter> getParameters() {
-      return Arrays.asList(new PParameter("route1", "hu.bme.mit.trainbenchmark.ttc.railway.Route"));
+      return Arrays.asList(new PParameter("semaphore", "hu.bme.mit.trainbenchmark.ttc.railway.Semaphore"),new PParameter("route1", "hu.bme.mit.trainbenchmark.ttc.railway.Route"),new PParameter("route3", "hu.bme.mit.trainbenchmark.ttc.railway.Route"),new PParameter("sensor1", "hu.bme.mit.trainbenchmark.ttc.railway.Sensor"),new PParameter("sensor2", "hu.bme.mit.trainbenchmark.ttc.railway.Sensor"),new PParameter("te1", "hu.bme.mit.trainbenchmark.ttc.railway.TrackElement"),new PParameter("te2", "hu.bme.mit.trainbenchmark.ttc.railway.TrackElement"));
     }
     
     @Override
@@ -94,15 +94,27 @@ public final class SemaphoreNeighborQuerySpecification extends BaseGeneratedEMFQ
       try {
       {
       	PBody body = new PBody(this);
-      	PVariable var_route1 = body.getOrCreateVariableByName("route1");
       	PVariable var_semaphore = body.getOrCreateVariableByName("semaphore");
-      	PVariable var_sensor1 = body.getOrCreateVariableByName("sensor1");
-      	PVariable var_te1 = body.getOrCreateVariableByName("te1");
-      	PVariable var_sensor2 = body.getOrCreateVariableByName("sensor2");
-      	PVariable var_te2 = body.getOrCreateVariableByName("te2");
+      	PVariable var_route1 = body.getOrCreateVariableByName("route1");
       	PVariable var_route3 = body.getOrCreateVariableByName("route3");
+      	PVariable var_sensor1 = body.getOrCreateVariableByName("sensor1");
+      	PVariable var_sensor2 = body.getOrCreateVariableByName("sensor2");
+      	PVariable var_te1 = body.getOrCreateVariableByName("te1");
+      	PVariable var_te2 = body.getOrCreateVariableByName("te2");
       	body.setExportedParameters(Arrays.<ExportedParameter>asList(
-      		new ExportedParameter(body, var_route1, "route1")
+      		new ExportedParameter(body, var_semaphore, "semaphore"),
+      				
+      		new ExportedParameter(body, var_route1, "route1"),
+      				
+      		new ExportedParameter(body, var_route3, "route3"),
+      				
+      		new ExportedParameter(body, var_sensor1, "sensor1"),
+      				
+      		new ExportedParameter(body, var_sensor2, "sensor2"),
+      				
+      		new ExportedParameter(body, var_te1, "te1"),
+      				
+      		new ExportedParameter(body, var_te2, "te2")
       	));
       	new TypeBinary(body, CONTEXT, var_route1, var_semaphore, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "exit"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Route.exit");
       	new TypeBinary(body, CONTEXT, var_route1, var_sensor1, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "definedBy"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Route.definedBy");
@@ -110,7 +122,7 @@ public final class SemaphoreNeighborQuerySpecification extends BaseGeneratedEMFQ
       	new TypeBinary(body, CONTEXT, var_sensor2, var_te2, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Sensor", "elements"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Sensor.elements");
       	new TypeBinary(body, CONTEXT, var_te1, var_te2, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "TrackElement", "connectsTo"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/TrackElement.connectsTo");
       	new TypeBinary(body, CONTEXT, var_route3, var_sensor2, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "definedBy"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Route.definedBy");
-      	new Inequality(body, var_route3, var_route1);
+      	new Inequality(body, var_route1, var_route3);
       	new NegativePatternCall(body, new FlatTuple(var_semaphore, var_sensor2), EntrySemaphoreSensorQuerySpecification.instance().getInternalQueryRepresentation());
       	bodies.add(body);
       }

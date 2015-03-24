@@ -12,6 +12,7 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SwitchSetTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Semaphore;
@@ -25,11 +26,11 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SwitchSet extends JavaBenchmarkCase<SwitchPosition> {
+public class SwitchSet extends JavaBenchmarkCase<EMFSwitchSetMatch> {
 
 	@Override
-	protected Collection<SwitchPosition> check() {
-		results = new ArrayList<>();
+	protected Collection<EMFSwitchSetMatch> check() {
+		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
 		while (contents.hasNext()) {
@@ -42,23 +43,23 @@ public class SwitchSet extends JavaBenchmarkCase<SwitchPosition> {
 					continue;
 				}
 				if (semaphore.getSignal() == Signal.GO) {
-					for (final SwitchPosition swP : route.getFollows()) {
-						final Switch sw = swP.getSwitch();
-						if (sw.getCurrentPosition() != swP.getPosition()) {
-							results.add(swP);
+					for (final SwitchPosition switchPosition : route.getFollows()) {
+						final Switch sw = switchPosition.getSwitch();
+						if (sw.getCurrentPosition() != switchPosition.getPosition()) {
+							matches.add(new EMFSwitchSetMatch(semaphore, route, switchPosition, sw));
 						}
 					}
 				}
 			}
 		}
 
-		return results;
+		return matches;
 	}
 
 	@Override
-	protected void modify(final Collection<SwitchPosition> vertices, final long nElementsToModify) {
+	protected void modify(final Collection<EMFSwitchSetMatch> matches, final long nElementsToModify) {
 		final SwitchSetTransformation transformation = new SwitchSetTransformation();
-		transformation.transform(vertices, nElementsToModify);
+		transformation.transform(matches, nElementsToModify);
 	}
 
 }
