@@ -14,23 +14,21 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.transformations.TransformationUtil;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.AbstractMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.matches.MatchComparator;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.BenchmarkResult;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.Util;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public abstract class AbstractBenchmarkCase<T, M extends AbstractMatch<T>> {
+public abstract class AbstractBenchmarkCase {
 
 	protected BenchmarkResult bmr;
 	protected BenchmarkConfig bc;
-	protected Collection<M> matches;
-	protected MatchComparator<T, M> comparator;
+	protected Collection<Object> matches;
+	protected Comparator<Object> comparator;
 
 	// simple getters and setters
 	public BenchmarkResult getBenchmarkResult() {
@@ -42,7 +40,7 @@ public abstract class AbstractBenchmarkCase<T, M extends AbstractMatch<T>> {
 		return bc.getQuery();
 	}
 
-	public Collection<M> getResults() {
+	public Collection<Object> getResults() {
 		return matches;
 	}
 
@@ -59,9 +57,9 @@ public abstract class AbstractBenchmarkCase<T, M extends AbstractMatch<T>> {
 
 	protected abstract void read() throws IOException;
 
-	protected abstract Collection<M> check() throws IOException;
+	protected abstract Collection<Object> check() throws IOException;
 
-	protected abstract void modify(Collection<M> matches, long nElementsToModify);
+	protected abstract void modify(Collection<Object> matches, long nElementsToModify);
 	
 	// generic methods
 	
@@ -106,13 +104,13 @@ public abstract class AbstractBenchmarkCase<T, M extends AbstractMatch<T>> {
 		bmr.addModifiedElementsSize(nElementsToModify);
 
 		// we do not measure this in the benchmark results
-		final List<M> sortedMatches = new ArrayList<>(matches);
-		Collections.sort(sortedMatches, comparator);
+		final List<Object> sortedMatches = new ArrayList<>(matches);
+//		Collections.sort(sortedMatches, comparator);
 //		for (final M iterable_element : sortedMatches) {
 //			System.out.println(iterable_element);
 //		}
 
-		final List<M> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
+		final List<Object> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
 		
 		// we measure the transformation
 		bmr.restartClock();

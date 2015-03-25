@@ -12,8 +12,8 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSetMatch;
-import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SwitchSetTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaSwitchSetMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.transformation.JavaSwitchSetTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Semaphore;
 import hu.bme.mit.trainbenchmark.ttc.railway.Signal;
@@ -26,10 +26,10 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SwitchSet extends JavaBenchmarkCase<EMFSwitchSetMatch> {
+public class SwitchSet extends JavaBenchmarkCase<JavaSwitchSetMatch> {
 
 	@Override
-	protected Collection<EMFSwitchSetMatch> check() {
+	protected Collection<Object> check() {
 		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
@@ -46,7 +46,7 @@ public class SwitchSet extends JavaBenchmarkCase<EMFSwitchSetMatch> {
 					for (final SwitchPosition switchPosition : route.getFollows()) {
 						final Switch sw = switchPosition.getSwitch();
 						if (sw.getCurrentPosition() != switchPosition.getPosition()) {
-							matches.add(new EMFSwitchSetMatch(semaphore, route, switchPosition, sw));
+							matches.add(new JavaSwitchSetMatch(semaphore, route, switchPosition, sw));
 						}
 					}
 				}
@@ -57,8 +57,8 @@ public class SwitchSet extends JavaBenchmarkCase<EMFSwitchSetMatch> {
 	}
 
 	@Override
-	protected void modify(final Collection<EMFSwitchSetMatch> matches, final long nElementsToModify) {
-		final SwitchSetTransformation transformation = new SwitchSetTransformation();
+	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+		final JavaSwitchSetTransformation transformation = new JavaSwitchSetTransformation();
 		transformation.transform(matches, nElementsToModify);
 	}
 

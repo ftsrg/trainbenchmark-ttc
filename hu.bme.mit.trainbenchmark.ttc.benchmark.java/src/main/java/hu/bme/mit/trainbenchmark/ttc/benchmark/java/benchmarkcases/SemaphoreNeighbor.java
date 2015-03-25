@@ -12,8 +12,8 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSemaphoreNeighborMatch;
-import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SemaphoreNeighborTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaSemaphoreNeighborMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.transformation.JavaSemaphoreNeighborTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Semaphore;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
@@ -25,10 +25,10 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SemaphoreNeighbor extends JavaBenchmarkCase<EMFSemaphoreNeighborMatch> {
+public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMatch> {
 
 	@Override
-	protected Collection<EMFSemaphoreNeighborMatch> check() {
+	protected Collection<Object> check() {
 		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
@@ -80,7 +80,7 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<EMFSemaphoreNeighborMat
 							}
 						}
 						if (semaphore != null) {
-							matches.add(new EMFSemaphoreNeighborMatch(semaphore, route1, matchedRoute3, sensor1, sensor2, te1, te2));
+							matches.add(new JavaSemaphoreNeighborMatch(semaphore, route1, matchedRoute3, sensor1, sensor2, te1, te2));
 							return false;
 						}
 					}
@@ -93,8 +93,8 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<EMFSemaphoreNeighborMat
 	}
 
 	@Override
-	protected void modify(final Collection<EMFSemaphoreNeighborMatch> matches, final long nElementsToModify) {
-		final SemaphoreNeighborTransformation transformation = new SemaphoreNeighborTransformation();
+	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+		final JavaSemaphoreNeighborTransformation transformation = new JavaSemaphoreNeighborTransformation();
 		transformation.transform(matches, nElementsToModify);
 	}
 	

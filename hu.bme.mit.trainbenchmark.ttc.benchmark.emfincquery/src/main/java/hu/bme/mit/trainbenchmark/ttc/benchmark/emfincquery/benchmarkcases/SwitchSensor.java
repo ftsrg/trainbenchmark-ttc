@@ -1,26 +1,24 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFSwitchSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensorMatcher;
-import hu.bme.mit.trainbenchmark.ttc.emf.transformation.SwitchSensorTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation.EMFIncQuerySwitchSensorTransformation;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-public class SwitchSensor extends EMFIncQueryBenchmarkCase<EMFSwitchSensorMatch, SwitchSensorMatch> {
+public class SwitchSensor extends EMFIncQueryBenchmarkCase<SwitchSensorMatch> {
 
 	@Override
-	protected Set<EMFSwitchSensorMatch> getResultSet() throws IncQueryException {
-		final Set<EMFSwitchSensorMatch> emfMatch = new HashSet<>();
+	protected Collection<Object> getResultSet() throws IncQueryException {
+		final Collection<Object> matches = new HashSet<>();
 		for (final SwitchSensorMatch match : SwitchSensorMatcher.on(engine).getAllMatches()) {
-			emfMatch.add(convertMatch(match));
+			matches.add(match);
 		}
-		return emfMatch;
+		return matches;
 	}
 
 	@Override
@@ -29,13 +27,8 @@ public class SwitchSensor extends EMFIncQueryBenchmarkCase<EMFSwitchSensorMatch,
 	}
 
 	@Override
-	protected EMFSwitchSensorMatch convertMatch(final SwitchSensorMatch match) {
-		return new EMFSwitchSensorMatch(match.getSw());
-	}
-
-	@Override
-	protected void modify(final Collection<EMFSwitchSensorMatch> matches, final long nElementsToModify) {
-		final SwitchSensorTransformation transformation = new SwitchSensorTransformation();
+	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+		final EMFIncQuerySwitchSensorTransformation transformation = new EMFIncQuerySwitchSensorTransformation();
 		transformation.transform(matches, nElementsToModify);
 	}
 	

@@ -12,8 +12,8 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFPosLengthMatch;
-import hu.bme.mit.trainbenchmark.ttc.emf.transformation.PosLengthTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaPosLengthMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.transformation.JavaPosLengthTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
 
 import java.util.ArrayList;
@@ -22,10 +22,10 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class PosLength extends JavaBenchmarkCase<EMFPosLengthMatch> {
+public class PosLength extends JavaBenchmarkCase<JavaPosLengthMatch> {
 
 	@Override
-	protected Collection<EMFPosLengthMatch> check() {
+	protected Collection<Object> check() {
 		matches = new ArrayList<>();
 		
 		final TreeIterator<EObject> contents = container.eAllContents();	
@@ -35,7 +35,7 @@ public class PosLength extends JavaBenchmarkCase<EMFPosLengthMatch> {
 			if (eObject instanceof Segment) {
 				final Segment segment = (Segment) eObject;
 				if (segment.getLength() <= 0)
-					matches.add(new EMFPosLengthMatch(segment));
+					matches.add(new JavaPosLengthMatch(segment));
 			}
 		}
 		
@@ -43,8 +43,8 @@ public class PosLength extends JavaBenchmarkCase<EMFPosLengthMatch> {
 	}
 
 	@Override
-	protected void modify(final Collection<EMFPosLengthMatch> matches, final long nElementsToModify) {
-		final PosLengthTransformation transformation = new PosLengthTransformation();
+	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+		final JavaPosLengthTransformation transformation = new JavaPosLengthTransformation();
 		transformation.transform(matches, nElementsToModify);
 	}
 	

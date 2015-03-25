@@ -1,13 +1,15 @@
-package hu.bme.mit.trainbenchmark.ttc.benchmark.matches;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches;
+
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
 
 import java.util.Arrays;
 
 
-public abstract class AbstractMatch<T> {
+public abstract class JavaMatch {
 
-	protected T[] match;
+	protected RailwayElement[] match;
 
-	public T[] getMatch() {
+	public RailwayElement[] getMatch() {
 		return match;
 	}
 
@@ -27,7 +29,7 @@ public abstract class AbstractMatch<T> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final AbstractMatch other = (AbstractMatch) obj;
+		final JavaMatch other = (JavaMatch) obj;
 		if (!Arrays.equals(match, other.match))
 			return false;
 		return true;

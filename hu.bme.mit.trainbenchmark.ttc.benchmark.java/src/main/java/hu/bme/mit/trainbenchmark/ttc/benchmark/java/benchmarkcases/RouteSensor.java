@@ -12,8 +12,8 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.match.EMFRouteSensorMatch;
-import hu.bme.mit.trainbenchmark.ttc.emf.transformation.RouteSensorTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaRouteSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.transformation.JavaRouteSensorTransformation;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
 import hu.bme.mit.trainbenchmark.ttc.railway.Switch;
@@ -26,10 +26,10 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
+public class RouteSensor extends JavaBenchmarkCase<JavaRouteSensorMatch> {
 
 	@Override
-	protected Collection<EMFRouteSensorMatch> check() {
+	protected Collection<Object> check() {
 		matches = new ArrayList<>();
 
 		final TreeIterator<EObject> contents = container.eAllContents();
@@ -44,7 +44,7 @@ public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
 						for (final SwitchPosition swP : sw.getPositions()) {
 							if (!swP.getRoute().getDefinedBy().contains(sensor)) {
 								final Route route = swP.getRoute();
-								final EMFRouteSensorMatch match = new EMFRouteSensorMatch(route, sensor, swP, sw);
+								final JavaRouteSensorMatch match = new JavaRouteSensorMatch(route, sensor, swP, sw);
 								matches.add(match);
 							}
 						}
@@ -57,8 +57,8 @@ public class RouteSensor extends JavaBenchmarkCase<EMFRouteSensorMatch> {
 	}
 
 	@Override
-	protected void modify(final Collection<EMFRouteSensorMatch> matches, final long nElementsToModify) {
-		 final RouteSensorTransformation transformation = new RouteSensorTransformation();
+	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+		 final JavaRouteSensorTransformation transformation = new JavaRouteSensorTransformation();
 		 transformation.transform(matches, nElementsToModify);
 	}
 

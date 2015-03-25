@@ -36,7 +36,7 @@ public class EMFIncQueryBenchmarkLogic extends AbstractBenchmarkLogic {
 	}
 
 	@Override
-	protected AbstractBenchmarkCase<?, ?> getBenchmarkCase(final String query) {
+	protected AbstractBenchmarkCase getBenchmarkCase(final String query) {
 		final EMFIncQueryBenchmarkCaseFactory factory = new EMFIncQueryBenchmarkCaseFactory();
 		return factory.create(query);
 	}

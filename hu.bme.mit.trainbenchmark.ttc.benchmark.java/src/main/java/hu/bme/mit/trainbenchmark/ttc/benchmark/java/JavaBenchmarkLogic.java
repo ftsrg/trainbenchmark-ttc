@@ -37,7 +37,7 @@ public class JavaBenchmarkLogic extends AbstractBenchmarkLogic {
 	}
 
 	@Override
-	protected AbstractBenchmarkCase<?, ?> getBenchmarkCase(final String query) {
+	protected AbstractBenchmarkCase getBenchmarkCase(final String query) {
 		final JavaBenchmarkCaseFactory factory = new JavaBenchmarkCaseFactory();
 		return factory.create(query);
 	}

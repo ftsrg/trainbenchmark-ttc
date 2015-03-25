@@ -23,14 +23,14 @@ public abstract class AbstractBenchmarkLogic {
 	protected BenchmarkConfig benchmarkConfig;
 
 	public BenchmarkResult runBenchmark() throws IOException {
-		final AbstractBenchmarkCase<?, ?> benchmarkCase = getBenchmarkCase(benchmarkConfig.getQuery());
+		final AbstractBenchmarkCase benchmarkCase = getBenchmarkCase(benchmarkConfig.getQuery());
 
 		final ScenarioLogic scenario = new ScenarioLogic();
 		final BenchmarkResult bmr = scenario.runBenchmark(benchmarkConfig, benchmarkCase);
 		return bmr;
 	}
 
-	protected abstract AbstractBenchmarkCase<?, ?> getBenchmarkCase(String query);
+	protected abstract AbstractBenchmarkCase getBenchmarkCase(String query);
 
 	public BenchmarkConfig getBenchmarkConfig() {
 		return benchmarkConfig;
