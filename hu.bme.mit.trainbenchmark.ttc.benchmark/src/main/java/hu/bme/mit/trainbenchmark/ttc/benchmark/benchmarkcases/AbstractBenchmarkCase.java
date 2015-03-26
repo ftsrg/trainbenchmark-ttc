@@ -40,15 +40,14 @@ public abstract class AbstractBenchmarkCase {
 		return bc.getQuery();
 	}
 
-	public Collection<Object> getResults() {
+	public Collection<Object> getMatches() {
 		return matches;
 	}
 
-	// this should be implemented for each representation
+	// this should be implemented for the match representation of each tool
 	protected abstract void registerComparator();
-	
-	// these should be implemented for each tool
 
+	// these should be implemented for each tool
 	protected void init() throws IOException {
 	}
 
@@ -60,11 +59,10 @@ public abstract class AbstractBenchmarkCase {
 	protected abstract Collection<Object> check() throws IOException;
 
 	protected abstract void modify(Collection<Object> matches, long nElementsToModify);
-	
+
 	// generic methods
-	
+
 	protected long getMemoryUsage() throws IOException {
-		Util.runGC();
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
@@ -88,7 +86,7 @@ public abstract class AbstractBenchmarkCase {
 		bmr.setReadTime();
 
 		bmr.setReadMemory(getMemoryUsage());
-}
+	}
 
 	public void benchmarkCheck() throws IOException {
 		bmr.restartClock();
@@ -105,13 +103,10 @@ public abstract class AbstractBenchmarkCase {
 
 		// we do not measure this in the benchmark results
 		final List<Object> sortedMatches = new ArrayList<>(matches);
-//		Collections.sort(sortedMatches, comparator);
-//		for (final M iterable_element : sortedMatches) {
-//			System.out.println(iterable_element);
-//		}
 
+		// Collections.sort(sortedMatches, comparator);
 		final List<Object> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
-		
+
 		// we measure the transformation
 		bmr.restartClock();
 		modify(elementsToModify, nElementsToModify);
@@ -119,7 +114,7 @@ public abstract class AbstractBenchmarkCase {
 
 		bmr.addTransformationMemory(getMemoryUsage());
 	}
-	
+
 	protected void runGC() throws IOException {
 		Util.runGC();
 	}
