@@ -19,8 +19,6 @@ public abstract class EMFBenchmarkCase extends AbstractBenchmarkCase {
 	
 	@Override
 	protected void registerComparator() {
-//		final Comparator<?> modelElementComparator = new RailwayElementComparator();
-//		comparator = new MatchComparator<RailwayElement, M>(modelElementComparator);	
 	}
 	
 	@Override
