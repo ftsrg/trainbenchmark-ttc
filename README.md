@@ -36,11 +36,13 @@ Set the `maxSize` variable to the desired value and run the `generate.sh` script
 
 ### Running the benchmark
 
-The `benchmark` script runs the benchmark for the given number of runs, for the specified tools, queries and sizes.
+The script runs the benchmark for the given number of runs, for the specified tools, queries and sizes.
 
-## Visualization
+The benchmark results are stored in a TSV (tab-separated values) file. The header for the TSV file is stored in the `output/header.tsv` file. 
 
-The benchmark results are stored in a TSV (tab-separated values) file. The header for the TSV file is stored in the `results/header.tsv` file.
+## Reporting and Visualization
+
+Make sure you read the `README.md` file in the `reporting` directory and install all the requirements for R.
 
 ## Importing to Eclipse
 
