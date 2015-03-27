@@ -20,9 +20,9 @@ def build(skip_tests):
     """
     util.set_working_directory("../")
     if skip_tests:
-        subprocess.call("mvn clean install -DskipTests", shell=True)
+        subprocess.check_call("mvn clean install -DskipTests", shell=True)
     else:
-        subprocess.call("mvn clean install", shell=True)
+        subprocess.check_call("mvn clean install", shell=True)
     util.set_working_directory()
 
 
@@ -31,8 +31,7 @@ def generate(conf):
     """
     target = util.get_generator_jar()
     for size in conf.sizes:
-        subprocess.call(["java", conf.vmargs, "-jar", target,
-                         "-size", str(size)])
+        subprocess.check_call(["java", conf.vmargs, "-jar", target, "-size", str(size)])
 
 
 def benchmark(conf):
