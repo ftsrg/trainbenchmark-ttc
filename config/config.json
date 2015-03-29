@@ -1,6 +1,6 @@
 {
   "MinSize": 1,
-  "MaxSize": 512,
+  "MaxSize": 4,
   "Queries": [
     "PosLength",
     "SwitchSensor",
