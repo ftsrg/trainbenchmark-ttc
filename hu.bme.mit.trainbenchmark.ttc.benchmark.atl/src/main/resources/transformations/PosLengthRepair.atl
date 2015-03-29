@@ -1,0 +1,17 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- The length attribute of the segment in the match is updated to −length+1.
+module PosLengthRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s: RAILWAY!Segment
+	do {
+		s.length <:= 0 - s.length + 1;
+	}
+}

@@ -1,0 +1,24 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- For a match, the exit reference of route1 is removed, resulting in a structure
+-- where the constraint must not hold true.
+module SemaphoreNeighbourRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s : TupleType(
+			r1 : RAILWAY!Route,
+			s1 : RAILWAY!Sensor, 
+			te1 : RAILWAY!TrackElement, 
+			te2 : RAILWAY!TrackElement, 
+			s2 : RAILWAY!Sensor,
+			r3 : RAILWAY!Route)
+	do {
+		s.r1.exit <:= OclUndefined;
+	}
+}
