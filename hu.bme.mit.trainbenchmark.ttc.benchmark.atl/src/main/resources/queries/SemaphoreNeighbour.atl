@@ -6,7 +6,7 @@
 -- same semaphore and the other sensor.
 query SemaphoreNeighbour = thisModule.routesWithExitSemaphore
 	->collect(r | r.sensorTuples)
-	->flatten().debug();
+	->flatten();
 
 --- Returns all Routes with exit Semaphore.
 helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
@@ -27,16 +27,37 @@ helper context RAILWAY!Route def : sensorTuples : Sequence(
 			r3 : RAILWAY!Route)) =
 	self.definedBy->collect(s1 | 
 		s1.elements->collect(te1 | 
-			te1.connectsTo->reject(te2 | te2.sensor.oclIsUndefined())->collect(te2 |
+			te1.connectsTo->reject(te2 | 
 				let s2 : RAILWAY!Sensor = te2.sensor in
-				RAILWAY!Route.allInstances()->select(r3 |
-					r3 <> self and r3.definedBy->includes(s2) and
-					not thisModule.routesWithEntrySemaphore->exists(r2 |
-						r2.entry = self.exit and r2.definedBy->includes(s2)
-					)
+				s2.oclIsUndefined() or (
+					let s2routes : Sequence(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
+					s2routes.oclIsUndefined() or s2routes->isEmpty() or
+					s2routes->exists(r2 | r2.entry = self.exit)
+				)
+			)->collect(te2 |
+				let s2 : RAILWAY!Sensor = te2.sensor in
+				let s2routes : Sequence(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
+				s2routes->select(r3 |
+					r3 <> self and r3.definedBy->includes(s2)
 				)->collect(r3 |
 					Tuple{r1 = self, s1 = s1, te1 = te1, te2 = te2, s2 = s2, r3 = r3}
 				)
 			)
 		) 
 	)->flatten();
+
+--- Returns the Routes mapped by their Sensor.
+--- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
+helper def : routesBySensor : Map(RAILWAY!Sensor, Sequence(RAILWAY!Route)) =
+	RAILWAY!Route.allInstances()->iterate(e; acc : Map(RAILWAY!Sensor, Sequence(RAILWAY!Route)) = Map{} |
+		e.definedBy->iterate(s; acc2 : Map(RAILWAY!Sensor, Sequence(RAILWAY!Route)) = acc  |
+			let void : OclAny = acc2.put(s, 
+				let c : Sequence(RAILWAY!Route) = acc.get(s) in
+				if c.oclIsUndefined() then
+					Sequence{e}
+				else
+					c->including(e)
+				endif
+			) in acc2
+		)
+	);
