@@ -20,9 +20,9 @@ def build(skip_tests):
     """
     util.set_working_directory("../")
     if skip_tests:
-        subprocess.check_call("mvn -U clean install -DskipTests", shell=True)
+        subprocess.check_call("mvn clean install -DskipTests", shell=True)
     else:
-        subprocess.check_call("mvn -U clean install", shell=True)
+        subprocess.check_call("mvn clean install", shell=True)
     util.set_working_directory()
 
 
