@@ -34,7 +34,7 @@ public class ATLBenchmarkLogic extends AbstractBenchmarkLogic {
 
 	@Override
 	protected String getTool() {
-		return "ATL/EMFTVM";
+		return "ATL";
 	}
 
 	@Override
