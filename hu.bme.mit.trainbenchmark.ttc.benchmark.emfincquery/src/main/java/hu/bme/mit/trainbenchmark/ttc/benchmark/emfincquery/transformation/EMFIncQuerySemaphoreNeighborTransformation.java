@@ -10,7 +10,7 @@ public class EMFIncQuerySemaphoreNeighborTransformation extends EMFIncQueryTrans
 	public void transform(final Collection<Object> matches, final long nElementsToModify) {
 		for (final Object match : matches) {
 			final SemaphoreNeighborMatch snm = (SemaphoreNeighborMatch) match;
-			snm.getRoute1().setExit(null);
+			snm.getRoute2().setEntry(snm.getSemaphore());
 		}
 	}
 

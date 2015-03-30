@@ -37,59 +37,50 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMa
 
 			if (eObject instanceof Route) {
 				final Route route1 = (Route) eObject;
-				checkValid(route1);
+				checkRoute(route1);
 			}
 		}
 
 		return matches;
 	}
 
-	private boolean checkValid(final Route route1) {
+	private void checkRoute(final Route route1) {
 		final Semaphore semaphore = route1.getExit();
+		if (semaphore == null) {
+			return;
+		}
 		for (final Sensor sensor1 : route1.getDefinedBy()) {
 			for (final TrackElement te1 : sensor1.getElements()) {
 				for (final TrackElement te2 : te1.getConnectsTo()) {
 					final Sensor sensor2 = te2.getSensor();
-					boolean goodSensor = false;
 
-					Route matchedRoute3 = null;
-					final TreeIterator<EObject> contents2 = container.eAllContents();
-					while (contents2.hasNext()) {
-						final EObject eObject = contents2.next();
-
-						if (eObject instanceof Route) {
-							final Route route3 = (Route) eObject;
-							if ((route3.getDefinedBy().contains(sensor2)) && (route3 != route1)) {
-								goodSensor = true;
-								matchedRoute3 = route3; 
-								break;
-							}
-						}
+					if (sensor2 == null) {
+						continue;
 					}
-					if (goodSensor) {
-						final TreeIterator<EObject> contents3 = container.eAllContents();
-						while (contents3.hasNext()) {
-							final EObject eObject = contents3.next();
+					
+					// reverse navigation on the (sensor2)<-[definedBy]-(route2) edge
+					final EObject container = sensor2.eContainer();
+					if (!(container instanceof Route)) {
+						continue;
+					}
+					
+					final Route route2 = (Route) container;
 
-							if (eObject instanceof Route) {
-								final Route route2 = (Route) eObject;
-								if ((route2.getDefinedBy().contains(sensor2)) && (route2.getEntry() != null)
-										&& (route2.getEntry().equals(semaphore))) {
-									return true;
-								}
-							}
-						}
-						if (semaphore != null) {
-							matches.add(new JavaSemaphoreNeighborMatch(semaphore, route1, matchedRoute3, sensor1, sensor2, te1, te2));
-							return false;
-						}
+					// route1 != route2
+					if (route1.equals(route2)) {
+						continue;
 					}
 
+					// NEG (route2)-[entry]->(semaphore)
+					if (!semaphore.equals(route2.getEntry())) {
+						matches.add(new JavaSemaphoreNeighborMatch(semaphore, route1, route2, sensor1, sensor2, te1, te2));
+						return;
+					}
 				}
 			}
 		}
 
-		return true;
+		return;
 	}
 
 	@Override

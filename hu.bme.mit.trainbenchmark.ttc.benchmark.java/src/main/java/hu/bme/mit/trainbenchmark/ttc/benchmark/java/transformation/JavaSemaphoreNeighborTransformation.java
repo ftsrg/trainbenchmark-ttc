@@ -10,7 +10,7 @@ public class JavaSemaphoreNeighborTransformation extends JavaTransformationActio
 	public void transform(final Collection<Object> matches, final long nElementsToModify) {
 		for (final Object match : matches) {
 			final JavaSemaphoreNeighborMatch snm = (JavaSemaphoreNeighborMatch) match;
-			snm.getRoute1().setExit(null);
+			snm.getRoute2().setEntry(snm.getSemaphore());
 		}
 	}
 

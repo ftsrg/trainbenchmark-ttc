@@ -30,18 +30,17 @@ import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
  * 
  * <p>Original source:
  * <code><pre>
- * pattern semaphoreNeighbor(semaphore, route1, route3, sensor1, sensor2, te1, te2) {
+ * pattern semaphoreNeighbor(semaphore, route1, route2, sensor1, sensor2, te1, te2) {
  * 	Route.exit(route1, semaphore);
  * 	Route.definedBy(route1, sensor1);
- * 
- * 	Sensor.elements(sensor1, te1);
- * 	Sensor.elements(sensor2, te2);
+ * 	TrackElement.sensor(te1, sensor1);
  * 	TrackElement.connectsTo(te1, te2);
- * 
- * 	Route.definedBy(route3, sensor2);
- * 	route1 != route3;
+ * 	TrackElement.sensor(te2, sensor2);
+ * 	Route.definedBy(route2, sensor2);
  * 	
- * 	neg find entrySemaphoreSensor(semaphore, sensor2);
+ * 	neg find entrySemaphore(route2, semaphore);
+ * 
+ * 	route1 != route2;
  * }
  * </pre></code>
  * 
@@ -74,7 +73,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
   
   private final static int POSITION_ROUTE1 = 1;
   
-  private final static int POSITION_ROUTE3 = 2;
+  private final static int POSITION_ROUTE2 = 2;
   
   private final static int POSITION_SENSOR1 = 3;
   
@@ -121,7 +120,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * Returns the set of all matches of the pattern that conform to the given fixed values of some parameters.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -129,8 +128,8 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return matches represented as a SemaphoreNeighborMatch object.
    * 
    */
-  public Collection<SemaphoreNeighborMatch> getAllMatches(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return rawGetAllMatches(new Object[]{pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2});
+  public Collection<SemaphoreNeighborMatch> getAllMatches(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return rawGetAllMatches(new Object[]{pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2});
   }
   
   /**
@@ -138,7 +137,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * Neither determinism nor randomness of selection is guaranteed.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -146,8 +145,8 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return a match represented as a SemaphoreNeighborMatch object, or null if no match is found.
    * 
    */
-  public SemaphoreNeighborMatch getOneArbitraryMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return rawGetOneArbitraryMatch(new Object[]{pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2});
+  public SemaphoreNeighborMatch getOneArbitraryMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return rawGetOneArbitraryMatch(new Object[]{pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2});
   }
   
   /**
@@ -155,7 +154,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * under any possible substitution of the unspecified parameters (if any).
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -163,15 +162,15 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return true if the input is a valid (partial) match of the pattern.
    * 
    */
-  public boolean hasMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return rawHasMatch(new Object[]{pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2});
+  public boolean hasMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return rawHasMatch(new Object[]{pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2});
   }
   
   /**
    * Returns the number of all matches of the pattern that conform to the given fixed values of some parameters.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -179,15 +178,15 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the number of pattern matches found.
    * 
    */
-  public int countMatches(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return rawCountMatches(new Object[]{pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2});
+  public int countMatches(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return rawCountMatches(new Object[]{pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2});
   }
   
   /**
    * Executes the given processor on each match of the pattern that conforms to the given fixed values of some parameters.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -195,8 +194,8 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @param processor the action that will process each pattern match.
    * 
    */
-  public void forEachMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2, final IMatchProcessor<? super SemaphoreNeighborMatch> processor) {
-    rawForEachMatch(new Object[]{pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2}, processor);
+  public void forEachMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2, final IMatchProcessor<? super SemaphoreNeighborMatch> processor) {
+    rawForEachMatch(new Object[]{pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2}, processor);
   }
   
   /**
@@ -204,7 +203,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * Neither determinism nor randomness of selection is guaranteed.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -213,8 +212,8 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return true if the pattern has at least one match with the given parameter values, false if the processor was not invoked
    * 
    */
-  public boolean forOneArbitraryMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2, final IMatchProcessor<? super SemaphoreNeighborMatch> processor) {
-    return rawForOneArbitraryMatch(new Object[]{pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2}, processor);
+  public boolean forOneArbitraryMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2, final IMatchProcessor<? super SemaphoreNeighborMatch> processor) {
+    return rawForOneArbitraryMatch(new Object[]{pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2}, processor);
   }
   
   /**
@@ -223,7 +222,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -231,8 +230,8 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the (partial) match object.
    * 
    */
-  public SemaphoreNeighborMatch newMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return SemaphoreNeighborMatch.newMatch(pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2);
+  public SemaphoreNeighborMatch newMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return SemaphoreNeighborMatch.newMatch(pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2);
   }
   
   /**
@@ -269,11 +268,11 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Semaphore> getAllValuesOfsemaphore(final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+  public Set<Semaphore> getAllValuesOfsemaphore(final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
     return rawAccumulateAllValuesOfsemaphore(new Object[]{
     null, 
     pRoute1, 
-    pRoute3, 
+    pRoute2, 
     pSensor1, 
     pSensor2, 
     pTe1, 
@@ -315,11 +314,11 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Route> getAllValuesOfroute1(final Semaphore pSemaphore, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+  public Set<Route> getAllValuesOfroute1(final Semaphore pSemaphore, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
     return rawAccumulateAllValuesOfroute1(new Object[]{
     pSemaphore, 
     null, 
-    pRoute3, 
+    pRoute2, 
     pSensor1, 
     pSensor2, 
     pTe1, 
@@ -328,41 +327,41 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
   }
   
   /**
-   * Retrieve the set of values that occur in matches for route3.
+   * Retrieve the set of values that occur in matches for route2.
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  protected Set<Route> rawAccumulateAllValuesOfroute3(final Object[] parameters) {
+  protected Set<Route> rawAccumulateAllValuesOfroute2(final Object[] parameters) {
     Set<Route> results = new HashSet<Route>();
-    rawAccumulateAllValues(POSITION_ROUTE3, parameters, results);
+    rawAccumulateAllValues(POSITION_ROUTE2, parameters, results);
     return results;
   }
   
   /**
-   * Retrieve the set of values that occur in matches for route3.
+   * Retrieve the set of values that occur in matches for route2.
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Route> getAllValuesOfroute3() {
-    return rawAccumulateAllValuesOfroute3(emptyArray());
+  public Set<Route> getAllValuesOfroute2() {
+    return rawAccumulateAllValuesOfroute2(emptyArray());
   }
   
   /**
-   * Retrieve the set of values that occur in matches for route3.
+   * Retrieve the set of values that occur in matches for route2.
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Route> getAllValuesOfroute3(final SemaphoreNeighborMatch partialMatch) {
-    return rawAccumulateAllValuesOfroute3(partialMatch.toArray());
+  public Set<Route> getAllValuesOfroute2(final SemaphoreNeighborMatch partialMatch) {
+    return rawAccumulateAllValuesOfroute2(partialMatch.toArray());
   }
   
   /**
-   * Retrieve the set of values that occur in matches for route3.
+   * Retrieve the set of values that occur in matches for route2.
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Route> getAllValuesOfroute3(final Semaphore pSemaphore, final Route pRoute1, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return rawAccumulateAllValuesOfroute3(new Object[]{
+  public Set<Route> getAllValuesOfroute2(final Semaphore pSemaphore, final Route pRoute1, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return rawAccumulateAllValuesOfroute2(new Object[]{
     pSemaphore, 
     pRoute1, 
     null, 
@@ -407,11 +406,11 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Sensor> getAllValuesOfsensor1(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+  public Set<Sensor> getAllValuesOfsensor1(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
     return rawAccumulateAllValuesOfsensor1(new Object[]{
     pSemaphore, 
     pRoute1, 
-    pRoute3, 
+    pRoute2, 
     null, 
     pSensor2, 
     pTe1, 
@@ -453,11 +452,11 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Sensor> getAllValuesOfsensor2(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final TrackElement pTe1, final TrackElement pTe2) {
+  public Set<Sensor> getAllValuesOfsensor2(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final TrackElement pTe1, final TrackElement pTe2) {
     return rawAccumulateAllValuesOfsensor2(new Object[]{
     pSemaphore, 
     pRoute1, 
-    pRoute3, 
+    pRoute2, 
     pSensor1, 
     null, 
     pTe1, 
@@ -499,11 +498,11 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<TrackElement> getAllValuesOfte1(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe2) {
+  public Set<TrackElement> getAllValuesOfte1(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe2) {
     return rawAccumulateAllValuesOfte1(new Object[]{
     pSemaphore, 
     pRoute1, 
-    pRoute3, 
+    pRoute2, 
     pSensor1, 
     pSensor2, 
     null, 
@@ -545,11 +544,11 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<TrackElement> getAllValuesOfte2(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1) {
+  public Set<TrackElement> getAllValuesOfte2(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1) {
     return rawAccumulateAllValuesOfte2(new Object[]{
     pSemaphore, 
     pRoute1, 
-    pRoute3, 
+    pRoute2, 
     pSensor1, 
     pSensor2, 
     pTe1, 
@@ -560,7 +559,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
   @Override
   protected SemaphoreNeighborMatch tupleToMatch(final Tuple t) {
     try {
-    	return SemaphoreNeighborMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) t.get(POSITION_SEMAPHORE), (hu.bme.mit.trainbenchmark.ttc.railway.Route) t.get(POSITION_ROUTE1), (hu.bme.mit.trainbenchmark.ttc.railway.Route) t.get(POSITION_ROUTE3), (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) t.get(POSITION_SENSOR1), (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) t.get(POSITION_SENSOR2), (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) t.get(POSITION_TE1), (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) t.get(POSITION_TE2));
+    	return SemaphoreNeighborMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) t.get(POSITION_SEMAPHORE), (hu.bme.mit.trainbenchmark.ttc.railway.Route) t.get(POSITION_ROUTE1), (hu.bme.mit.trainbenchmark.ttc.railway.Route) t.get(POSITION_ROUTE2), (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) t.get(POSITION_SENSOR1), (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) t.get(POSITION_SENSOR2), (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) t.get(POSITION_TE1), (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) t.get(POSITION_TE2));
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in tuple not properly typed!",e);
     	return null;
@@ -570,7 +569,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
   @Override
   protected SemaphoreNeighborMatch arrayToMatch(final Object[] match) {
     try {
-    	return SemaphoreNeighborMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) match[POSITION_SEMAPHORE], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE1], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE3], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR1], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR2], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE1], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE2]);
+    	return SemaphoreNeighborMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) match[POSITION_SEMAPHORE], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE1], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE2], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR1], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR2], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE1], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE2]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
@@ -580,7 +579,7 @@ public class SemaphoreNeighborMatcher extends BaseMatcher<SemaphoreNeighborMatch
   @Override
   protected SemaphoreNeighborMatch arrayToMatchMutable(final Object[] match) {
     try {
-    	return SemaphoreNeighborMatch.newMutableMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) match[POSITION_SEMAPHORE], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE1], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE3], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR1], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR2], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE1], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE2]);
+    	return SemaphoreNeighborMatch.newMutableMatch((hu.bme.mit.trainbenchmark.ttc.railway.Semaphore) match[POSITION_SEMAPHORE], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE1], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE2], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR1], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR2], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE1], (hu.bme.mit.trainbenchmark.ttc.railway.TrackElement) match[POSITION_TE2]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
