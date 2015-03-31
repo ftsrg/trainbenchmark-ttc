@@ -30,7 +30,7 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
   
   private Route fRoute1;
   
-  private Route fRoute3;
+  private Route fRoute2;
   
   private Sensor fSensor1;
   
@@ -40,12 +40,12 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
   
   private TrackElement fTe2;
   
-  private static List<String> parameterNames = makeImmutableList("semaphore", "route1", "route3", "sensor1", "sensor2", "te1", "te2");
+  private static List<String> parameterNames = makeImmutableList("semaphore", "route1", "route2", "sensor1", "sensor2", "te1", "te2");
   
-  private SemaphoreNeighborMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+  private SemaphoreNeighborMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
     this.fSemaphore = pSemaphore;
     this.fRoute1 = pRoute1;
-    this.fRoute3 = pRoute3;
+    this.fRoute2 = pRoute2;
     this.fSensor1 = pSensor1;
     this.fSensor2 = pSensor2;
     this.fTe1 = pTe1;
@@ -56,7 +56,7 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
   public Object get(final String parameterName) {
     if ("semaphore".equals(parameterName)) return this.fSemaphore;
     if ("route1".equals(parameterName)) return this.fRoute1;
-    if ("route3".equals(parameterName)) return this.fRoute3;
+    if ("route2".equals(parameterName)) return this.fRoute2;
     if ("sensor1".equals(parameterName)) return this.fSensor1;
     if ("sensor2".equals(parameterName)) return this.fSensor2;
     if ("te1".equals(parameterName)) return this.fTe1;
@@ -72,8 +72,8 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
     return this.fRoute1;
   }
   
-  public Route getRoute3() {
-    return this.fRoute3;
+  public Route getRoute2() {
+    return this.fRoute2;
   }
   
   public Sensor getSensor1() {
@@ -103,8 +103,8 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
     	this.fRoute1 = (hu.bme.mit.trainbenchmark.ttc.railway.Route) newValue;
     	return true;
     }
-    if ("route3".equals(parameterName) ) {
-    	this.fRoute3 = (hu.bme.mit.trainbenchmark.ttc.railway.Route) newValue;
+    if ("route2".equals(parameterName) ) {
+    	this.fRoute2 = (hu.bme.mit.trainbenchmark.ttc.railway.Route) newValue;
     	return true;
     }
     if ("sensor1".equals(parameterName) ) {
@@ -136,9 +136,9 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
     this.fRoute1 = pRoute1;
   }
   
-  public void setRoute3(final Route pRoute3) {
+  public void setRoute2(final Route pRoute2) {
     if (!isMutable()) throw new java.lang.UnsupportedOperationException();
-    this.fRoute3 = pRoute3;
+    this.fRoute2 = pRoute2;
   }
   
   public void setSensor1(final Sensor pSensor1) {
@@ -173,12 +173,12 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
   
   @Override
   public Object[] toArray() {
-    return new Object[]{fSemaphore, fRoute1, fRoute3, fSensor1, fSensor2, fTe1, fTe2};
+    return new Object[]{fSemaphore, fRoute1, fRoute2, fSensor1, fSensor2, fTe1, fTe2};
   }
   
   @Override
   public SemaphoreNeighborMatch toImmutable() {
-    return isMutable() ? newMatch(fSemaphore, fRoute1, fRoute3, fSensor1, fSensor2, fTe1, fTe2) : this;
+    return isMutable() ? newMatch(fSemaphore, fRoute1, fRoute2, fSensor1, fSensor2, fTe1, fTe2) : this;
   }
   
   @Override
@@ -188,7 +188,7 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
     
     result.append("\"route1\"=" + prettyPrintValue(fRoute1) + ", ");
     
-    result.append("\"route3\"=" + prettyPrintValue(fRoute3) + ", ");
+    result.append("\"route2\"=" + prettyPrintValue(fRoute2) + ", ");
     
     result.append("\"sensor1\"=" + prettyPrintValue(fSensor1) + ", ");
     
@@ -207,7 +207,7 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
     int result = 1;
     result = prime * result + ((fSemaphore == null) ? 0 : fSemaphore.hashCode());
     result = prime * result + ((fRoute1 == null) ? 0 : fRoute1.hashCode());
-    result = prime * result + ((fRoute3 == null) ? 0 : fRoute3.hashCode());
+    result = prime * result + ((fRoute2 == null) ? 0 : fRoute2.hashCode());
     result = prime * result + ((fSensor1 == null) ? 0 : fSensor1.hashCode());
     result = prime * result + ((fSensor2 == null) ? 0 : fSensor2.hashCode());
     result = prime * result + ((fTe1 == null) ? 0 : fTe1.hashCode());
@@ -236,8 +236,8 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
     else if (!fSemaphore.equals(other.fSemaphore)) return false;
     if (fRoute1 == null) {if (other.fRoute1 != null) return false;}
     else if (!fRoute1.equals(other.fRoute1)) return false;
-    if (fRoute3 == null) {if (other.fRoute3 != null) return false;}
-    else if (!fRoute3.equals(other.fRoute3)) return false;
+    if (fRoute2 == null) {if (other.fRoute2 != null) return false;}
+    else if (!fRoute2.equals(other.fRoute2)) return false;
     if (fSensor1 == null) {if (other.fSensor1 != null) return false;}
     else if (!fSensor1.equals(other.fSensor1)) return false;
     if (fSensor2 == null) {if (other.fSensor2 != null) return false;}
@@ -276,7 +276,7 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
    * 
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -284,8 +284,8 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
    * @return the new, mutable (partial) match object.
    * 
    */
-  public static SemaphoreNeighborMatch newMutableMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return new Mutable(pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2);
+  public static SemaphoreNeighborMatch newMutableMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return new Mutable(pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2);
   }
   
   /**
@@ -294,7 +294,7 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
    * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
    * @param pSemaphore the fixed value of pattern parameter semaphore, or null if not bound.
    * @param pRoute1 the fixed value of pattern parameter route1, or null if not bound.
-   * @param pRoute3 the fixed value of pattern parameter route3, or null if not bound.
+   * @param pRoute2 the fixed value of pattern parameter route2, or null if not bound.
    * @param pSensor1 the fixed value of pattern parameter sensor1, or null if not bound.
    * @param pSensor2 the fixed value of pattern parameter sensor2, or null if not bound.
    * @param pTe1 the fixed value of pattern parameter te1, or null if not bound.
@@ -302,13 +302,13 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
    * @return the (partial) match object.
    * 
    */
-  public static SemaphoreNeighborMatch newMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-    return new Immutable(pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2);
+  public static SemaphoreNeighborMatch newMatch(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+    return new Immutable(pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2);
   }
   
   private static final class Mutable extends SemaphoreNeighborMatch {
-    Mutable(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-      super(pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2);
+    Mutable(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+      super(pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2);
     }
     
     @Override
@@ -318,8 +318,8 @@ public abstract class SemaphoreNeighborMatch extends BasePatternMatch {
   }
   
   private static final class Immutable extends SemaphoreNeighborMatch {
-    Immutable(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute3, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
-      super(pSemaphore, pRoute1, pRoute3, pSensor1, pSensor2, pTe1, pTe2);
+    Immutable(final Semaphore pSemaphore, final Route pRoute1, final Route pRoute2, final Sensor pSensor1, final Sensor pSensor2, final TrackElement pTe1, final TrackElement pTe2) {
+      super(pSemaphore, pRoute1, pRoute2, pSensor1, pSensor2, pTe1, pTe2);
     }
     
     @Override

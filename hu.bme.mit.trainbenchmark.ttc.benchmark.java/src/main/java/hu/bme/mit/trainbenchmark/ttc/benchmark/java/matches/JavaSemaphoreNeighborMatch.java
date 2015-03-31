@@ -8,10 +8,10 @@ import hu.bme.mit.trainbenchmark.ttc.railway.TrackElement;
 
 public class JavaSemaphoreNeighborMatch extends JavaMatch {
 
-	public JavaSemaphoreNeighborMatch(final Semaphore semaphore, final Route route1, final Route route3, final Sensor sensor1,
+	public JavaSemaphoreNeighborMatch(final Semaphore semaphore, final Route route1, final Route route2, final Sensor sensor1,
 			final Sensor sensor2, final TrackElement te1, final TrackElement te2) {
 		super();
-		match = new RailwayElement[] { semaphore, route1, route3, sensor1, sensor2, te1, te2 };
+		match = new RailwayElement[] { semaphore, route1, route2, sensor1, sensor2, te1, te2 };
 	}
 
 	public Semaphore getSemaphore() {
@@ -22,7 +22,7 @@ public class JavaSemaphoreNeighborMatch extends JavaMatch {
 		return (Route) match[1];
 	}
 
-	public Route getRoute3() {
+	public Route getRoute2() {
 		return (Route) match[2];
 	}
 
