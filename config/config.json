@@ -17,7 +17,8 @@
     "SemaphoreNeighbor"
   ],
   "Tools": [
-    "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery",
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.atl"
   ],
   "ChangeSets": [
     "fixed",
