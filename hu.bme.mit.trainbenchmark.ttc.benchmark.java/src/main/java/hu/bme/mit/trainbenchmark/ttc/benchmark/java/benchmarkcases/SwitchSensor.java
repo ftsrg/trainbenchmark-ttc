@@ -32,8 +32,11 @@ public class SwitchSensor extends JavaBenchmarkCase<JavaSwitchSensorMatch> {
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
 
+			// (Switch)
 			if (eObject instanceof Switch) {
 				final Switch sw = (Switch) eObject;
+
+				// (Switch)-[sensor]->() NAC
 				if (sw.getSensor() == null) {
 					matches.add(new JavaSwitchSensorMatch(sw));
 				}

@@ -71,7 +71,7 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMa
 						continue;
 					}
 
-					// NEG (route2)-[entry]->(semaphore)
+					// (route2)-[entry]->(semaphore) NAC
 					if (!semaphore.equals(route2.getEntry())) {
 						matches.add(new JavaSemaphoreNeighborMatch(semaphore, route1, route2, sensor1, sensor2, te1, te2));
 						return;

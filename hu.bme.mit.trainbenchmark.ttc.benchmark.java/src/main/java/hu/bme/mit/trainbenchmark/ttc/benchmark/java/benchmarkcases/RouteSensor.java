@@ -36,14 +36,19 @@ public class RouteSensor extends JavaBenchmarkCase<JavaRouteSensorMatch> {
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
 
+			// (Sensor)
 			if (eObject instanceof Sensor) {
 				final Sensor sensor = (Sensor) eObject;
+				// (Sensor)<-[sensor]-(Switch)
 				for (final TrackElement te : sensor.getElements()) {
 					if (te instanceof Switch) {
 						final Switch sw = (Switch) te;
+						// (Switch)<-[switch]-(SwitchPosition)
 						for (final SwitchPosition swP : sw.getPositions()) {
-							if (!swP.getRoute().getDefinedBy().contains(sensor)) {
-								final Route route = swP.getRoute();
+							// (SwitchPosition)<-[follows]-(Route)
+							final Route route = swP.getRoute();
+							// (Route)-[definedBy]->(Sensor) NAC
+							if (!route.getDefinedBy().contains(sensor)) {
 								final JavaRouteSensorMatch match = new JavaRouteSensorMatch(route, sensor, swP, sw);
 								matches.add(match);
 							}

@@ -36,15 +36,21 @@ public class SwitchSet extends JavaBenchmarkCase<JavaSwitchSetMatch> {
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
 
+			// (Route)
 			if (eObject instanceof Route) {
 				final Route route = (Route) eObject;
+				// (Route)-[entry]->(semaphore)
 				final Semaphore semaphore = route.getEntry();
 				if (semaphore == null) {
 					continue;
 				}
+				// semaphore.signal == GO
 				if (semaphore.getSignal() == Signal.GO) {
+					// (Route)-[follows]->(SwitchPosition)
 					for (final SwitchPosition switchPosition : route.getFollows()) {
+						// (SwitchPosition)-[switch]->(Switch)
 						final Switch sw = switchPosition.getSwitch();
+						// sw.currentPosition != swP.position
 						if (sw.getCurrentPosition() != switchPosition.getPosition()) {
 							matches.add(new JavaSwitchSetMatch(semaphore, route, switchPosition, sw));
 						}

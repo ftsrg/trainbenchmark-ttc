@@ -32,10 +32,13 @@ public class PosLength extends JavaBenchmarkCase<JavaPosLengthMatch> {
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
 		
+			// (Segment)
 			if (eObject instanceof Segment) {
 				final Segment segment = (Segment) eObject;
-				if (segment.getLength() <= 0)
+				// Segment.length <= 0
+				if (segment.getLength() <= 0) {
 					matches.add(new JavaPosLengthMatch(segment));
+				}
 			}
 		}
 		
