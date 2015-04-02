@@ -32,7 +32,7 @@ The `config` directory contains the configuration for the scripts:
 
 ### Generating instance models
 
-Set the `maxSize` variable to the desired value and run the `generate.sh` script. With enough memory (`-Xmx2G` or more), the models from size `1` to size `512` are generated in about 5 minutes.
+Set the `maxSize` variable to the desired value and run the `run.py -g` script. With enough memory (`-Xmx2G` or more), the models from size `1` to size `512` are generated in about 5 minutes.
 
 ### Running the benchmark
 
@@ -48,7 +48,7 @@ Make sure you read the `README.md` file in the `reporting` directory and install
 
 It is recommended to start with an Eclipse distribution tailored to developing EMF-based applications, e.g. Eclipse Modeling.
 
-If you'd like to try the EMF-IncQuery implementation, it is recommended to use Eclipse Luna. There are two ways to resolve the dependencies:
+If you'd like to try the EMF-IncQuery implementation, it is recommended to use **Eclipse Luna**. There are two ways to resolve the dependencies:
 
 1. **Maven dependencies** (`pom.xml` files). This requires the m2e Eclipse plugin (this is included in Eclipse for Java developers but is not included in Modeling distribution). The m2e plugin can be installed from the the update site of your release (Kepler/Luna).
 2. **Plug-in dependencies** (`MANIFEST.MF` files).
@@ -60,3 +60,7 @@ In general, we recommend to stick to your proven build solution, else you may sp
 ## Implementing the benchmark for a new tool
 
 To implement a tool, it is recommended to start from an existing implementation. Please implement your own  [benchmark logic](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/JavaBenchmarkLogic.java) and [benchmark case factory](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/benchmarkcases/JavaBenchmarkCaseFactory.java) which instantiates the classes for each query defined in the benchmark.
+
+## Naming conventions
+
+To avoid confusion between the different implementations, we decided to use the [Smurf Naming convention](http://blog.codinghorror.com/new-programming-jargon/) (see #21). This way, the classes in the Java implementation are named `JavaBenchmarkCase`, `JavaPosLength`, `JavaPosLengthMatch`, `JavaPosLengthTransformation`, while the classes in the EMF-IncQuery implementation are named `EMFIncQueryBenchmarkCase`, `EMFIncQueryPosLength`, etc. We found that relying on the package names to differentiate the `hu.bme.mit.trainbenchmark.ttc.benchmark.java.BenchmarkCase` and the `hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.BenchmarkCase` classes is error-prone and should be avoided.
