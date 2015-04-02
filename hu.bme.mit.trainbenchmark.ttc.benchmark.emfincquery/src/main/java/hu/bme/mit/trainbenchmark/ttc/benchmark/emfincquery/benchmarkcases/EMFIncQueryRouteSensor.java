@@ -10,7 +10,7 @@ import java.util.HashSet;
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-public class RouteSensor extends EMFIncQueryBenchmarkCase<RouteSensorMatch> {
+public class EMFIncQueryRouteSensor extends EMFIncQueryBenchmarkCase<RouteSensorMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {

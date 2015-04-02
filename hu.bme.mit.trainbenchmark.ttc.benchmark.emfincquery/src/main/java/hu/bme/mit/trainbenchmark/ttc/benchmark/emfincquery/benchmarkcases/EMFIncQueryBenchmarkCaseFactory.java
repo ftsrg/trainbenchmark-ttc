@@ -19,15 +19,15 @@ public class EMFIncQueryBenchmarkCaseFactory {
 	public AbstractBenchmarkCase create(final String query) {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
-			return new PosLength();
+			return new EMFIncQueryPosLength();
 		case QueryConstants.ROUTESENSOR:
-			return new RouteSensor();
+			return new EMFIncQueryRouteSensor();
 		case QueryConstants.SWITCHSENSOR:
-			return new SwitchSensor();
+			return new EMFIncQuerySwitchSensor();
 		case QueryConstants.SEMAPHORENEIGHBOR:
-			return new SemaphoreNeighbor();
+			return new EMFIncQuerySemaphoreNeighbor();
 		case QueryConstants.SWITCHSET:
-			return new SwitchSet();
+			return new EMFIncQuerySwitchSet();
 		default:
 			throw new IllegalArgumentException();
 		}

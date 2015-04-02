@@ -18,10 +18,6 @@ public abstract class EMFBenchmarkCase extends AbstractBenchmarkCase {
 	protected Resource resource;
 	
 	@Override
-	protected void registerComparator() {
-	}
-	
-	@Override
 	public void read() throws IOException {
 		RailwayPackageImpl.init();
 

@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-public class PosLength extends EMFIncQueryBenchmarkCase<PosLengthMatch> {
+public class EMFIncQueryPosLength extends EMFIncQueryBenchmarkCase<PosLengthMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {

@@ -25,7 +25,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMatch> {
+public class JavaSemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMatch> {
 
 	@Override
 	protected Collection<Object> check() {

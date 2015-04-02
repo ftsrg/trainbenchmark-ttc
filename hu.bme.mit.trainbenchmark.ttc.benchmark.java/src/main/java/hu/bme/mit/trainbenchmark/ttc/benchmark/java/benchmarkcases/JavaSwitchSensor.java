@@ -12,9 +12,9 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaPosLengthMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.java.transformation.JavaPosLengthTransformation;
-import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaSwitchSensorMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.transformation.JavaSwitchSensorTransformation;
+import hu.bme.mit.trainbenchmark.ttc.railway.Switch;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,32 +22,33 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class PosLength extends JavaBenchmarkCase<JavaPosLengthMatch> {
+public class JavaSwitchSensor extends JavaBenchmarkCase<JavaSwitchSensorMatch> {
 
 	@Override
 	protected Collection<Object> check() {
 		matches = new ArrayList<>();
-		
+
 		final TreeIterator<EObject> contents = container.eAllContents();	
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
-		
-			// (Segment)
-			if (eObject instanceof Segment) {
-				final Segment segment = (Segment) eObject;
-				// Segment.length <= 0
-				if (segment.getLength() <= 0) {
-					matches.add(new JavaPosLengthMatch(segment));
+
+			// (Switch)
+			if (eObject instanceof Switch) {
+				final Switch sw = (Switch) eObject;
+
+				// (Switch)-[sensor]->() NAC
+				if (sw.getSensor() == null) {
+					matches.add(new JavaSwitchSensorMatch(sw));
 				}
 			}
 		}
-		
+
 		return matches;
 	}
 
 	@Override
 	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
-		final JavaPosLengthTransformation transformation = new JavaPosLengthTransformation();
+		final JavaSwitchSensorTransformation transformation = new JavaSwitchSensorTransformation();
 		transformation.transform(matches, nElementsToModify);
 	}
 	

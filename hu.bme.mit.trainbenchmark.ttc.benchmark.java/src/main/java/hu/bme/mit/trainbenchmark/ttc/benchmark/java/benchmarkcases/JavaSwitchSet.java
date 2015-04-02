@@ -26,7 +26,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SwitchSet extends JavaBenchmarkCase<JavaSwitchSetMatch> {
+public class JavaSwitchSet extends JavaBenchmarkCase<JavaSwitchSetMatch> {
 
 	@Override
 	protected Collection<Object> check() {

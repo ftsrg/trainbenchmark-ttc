@@ -35,4 +35,9 @@ public abstract class JavaMatch {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "JavaMatch [match=" + Arrays.toString(match) + "]";
+	}
+
 }

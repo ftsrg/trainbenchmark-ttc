@@ -10,7 +10,7 @@ import java.util.HashSet;
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-public class SwitchSet extends EMFIncQueryBenchmarkCase<SwitchSetMatch> {
+public class EMFIncQuerySwitchSet extends EMFIncQueryBenchmarkCase<SwitchSetMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {

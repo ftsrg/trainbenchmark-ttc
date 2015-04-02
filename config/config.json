@@ -1,17 +1,17 @@
 {
   "MinSize": 1,
-  "MaxSize": 4,
+  "MaxSize": 256,
   "Queries": [
     "PosLength",
-    "SwitchSensor"
+    "RouteSensor",
+    "SemaphoreNeighbor",
+    "SwitchSensor",
+    "SwitchSet"
   ],
   "_Comment": "The _AllQueries field is not used by the framework.",
   "_AllQueries": [
-    "RouteSensor",
-    "SemaphoreNeighbor",
-    "SwitchSet"
   ],
-  "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"],
+  "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.java","hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"],
   "ChangeSets": [
     "fixed",
     "proportional"

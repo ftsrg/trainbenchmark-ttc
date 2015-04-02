@@ -10,7 +10,7 @@ import java.util.HashSet;
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
-public class SemaphoreNeighbor extends EMFIncQueryBenchmarkCase<SemaphoreNeighborMatch> {
+public class EMFIncQuerySemaphoreNeighbor extends EMFIncQueryBenchmarkCase<SemaphoreNeighborMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {

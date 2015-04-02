@@ -26,8 +26,8 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class RouteSensor extends JavaBenchmarkCase<JavaRouteSensorMatch> {
-
+public class JavaRouteSensor extends JavaBenchmarkCase<JavaRouteSensorMatch> {
+	
 	@Override
 	protected Collection<Object> check() {
 		matches = new ArrayList<>();

@@ -13,7 +13,13 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches.JavaMatchComparator;
 
 public abstract class JavaBenchmarkCase<T> extends EMFBenchmarkCase {
+	
+	@Override
+	protected void registerComparator() {
+		comparator = new JavaMatchComparator();
+	}
 	
 }
