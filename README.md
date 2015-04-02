@@ -14,7 +14,7 @@
 
 ## Platform dependencies
 
-1. Install Maven 3 and make sure it is on your path (`mvn --version`).
+1. Install Maven 3 and make sure it is on your path (check with `mvn --version`).
 1. Make sure you have Python 3 installed.
 
 ## Using the framework
