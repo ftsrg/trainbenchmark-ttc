@@ -61,6 +61,17 @@ In general, we recommend to stick to your proven build solution, else you may sp
 
 To implement a tool, it is recommended to start from an existing implementation. Please implement your own  [benchmark logic](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/JavaBenchmarkLogic.java) and [benchmark case factory](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/benchmarkcases/JavaBenchmarkCaseFactory.java) which instantiates the classes for each query defined in the benchmark.
 
-## Naming conventions
+### Comparators
 
-To avoid confusion between the different implementations, we decided to use the [Smurf Naming convention](http://blog.codinghorror.com/new-programming-jargon/) (see #21). This way, the classes in the Java implementation are named `JavaBenchmarkCase`, `JavaPosLength`, `JavaPosLengthMatch`, `JavaPosLengthTransformation`, while the classes in the EMF-IncQuery implementation are named `EMFIncQueryBenchmarkCase`, `EMFIncQueryPosLength`, etc. We found that relying on the package names to differentiate the `hu.bme.mit.trainbenchmark.ttc.benchmark.java.BenchmarkCase` and the `hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.BenchmarkCase` classes is error-prone and should be avoided.
+For implementing a match comparator, we recommend two approaches:
+* If the matches are represented in a tuple-like collection, they can be compared by iterating through the collection and comparing each elements in the tuple. Example: the [EMFIncQueryBenchmarkComparator](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/emfincquery/matches/EMFIncQueryBenchmarkComparator.java) class.
+* Use [ComparisonChain](http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/collect/ComparisonChain.html) class in Google Guava to compare the model elements in the matches. Example: the [JavaRouteSensorMatchComparator](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/matches/JavaRouteSensorMatchComparator.java) class.
+
+### Naming conventions
+
+To avoid confusion between the different implementations, we decided to use the [Smurf Naming convention](http://blog.codinghorror.com/new-programming-jargon/) (see #21). This way, the classes in the Java implementation are named `JavaBenchmarkCase`, `JavaPosLength`, `JavaPosLengthMatch`, `JavaPosLengthTransformation`, while the classes in the EMF-IncQuery implementation are named `EMFIncQueryBenchmarkCase`, `EMFIncQueryPosLength`, etc. We found that relying on the package names to differentiate class names like
+
+* `hu.bme.mit.trainbenchmark.ttc.benchmark.java.BenchmarkCase` and 
+* `hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.BenchmarkCase`
+
+is error-prone and should be avoided.
