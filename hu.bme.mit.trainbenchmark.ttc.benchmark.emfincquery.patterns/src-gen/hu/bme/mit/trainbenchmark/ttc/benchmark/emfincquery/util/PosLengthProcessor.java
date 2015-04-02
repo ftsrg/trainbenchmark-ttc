@@ -15,13 +15,12 @@ public abstract class PosLengthProcessor implements IMatchProcessor<PosLengthMat
   /**
    * Defines the action that is to be executed on each match.
    * @param pSegment the value of pattern parameter segment in the currently processed match
-   * @param pLength the value of pattern parameter length in the currently processed match
    * 
    */
-  public abstract void process(final Segment pSegment, final Integer pLength);
+  public abstract void process(final Segment pSegment);
   
   @Override
   public void process(final PosLengthMatch match) {
-    process(match.getSegment(), match.getLength());
+    process(match.getSegment());
   }
 }

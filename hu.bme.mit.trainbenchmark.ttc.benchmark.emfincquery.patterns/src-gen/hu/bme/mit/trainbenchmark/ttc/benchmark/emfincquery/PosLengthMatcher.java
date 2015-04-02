@@ -27,7 +27,7 @@ import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
  * 
  * <p>Original source:
  * <code><pre>
- * pattern PosLength(segment, length)
+ * pattern PosLength(segment)
  * {
  * 	Segment.length(segment, length);
  * 	check(length {@literal <}= 0);
@@ -60,8 +60,6 @@ public class PosLengthMatcher extends BaseMatcher<PosLengthMatch> {
   }
   
   private final static int POSITION_SEGMENT = 0;
-  
-  private final static int POSITION_LENGTH = 1;
   
   private final static Logger LOGGER = IncQueryLoggingUtil.getLogger(PosLengthMatcher.class);
   
@@ -99,71 +97,65 @@ public class PosLengthMatcher extends BaseMatcher<PosLengthMatch> {
   /**
    * Returns the set of all matches of the pattern that conform to the given fixed values of some parameters.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return matches represented as a PosLengthMatch object.
    * 
    */
-  public Collection<PosLengthMatch> getAllMatches(final Segment pSegment, final Integer pLength) {
-    return rawGetAllMatches(new Object[]{pSegment, pLength});
+  public Collection<PosLengthMatch> getAllMatches(final Segment pSegment) {
+    return rawGetAllMatches(new Object[]{pSegment});
   }
   
   /**
    * Returns an arbitrarily chosen match of the pattern that conforms to the given fixed values of some parameters.
    * Neither determinism nor randomness of selection is guaranteed.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return a match represented as a PosLengthMatch object, or null if no match is found.
    * 
    */
-  public PosLengthMatch getOneArbitraryMatch(final Segment pSegment, final Integer pLength) {
-    return rawGetOneArbitraryMatch(new Object[]{pSegment, pLength});
+  public PosLengthMatch getOneArbitraryMatch(final Segment pSegment) {
+    return rawGetOneArbitraryMatch(new Object[]{pSegment});
   }
   
   /**
    * Indicates whether the given combination of specified pattern parameters constitute a valid pattern match,
    * under any possible substitution of the unspecified parameters (if any).
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return true if the input is a valid (partial) match of the pattern.
    * 
    */
-  public boolean hasMatch(final Segment pSegment, final Integer pLength) {
-    return rawHasMatch(new Object[]{pSegment, pLength});
+  public boolean hasMatch(final Segment pSegment) {
+    return rawHasMatch(new Object[]{pSegment});
   }
   
   /**
    * Returns the number of all matches of the pattern that conform to the given fixed values of some parameters.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return the number of pattern matches found.
    * 
    */
-  public int countMatches(final Segment pSegment, final Integer pLength) {
-    return rawCountMatches(new Object[]{pSegment, pLength});
+  public int countMatches(final Segment pSegment) {
+    return rawCountMatches(new Object[]{pSegment});
   }
   
   /**
    * Executes the given processor on each match of the pattern that conforms to the given fixed values of some parameters.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @param processor the action that will process each pattern match.
    * 
    */
-  public void forEachMatch(final Segment pSegment, final Integer pLength, final IMatchProcessor<? super PosLengthMatch> processor) {
-    rawForEachMatch(new Object[]{pSegment, pLength}, processor);
+  public void forEachMatch(final Segment pSegment, final IMatchProcessor<? super PosLengthMatch> processor) {
+    rawForEachMatch(new Object[]{pSegment}, processor);
   }
   
   /**
    * Executes the given processor on an arbitrarily chosen match of the pattern that conforms to the given fixed values of some parameters.
    * Neither determinism nor randomness of selection is guaranteed.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @param processor the action that will process the selected match.
    * @return true if the pattern has at least one match with the given parameter values, false if the processor was not invoked
    * 
    */
-  public boolean forOneArbitraryMatch(final Segment pSegment, final Integer pLength, final IMatchProcessor<? super PosLengthMatch> processor) {
-    return rawForOneArbitraryMatch(new Object[]{pSegment, pLength}, processor);
+  public boolean forOneArbitraryMatch(final Segment pSegment, final IMatchProcessor<? super PosLengthMatch> processor) {
+    return rawForOneArbitraryMatch(new Object[]{pSegment}, processor);
   }
   
   /**
@@ -171,12 +163,11 @@ public class PosLengthMatcher extends BaseMatcher<PosLengthMatch> {
    * This can be used e.g. to call the matcher with a partial match.
    * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return the (partial) match object.
    * 
    */
-  public PosLengthMatch newMatch(final Segment pSegment, final Integer pLength) {
-    return PosLengthMatch.newMatch(pSegment, pLength);
+  public PosLengthMatch newMatch(final Segment pSegment) {
+    return PosLengthMatch.newMatch(pSegment);
   }
   
   /**
@@ -199,72 +190,10 @@ public class PosLengthMatcher extends BaseMatcher<PosLengthMatch> {
     return rawAccumulateAllValuesOfsegment(emptyArray());
   }
   
-  /**
-   * Retrieve the set of values that occur in matches for segment.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Segment> getAllValuesOfsegment(final PosLengthMatch partialMatch) {
-    return rawAccumulateAllValuesOfsegment(partialMatch.toArray());
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for segment.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Segment> getAllValuesOfsegment(final Integer pLength) {
-    return rawAccumulateAllValuesOfsegment(new Object[]{
-    null, 
-    pLength
-    });
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for length.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  protected Set<Integer> rawAccumulateAllValuesOflength(final Object[] parameters) {
-    Set<Integer> results = new HashSet<Integer>();
-    rawAccumulateAllValues(POSITION_LENGTH, parameters, results);
-    return results;
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for length.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Integer> getAllValuesOflength() {
-    return rawAccumulateAllValuesOflength(emptyArray());
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for length.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Integer> getAllValuesOflength(final PosLengthMatch partialMatch) {
-    return rawAccumulateAllValuesOflength(partialMatch.toArray());
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for length.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Integer> getAllValuesOflength(final Segment pSegment) {
-    return rawAccumulateAllValuesOflength(new Object[]{
-    pSegment, 
-    null
-    });
-  }
-  
   @Override
   protected PosLengthMatch tupleToMatch(final Tuple t) {
     try {
-    	return PosLengthMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) t.get(POSITION_SEGMENT), (java.lang.Integer) t.get(POSITION_LENGTH));
+    	return PosLengthMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) t.get(POSITION_SEGMENT));
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in tuple not properly typed!",e);
     	return null;
@@ -274,7 +203,7 @@ public class PosLengthMatcher extends BaseMatcher<PosLengthMatch> {
   @Override
   protected PosLengthMatch arrayToMatch(final Object[] match) {
     try {
-    	return PosLengthMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) match[POSITION_SEGMENT], (java.lang.Integer) match[POSITION_LENGTH]);
+    	return PosLengthMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) match[POSITION_SEGMENT]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
@@ -284,7 +213,7 @@ public class PosLengthMatcher extends BaseMatcher<PosLengthMatch> {
   @Override
   protected PosLengthMatch arrayToMatchMutable(final Object[] match) {
     try {
-    	return PosLengthMatch.newMutableMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) match[POSITION_SEGMENT], (java.lang.Integer) match[POSITION_LENGTH]);
+    	return PosLengthMatch.newMutableMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) match[POSITION_SEGMENT]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
