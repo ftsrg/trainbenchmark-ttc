@@ -78,5 +78,5 @@ is error-prone and should be avoided.
 
 ## Troubleshooting
 
-* **Problem:** some users reported that loading the model hangs in the `getResource()` EMF method. We were not able to reproduce this -- please raise an issue if you can.
+* **Problem:** some users reported that loading the model hangs in the `getResource()` EMF method. We were not able to reproduce this -- please raise an issue if this problem occurs on your configuration.
 * **Solution:** a workaround is to add the `-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false` argument to the JVM arguments.
