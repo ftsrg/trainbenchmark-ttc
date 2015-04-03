@@ -4,6 +4,8 @@
 
 **Note.** Although closely related, this repository is not to be confused with the `trainbenchmark` repository which is a benchmark framework for comparing various database management tools, including triplestores, relational databases and graph databases.
 
+## Case description
+
 The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/paper/trainbenchmark-ttc.pdf), while the [latest compile](https://www.sharelatex.com/github/repos/FTSRG/trainbenchmark-ttc-paper/builds/latest/output.pdf)  is also available.
 
 ## Prerequisites
@@ -40,7 +42,7 @@ The script runs the benchmark for the given number of runs, for the specified to
 
 The benchmark results are stored in a TSV (tab-separated values) file. The header for the TSV file is stored in the `output/header.tsv` file. 
 
-## Reporting and Visualization
+## Reporting and visualization
 
 Make sure you read the `README.md` file in the `reporting` directory and install all the requirements for R.
 
