@@ -4,7 +4,7 @@
 
 **Note.** Although closely related, this repository is not to be confused with the `trainbenchmark` repository which is a benchmark framework for comparing various database management tools, including triplestores, relational databases and graph databases.
 
-[Case description](https://www.sharelatex.com/github/repos/FTSRG/trainbenchmark-ttc-paper/builds/latest/output.pdf) (preliminary version)
+The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/paper/trainbenchmark-ttc.pdf), while the [latest compile](https://www.sharelatex.com/github/repos/FTSRG/trainbenchmark-ttc-paper/builds/latest/output.pdf)  is also available.
 
 ## Prerequisites
 
