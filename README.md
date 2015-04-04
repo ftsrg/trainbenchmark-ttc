@@ -63,7 +63,13 @@ In general, we recommend to stick to your proven build solution, else you may sp
 
 To implement a tool, it is recommended to start from an existing implementation. Please implement your own  [benchmark logic](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/JavaBenchmarkLogic.java) and [benchmark case factory](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.java/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/java/benchmarkcases/JavaBenchmarkCaseFactory.java) which instantiates the classes for each query defined in the benchmark.
 
-### Comparators
+### Matches
+
+In order to make the fewest assumptions on the specific implementations, the pattern matches are stored in the variable `matches` declared as a `Collection<Object>` (see the [AbstractBenchmarkCase](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/benchmarkcases/AbstractBenchmarkCase.java) class). The framework requires the `matches` collection to be unique.
+
+#### Comparators
+
+To enable a consistent ordering of the matches, the framework requires a comparator class. Section 2.4.2 ("Ordering of the Match Set") in the [case description](#case-description) defines the rules of the ordering.
 
 For implementing a match comparator, we recommend two approaches:
 * If the matches are represented in a tuple-like collection, they can be compared by iterating through the collection and comparing each elements in the tuple. Example: the [EMFIncQueryBenchmarkComparator](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery/src/main/java/hu/bme/mit/trainbenchmark/ttc/benchmark/emfincquery/matches/EMFIncQueryBenchmarkComparator.java) class.
