@@ -9,7 +9,7 @@ import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 /**
- * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength pattern,
+ * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength pattern,
  * to be used in conjunction with {@link PosLengthMatcher}.
  * 
  * <p>Class fields correspond to parameters of the pattern. Fields with value null are considered unassigned.
@@ -58,7 +58,7 @@ public abstract class PosLengthMatch extends BasePatternMatch {
   
   @Override
   public String patternName() {
-    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength";
+    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength";
   }
   
   @Override

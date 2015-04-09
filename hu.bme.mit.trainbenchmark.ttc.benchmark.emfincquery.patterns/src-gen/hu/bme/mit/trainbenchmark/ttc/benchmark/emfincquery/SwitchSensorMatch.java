@@ -9,7 +9,7 @@ import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 /**
- * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensor pattern,
+ * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.switchSensor pattern,
  * to be used in conjunction with {@link SwitchSensorMatcher}.
  * 
  * <p>Class fields correspond to parameters of the pattern. Fields with value null are considered unassigned.
@@ -58,7 +58,7 @@ public abstract class SwitchSensorMatch extends BasePatternMatch {
   
   @Override
   public String patternName() {
-    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensor";
+    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.switchSensor";
   }
   
   @Override

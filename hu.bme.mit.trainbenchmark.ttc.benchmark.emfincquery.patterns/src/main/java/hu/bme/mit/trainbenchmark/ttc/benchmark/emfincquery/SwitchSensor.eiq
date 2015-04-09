@@ -2,7 +2,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery
 
 import "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark" 
 
-pattern SwitchSensor(sw)
+pattern switchSensor(sw)
 {
 	Switch(sw);
 	neg find hasSensor(sw);	

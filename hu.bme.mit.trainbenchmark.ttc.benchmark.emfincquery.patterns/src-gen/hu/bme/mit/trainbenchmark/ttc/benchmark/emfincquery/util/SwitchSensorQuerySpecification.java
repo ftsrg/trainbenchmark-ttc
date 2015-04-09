@@ -74,7 +74,7 @@ public final class SwitchSensorQuerySpecification extends BaseGeneratedEMFQueryS
     
     @Override
     public String getFullyQualifiedName() {
-      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensor";
+      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.switchSensor";
     }
     
     @Override

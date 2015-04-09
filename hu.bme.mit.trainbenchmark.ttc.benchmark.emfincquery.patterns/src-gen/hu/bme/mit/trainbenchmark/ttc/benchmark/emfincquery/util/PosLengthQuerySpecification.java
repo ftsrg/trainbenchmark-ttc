@@ -74,7 +74,7 @@ public final class PosLengthQuerySpecification extends BaseGeneratedEMFQuerySpec
     
     @Override
     public String getFullyQualifiedName() {
-      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength";
+      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength";
     }
     
     @Override
@@ -103,7 +103,7 @@ public final class PosLengthQuerySpecification extends BaseGeneratedEMFQuerySpec
       	
       	@Override
       	public String getShortDescription() {
-      		return "Expression evaluation from pattern PosLength";
+      		return "Expression evaluation from pattern posLength";
       	}
       
       	@Override

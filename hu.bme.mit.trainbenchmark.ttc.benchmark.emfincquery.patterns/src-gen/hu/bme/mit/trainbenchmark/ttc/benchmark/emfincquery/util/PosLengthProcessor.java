@@ -5,7 +5,7 @@ import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
 import org.eclipse.incquery.runtime.api.IMatchProcessor;
 
 /**
- * A match processor tailored for the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength pattern.
+ * A match processor tailored for the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength pattern.
  * 
  * Clients should derive an (anonymous) class that implements the abstract process().
  * 

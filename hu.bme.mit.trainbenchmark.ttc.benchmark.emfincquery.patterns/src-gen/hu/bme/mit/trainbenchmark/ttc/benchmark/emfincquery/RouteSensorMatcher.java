@@ -20,7 +20,7 @@ import org.eclipse.incquery.runtime.matchers.tuple.Tuple;
 import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
 
 /**
- * Generated pattern matcher API of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensor pattern,
+ * Generated pattern matcher API of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.routeSensor pattern,
  * providing pattern-specific query methods.
  * 
  * <p>Use the pattern matcher on a given model via {@link #on(IncQueryEngine)},
@@ -30,7 +30,7 @@ import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
  * 
  * <p>Original source:
  * <code><pre>
- * pattern RouteSensor(route, sensor, switchPosition, sw)
+ * pattern routeSensor(route, sensor, switchPosition, sw)
  * {
  * 	Route.follows(route, switchPosition);
  * 	SwitchPosition.^switch(switchPosition, sw);

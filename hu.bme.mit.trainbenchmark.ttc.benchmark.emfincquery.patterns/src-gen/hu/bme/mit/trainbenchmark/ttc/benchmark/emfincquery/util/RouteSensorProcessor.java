@@ -8,7 +8,7 @@ import hu.bme.mit.trainbenchmark.ttc.railway.SwitchPosition;
 import org.eclipse.incquery.runtime.api.IMatchProcessor;
 
 /**
- * A match processor tailored for the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensor pattern.
+ * A match processor tailored for the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.routeSensor pattern.
  * 
  * Clients should derive an (anonymous) class that implements the abstract process().
  * 
