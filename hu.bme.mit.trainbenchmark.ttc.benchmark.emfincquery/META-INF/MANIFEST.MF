@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-SymbolicName: hu.bme.mit.trainbenchmark.benchmark.emfincquery;singleton:=true
+Bundle-SymbolicName: hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns;bundle-version="1.0.0",
  hu.bme.mit.trainbenchmark.ttc.benchmark;bundle-version="1.0.0",
