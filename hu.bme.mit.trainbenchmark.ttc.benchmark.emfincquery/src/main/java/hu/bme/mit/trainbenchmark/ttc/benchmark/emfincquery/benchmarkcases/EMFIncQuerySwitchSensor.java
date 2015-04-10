@@ -38,9 +38,9 @@ public class EMFIncQuerySwitchSensor extends EMFIncQueryBenchmarkCase<SwitchSens
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final EMFIncQuerySwitchSensorTransformation transformation = new EMFIncQuerySwitchSensorTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
-	
+
 }

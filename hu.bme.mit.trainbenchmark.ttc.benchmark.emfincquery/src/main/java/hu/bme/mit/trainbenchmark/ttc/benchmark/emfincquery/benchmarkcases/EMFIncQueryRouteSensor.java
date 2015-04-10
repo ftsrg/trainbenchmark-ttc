@@ -38,9 +38,9 @@ public class EMFIncQueryRouteSensor extends EMFIncQueryBenchmarkCase<RouteSensor
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final EMFIncQueryRouteSensorTransformation transformation = new EMFIncQueryRouteSensorTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
 
 }

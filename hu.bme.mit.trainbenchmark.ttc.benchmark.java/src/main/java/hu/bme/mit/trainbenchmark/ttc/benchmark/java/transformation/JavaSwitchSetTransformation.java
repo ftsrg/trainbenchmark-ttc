@@ -18,7 +18,7 @@ import java.util.Collection;
 public class JavaSwitchSetTransformation extends JavaTransformationAction {
 
 	@Override
-	public void transform(final Collection<Object> matches, final long nElementsToModify) {
+	public void transform(final Collection<Object> matches) {
 		for (final Object match : matches) {
 			final JavaSwitchSetMatch ssm = (JavaSwitchSetMatch) match;
 			ssm.getSw().setCurrentPosition(ssm.getSwitchPosition().getPosition());

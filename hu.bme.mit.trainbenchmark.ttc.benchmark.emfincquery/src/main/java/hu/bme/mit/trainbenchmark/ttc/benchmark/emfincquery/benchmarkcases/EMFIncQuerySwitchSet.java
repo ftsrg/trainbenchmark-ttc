@@ -31,16 +31,16 @@ public class EMFIncQuerySwitchSet extends EMFIncQueryBenchmarkCase<SwitchSetMatc
 		}
 		return matches;
 	}
-	
+
 	@Override
 	protected IncQueryMatcher<SwitchSetMatch> getMatcher() throws IncQueryException {
 		return SwitchSetMatcher.on(engine);
-	}	
+	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final EMFIncQuerySwitchSetTransformation transformation = new EMFIncQuerySwitchSetTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
 
 }

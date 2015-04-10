@@ -18,7 +18,7 @@ import java.util.Collection;
 public class EMFIncQueryPosLengthTransformation extends EMFIncQueryTransformationAction {
 
 	@Override
-	public void transform(final Collection<Object> matches, final long nElementsToModify) {
+	public void transform(final Collection<Object> matches) {
 		for (final Object match : matches) {
 			final PosLengthMatch plm = (PosLengthMatch) match;
 			final int length = plm.getSegment().getLength();

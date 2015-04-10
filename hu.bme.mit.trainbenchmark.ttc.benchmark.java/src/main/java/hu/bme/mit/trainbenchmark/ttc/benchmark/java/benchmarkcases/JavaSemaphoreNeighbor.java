@@ -57,13 +57,13 @@ public class JavaSemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighb
 					if (sensor2 == null) {
 						continue;
 					}
-					
+
 					// reverse navigation on the (sensor2)<-[definedBy]-(route2) edge
 					final EObject container = sensor2.eContainer();
 					if (!(container instanceof Route)) {
 						continue;
 					}
-					
+
 					final Route route2 = (Route) container;
 
 					// route1 != route2
@@ -84,9 +84,9 @@ public class JavaSemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighb
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final JavaSemaphoreNeighborTransformation transformation = new JavaSemaphoreNeighborTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
-	
+
 }

@@ -27,7 +27,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
 public class JavaRouteSensor extends JavaBenchmarkCase<JavaRouteSensorMatch> {
-	
+
 	@Override
 	protected Collection<Object> check() {
 		matches = new ArrayList<>();
@@ -62,9 +62,9 @@ public class JavaRouteSensor extends JavaBenchmarkCase<JavaRouteSensorMatch> {
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
-		 final JavaRouteSensorTransformation transformation = new JavaRouteSensorTransformation();
-		 transformation.transform(matches, nElementsToModify);
+	protected void modify(final Collection<Object> matches) {
+		final JavaRouteSensorTransformation transformation = new JavaRouteSensorTransformation();
+		transformation.transform(matches);
 	}
 
 }

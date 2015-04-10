@@ -27,11 +27,11 @@ public class JavaPosLength extends JavaBenchmarkCase<JavaPosLengthMatch> {
 	@Override
 	protected Collection<Object> check() {
 		matches = new ArrayList<>();
-		
-		final TreeIterator<EObject> contents = container.eAllContents();	
+
+		final TreeIterator<EObject> contents = container.eAllContents();
 		while (contents.hasNext()) {
 			final EObject eObject = contents.next();
-		
+
 			// (Segment)
 			if (eObject instanceof Segment) {
 				final Segment segment = (Segment) eObject;
@@ -41,14 +41,14 @@ public class JavaPosLength extends JavaBenchmarkCase<JavaPosLengthMatch> {
 				}
 			}
 		}
-		
+
 		return matches;
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final JavaPosLengthTransformation transformation = new JavaPosLengthTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
-	
+
 }
