@@ -38,9 +38,9 @@ public class EMFIncQuerySemaphoreNeighbor extends EMFIncQueryBenchmarkCase<Semap
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final EMFIncQuerySemaphoreNeighborTransformation transformation = new EMFIncQuerySemaphoreNeighborTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
 
 }

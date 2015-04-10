@@ -20,7 +20,7 @@ import java.util.Collection;
 public class JavaSwitchSensorTransformation extends JavaTransformationAction {
 
 	@Override
-	public void transform(final Collection<Object> matches, final long nElementsToModify) {
+	public void transform(final Collection<Object> matches) {
 		for (final Object match : matches) {
 			final JavaSwitchSensorMatch ssm = (JavaSwitchSensorMatch) match;
 			final Sensor sensor = RailwayFactory.eINSTANCE.createSensor();

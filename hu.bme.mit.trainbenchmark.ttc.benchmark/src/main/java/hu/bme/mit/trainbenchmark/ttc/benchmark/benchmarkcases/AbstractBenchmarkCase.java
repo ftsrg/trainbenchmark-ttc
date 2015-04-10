@@ -59,7 +59,7 @@ public abstract class AbstractBenchmarkCase {
 
 	protected abstract Collection<Object> check() throws IOException;
 
-	protected abstract void modify(Collection<Object> matches, long nElementsToModify);
+	protected abstract void modify(Collection<Object> matches);
 
 	// generic methods
 
@@ -107,10 +107,10 @@ public abstract class AbstractBenchmarkCase {
 		final Ordering<Object> ordering = Ordering.from(comparator);
 		final List<Object> sortedMatches = ordering.sortedCopy(matches);
 		final List<Object> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
-		
+
 		// we measure the transformation
 		bmr.restartClock();
-		modify(elementsToModify, nElementsToModify);
+		modify(elementsToModify);
 		bmr.addTransformationTime();
 
 		bmr.addTransformationMemory(getMemoryUsage());

@@ -8,10 +8,10 @@
   <extension id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensor" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensor" id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSensor"/>
   </extension>
-  <extension id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSet" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSet" id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSet"/>
-  </extension>
   <extension id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength" id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength"/>
+  </extension>
+  <extension id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSet" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSet" id="hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSet"/>
   </extension>
 </plugin>

@@ -18,7 +18,7 @@ import java.util.Collection;
 public class JavaPosLengthTransformation extends JavaTransformationAction {
 
 	@Override
-	public void transform(final Collection<Object> matches, final long nElementsToModify) {
+	public void transform(final Collection<Object> matches) {
 		for (final Object match : matches) {
 			final JavaPosLengthMatch plm = (JavaPosLengthMatch) match;
 			final int length = plm.getSegment().getLength();

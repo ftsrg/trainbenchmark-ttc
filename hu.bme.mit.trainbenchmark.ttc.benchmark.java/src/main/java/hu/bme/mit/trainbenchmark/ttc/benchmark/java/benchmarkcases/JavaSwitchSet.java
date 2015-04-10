@@ -63,9 +63,9 @@ public class JavaSwitchSet extends JavaBenchmarkCase<JavaSwitchSetMatch> {
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final JavaSwitchSetTransformation transformation = new JavaSwitchSetTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
 
 }

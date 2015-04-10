@@ -30,16 +30,16 @@ public class EMFIncQueryPosLength extends EMFIncQueryBenchmarkCase<PosLengthMatc
 		}
 		return matches;
 	}
-	
+
 	@Override
 	protected PosLengthMatcher getMatcher() throws IncQueryException {
 		return PosLengthMatcher.on(engine);
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final EMFIncQueryPosLengthTransformation transformation = new EMFIncQueryPosLengthTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
-	
+
 }
