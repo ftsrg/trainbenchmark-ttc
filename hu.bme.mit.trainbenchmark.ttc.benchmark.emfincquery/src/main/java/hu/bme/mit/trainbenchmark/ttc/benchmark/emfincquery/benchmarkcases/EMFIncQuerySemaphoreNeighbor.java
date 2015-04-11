@@ -12,21 +12,25 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SemaphoreNeighborMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SemaphoreNeighborMatcher;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation.EMFIncQuerySemaphoreNeighborTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.SemaphoreNeighborQuerySpecification;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.incquery.runtime.localsearch.matcher.integration.LocalSearchBackend;
+import org.eclipse.incquery.runtime.matchers.backend.QueryEvaluationHint;
+
+import com.google.common.collect.Maps;
 
 public class EMFIncQuerySemaphoreNeighbor extends EMFIncQueryBenchmarkCase<SemaphoreNeighborMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {
 		final Collection<Object> matches = new HashSet<>();
-		for (final SemaphoreNeighborMatch match : SemaphoreNeighborMatcher.on(engine).getAllMatches()) {
+		for (final SemaphoreNeighborMatch match : getMatcher().getAllMatches()) {
 			matches.add(match);
 		}
 		return matches;
@@ -34,7 +38,7 @@ public class EMFIncQuerySemaphoreNeighbor extends EMFIncQueryBenchmarkCase<Semap
 
 	@Override
 	protected IncQueryMatcher<SemaphoreNeighborMatch> getMatcher() throws IncQueryException {
-		return SemaphoreNeighborMatcher.on(engine);
+		return engine.getMatcher(SemaphoreNeighborQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));
 	}
 
 	@Override

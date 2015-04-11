@@ -24,6 +24,9 @@ import org.eclipse.incquery.runtime.api.IPatternMatch;
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.emf.EMFScope;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.incquery.runtime.extensibility.QueryBackendRegistry;
+import org.eclipse.incquery.runtime.localsearch.matcher.integration.LocalSearchBackend;
+import org.eclipse.incquery.runtime.localsearch.matcher.integration.LocalSearchBackendFactory;
 import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
 
 public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> extends EMFBenchmarkCase {
@@ -51,6 +54,7 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 		super.read();
 		
 		try {
+			QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class, new LocalSearchBackendFactory());
 			final EMFScope emfScope = new EMFScope(resource);
 			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);
 

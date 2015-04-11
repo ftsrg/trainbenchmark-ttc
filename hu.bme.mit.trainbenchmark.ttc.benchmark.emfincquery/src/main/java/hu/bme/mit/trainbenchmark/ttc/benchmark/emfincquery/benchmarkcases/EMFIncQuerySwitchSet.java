@@ -12,21 +12,25 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSetMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSetMatcher;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation.EMFIncQuerySwitchSetTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.SwitchSetQuerySpecification;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.incquery.runtime.localsearch.matcher.integration.LocalSearchBackend;
+import org.eclipse.incquery.runtime.matchers.backend.QueryEvaluationHint;
+
+import com.google.common.collect.Maps;
 
 public class EMFIncQuerySwitchSet extends EMFIncQueryBenchmarkCase<SwitchSetMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {
 		final Collection<Object> matches = new HashSet<>();
-		for (final SwitchSetMatch match : SwitchSetMatcher.on(engine).getAllMatches()) {
+		for (final SwitchSetMatch match : getMatcher().getAllMatches()) {
 			matches.add(match);
 		}
 		return matches;
@@ -34,7 +38,7 @@ public class EMFIncQuerySwitchSet extends EMFIncQueryBenchmarkCase<SwitchSetMatc
 
 	@Override
 	protected IncQueryMatcher<SwitchSetMatch> getMatcher() throws IncQueryException {
-		return SwitchSetMatcher.on(engine);
+		return engine.getMatcher(SwitchSetQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));
 	}
 
 	@Override
