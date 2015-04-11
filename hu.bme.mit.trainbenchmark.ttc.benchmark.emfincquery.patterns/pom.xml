@@ -10,6 +10,10 @@
 	</parent>
 	<artifactId>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns</artifactId>
 
+	<properties>
+		<emfincquery.version>1.0.0-SNAPSHOT</emfincquery.version>
+	</properties>
+
 	<build>
 		<sourceDirectory>src-gen</sourceDirectory>
 	</build>
@@ -36,7 +40,13 @@
 		<dependency>
 			<groupId>org.eclipse.incquery</groupId>
 			<artifactId>incquery-runtime</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${emfincquery.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>org.eclipse.incquery.runtime.localsearch</artifactId>
+			<version>${emfincquery.version}</version>
 		</dependency>
 
 	</dependencies>
