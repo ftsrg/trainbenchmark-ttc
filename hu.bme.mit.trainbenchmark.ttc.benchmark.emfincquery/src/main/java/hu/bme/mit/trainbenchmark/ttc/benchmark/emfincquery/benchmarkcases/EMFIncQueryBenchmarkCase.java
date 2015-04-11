@@ -12,6 +12,7 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.EMFIncQueryBenchmarkConfig;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches.EMFIncQueryBenchmarkComparator;
 
 import java.io.IOException;
@@ -33,7 +34,8 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 
 	protected AdvancedIncQueryEngine engine;
 	protected IncQueryMatcher<Match> matcher;
-
+	protected EMFIncQueryBenchmarkConfig eiqbc;
+	
 	@Override
 	protected void registerComparator() {
 		comparator = new EMFIncQueryBenchmarkComparator();		
@@ -42,11 +44,20 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 	@Override
 	public void init() throws IOException {
 		IncQueryLoggingUtil.getDefaultLogger().setLevel(Level.OFF);
+		eiqbc = (EMFIncQueryBenchmarkConfig) bc;
 	}
 
 	@Override
-	public Collection<Object> check() {
-		return matches;
+	public Collection<Object> check() throws IOException {
+		if(eiqbc.isLocalSearch()){
+			try {
+				return matches = getResultSet();
+			} catch (IncQueryException e) {
+				throw new IOException(e);
+			}
+		} else {
+			return matches;
+		}
 	}
 
 	@Override
@@ -59,17 +70,19 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);
 
 			matches = getResultSet();
-			engine.addMatchUpdateListener(getMatcher(), new IMatchUpdateListener<Match>() {
-				@Override
-				public void notifyAppearance(final Match match) {
-					matches.add(match);
-				}
-
-				@Override
-				public void notifyDisappearance(final Match match) {
-					matches.remove(match);
-				}
-			}, false);
+			if(!eiqbc.isLocalSearch()){
+				engine.addMatchUpdateListener(getMatcher(), new IMatchUpdateListener<Match>() {
+					@Override
+					public void notifyAppearance(final Match match) {
+						matches.add(match);
+					}
+	
+					@Override
+					public void notifyDisappearance(final Match match) {
+						matches.remove(match);
+					}
+				}, false);
+			}
 		} catch (final IncQueryException e) {
 			throw new RuntimeException(e);
 		}

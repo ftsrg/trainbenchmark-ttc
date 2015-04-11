@@ -38,7 +38,11 @@ public class EMFIncQuerySemaphoreNeighbor extends EMFIncQueryBenchmarkCase<Semap
 
 	@Override
 	protected IncQueryMatcher<SemaphoreNeighborMatch> getMatcher() throws IncQueryException {
-		return engine.getMatcher(SemaphoreNeighborQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));
+		if(eiqbc.isLocalSearch()){
+			return engine.getMatcher(SemaphoreNeighborQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));			
+		} else {
+			return engine.getMatcher(SemaphoreNeighborQuerySpecification.instance());
+		}
 	}
 
 	@Override
