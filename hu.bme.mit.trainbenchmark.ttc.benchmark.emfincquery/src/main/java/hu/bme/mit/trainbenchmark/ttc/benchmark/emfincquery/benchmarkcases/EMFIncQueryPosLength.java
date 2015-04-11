@@ -39,7 +39,7 @@ public class EMFIncQueryPosLength extends EMFIncQueryBenchmarkCase<PosLengthMatc
 	@Override
 	protected PosLengthMatcher getMatcher() throws IncQueryException {
 		if (eiqbc.isLocalSearch()) {
-			return engine.getMatcher(PosLengthQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));
+			return engine.getMatcher(PosLengthQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.<String, Object>newHashMap()));
 		} else {
 			return engine.getMatcher(PosLengthQuerySpecification.instance());
 		}

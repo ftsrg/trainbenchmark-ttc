@@ -39,7 +39,7 @@ public class EMFIncQuerySwitchSet extends EMFIncQueryBenchmarkCase<SwitchSetMatc
 	@Override
 	protected IncQueryMatcher<SwitchSetMatch> getMatcher() throws IncQueryException {
 		if (eiqbc.isLocalSearch()) {
-			return engine.getMatcher(SwitchSetQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));
+			return engine.getMatcher(SwitchSetQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.<String, Object>newHashMap()));
 		} else {
 			return engine.getMatcher(SwitchSetQuerySpecification.instance());
 		}

@@ -1,6 +1,7 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.config.ChangeSet;
 
 import org.apache.commons.cli.ParseException;
 
@@ -11,6 +12,12 @@ public class EMFIncQueryBenchmarkConfig extends BenchmarkConfig {
 
 	public EMFIncQueryBenchmarkConfig(String[] args, String tool) throws ParseException {
 		super(args, tool);
+	}
+
+	public EMFIncQueryBenchmarkConfig(final String tool, final int size, final int runIndex, final String query, final int iterationCount,
+			final ChangeSet changeSet, final long transformationConstant, final boolean localSearch) {
+		super(tool, size, runIndex, query, iterationCount, changeSet, transformationConstant);
+		this.localSearch = localSearch;
 	}
 	
 	@Override

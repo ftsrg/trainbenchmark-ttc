@@ -39,7 +39,7 @@ public class EMFIncQueryRouteSensor extends EMFIncQueryBenchmarkCase<RouteSensor
 	@Override
 	protected IncQueryMatcher<RouteSensorMatch> getMatcher() throws IncQueryException {
 		if (eiqbc.isLocalSearch()) {
-			return engine.getMatcher(RouteSensorQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.newHashMap()));
+			return engine.getMatcher(RouteSensorQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.<String, Object>newHashMap()));
 		} else {
 			return engine.getMatcher(RouteSensorQuerySpecification.instance());
 		}
