@@ -12,10 +12,6 @@ query SemaphoreNeighbour = thisModule.routesWithExitSemaphore
 helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
 	RAILWAY!Route.allInstances()->reject(r | r.exit.oclIsUndefined());
 
---- Returns all Routes with entry Semaphore.
-helper def : routesWithEntrySemaphore : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->reject(r | r.entry.oclIsUndefined());
-
 --- Returns the sensor tuples and their track elements that match the given route.
 helper context RAILWAY!Route def : sensorTuples : Sequence(
 		TupleType(
