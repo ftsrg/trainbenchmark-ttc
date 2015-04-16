@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>hu.bme.mit.trainbenchmark.ttc</artifactId>
 		<groupId>hu.bme.mit.trainbenchmark.ttc</groupId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>hu.bme.mit.trainbenchmark.ttc.benchmark.atl</artifactId>
 	
