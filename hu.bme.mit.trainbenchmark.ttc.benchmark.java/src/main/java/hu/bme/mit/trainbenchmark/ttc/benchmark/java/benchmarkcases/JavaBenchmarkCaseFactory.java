@@ -19,15 +19,15 @@ public class JavaBenchmarkCaseFactory {
 	public AbstractBenchmarkCase create(final String query) {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
-			return new PosLength();
+			return new JavaPosLength();
 		case QueryConstants.ROUTESENSOR:
-			return new RouteSensor();
+			return new JavaRouteSensor();
 		case QueryConstants.SWITCHSENSOR:
-			return new SwitchSensor();
+			return new JavaSwitchSensor();
 		case QueryConstants.SEMAPHORENEIGHBOR:
-			return new SemaphoreNeighbor();
+			return new JavaSemaphoreNeighbor();
 		case QueryConstants.SWITCHSET:
-			return new SwitchSet();
+			return new JavaSwitchSet();
 		default:
 			throw new IllegalArgumentException();
 		}

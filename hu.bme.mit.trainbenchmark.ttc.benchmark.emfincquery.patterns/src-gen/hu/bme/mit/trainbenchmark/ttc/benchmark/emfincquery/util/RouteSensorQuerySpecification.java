@@ -74,7 +74,7 @@ public final class RouteSensorQuerySpecification extends BaseGeneratedEMFQuerySp
     
     @Override
     public String getFullyQualifiedName() {
-      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensor";
+      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.routeSensor";
     }
     
     @Override

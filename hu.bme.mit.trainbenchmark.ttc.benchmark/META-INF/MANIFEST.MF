@@ -11,5 +11,6 @@ Export-Package: hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases,
  hu.bme.mit.trainbenchmark.ttc.config,
  hu.bme.mit.trainbenchmark.ttc.constants
 Require-Bundle: org.apache.commons.cli;bundle-version="1.2.0",
- org.junit;bundle-version="4.11.0"
+ org.junit;bundle-version="4.11.0",
+ com.google.guava;bundle-version="15.0.0"
 Import-Package: hu.bme.mit.trainbenchmark.ttc.railway

@@ -25,7 +25,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 
-public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMatch> {
+public class JavaSemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMatch> {
 
 	@Override
 	protected Collection<Object> check() {
@@ -57,13 +57,13 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMa
 					if (sensor2 == null) {
 						continue;
 					}
-					
+
 					// reverse navigation on the (sensor2)<-[definedBy]-(route2) edge
 					final EObject container = sensor2.eContainer();
 					if (!(container instanceof Route)) {
 						continue;
 					}
-					
+
 					final Route route2 = (Route) container;
 
 					// route1 != route2
@@ -71,7 +71,7 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMa
 						continue;
 					}
 
-					// NEG (route2)-[entry]->(semaphore)
+					// (route2)-[entry]->(semaphore) NAC
 					if (!semaphore.equals(route2.getEntry())) {
 						matches.add(new JavaSemaphoreNeighborMatch(semaphore, route1, route2, sensor1, sensor2, te1, te2));
 						return;
@@ -84,9 +84,9 @@ public class SemaphoreNeighbor extends JavaBenchmarkCase<JavaSemaphoreNeighborMa
 	}
 
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
+	protected void modify(final Collection<Object> matches) {
 		final JavaSemaphoreNeighborTransformation transformation = new JavaSemaphoreNeighborTransformation();
-		transformation.transform(matches, nElementsToModify);
+		transformation.transform(matches);
 	}
-	
+
 }

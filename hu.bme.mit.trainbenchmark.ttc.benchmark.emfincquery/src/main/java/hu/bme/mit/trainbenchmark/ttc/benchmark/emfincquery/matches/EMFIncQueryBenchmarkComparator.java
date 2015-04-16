@@ -9,20 +9,32 @@
  *   Benedek Izso - initial API and implementation
  *   Gabor Szarnyas - initial API and implementation
  *******************************************************************************/
-package hu.bme.mit.trainbenchmark.ttc.benchmark.java.matches;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches;
 
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
-import hu.bme.mit.trainbenchmark.ttc.railway.Segment;
 
-public class JavaPosLengthMatch extends JavaMatch {
+import java.util.Comparator;
 
-	public JavaPosLengthMatch(final Segment segment) {
-		super();
-		match = new RailwayElement[] { segment };
-	}
+import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
 
-	public Segment getSegment() {
-		return (Segment) match[0];
+public class EMFIncQueryBenchmarkComparator implements Comparator<Object> {
+
+	@Override
+	public int compare(final Object o1, final Object o2) {
+		final Object[] m1 = ((BasePatternMatch) o1).toArray();
+		final Object[] m2 = ((BasePatternMatch) o2).toArray();
+		for (int i = 0; i < m1.length; i++) {		
+			final RailwayElement t1 = (RailwayElement) m1[i];
+			final RailwayElement t2 = (RailwayElement) m2[i];
+
+			final int comparison = t1.getId() - t2.getId();
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+
+		return 0;
+
 	}
 
 }

@@ -58,7 +58,7 @@ public final class PosLengthQuerySpecification extends BaseGeneratedEMFQuerySpec
   
   @Override
   public PosLengthMatch newMatch(final Object... parameters) {
-    return PosLengthMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) parameters[0], (java.lang.Integer) parameters[1]);
+    return PosLengthMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Segment) parameters[0]);
   }
   
   private static class LazyHolder {
@@ -74,17 +74,17 @@ public final class PosLengthQuerySpecification extends BaseGeneratedEMFQuerySpec
     
     @Override
     public String getFullyQualifiedName() {
-      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength";
+      return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength";
     }
     
     @Override
     public List<String> getParameterNames() {
-      return Arrays.asList("segment","length");
+      return Arrays.asList("segment");
     }
     
     @Override
     public List<PParameter> getParameters() {
-      return Arrays.asList(new PParameter("segment", "hu.bme.mit.trainbenchmark.ttc.railway.Segment"),new PParameter("length", "java.lang.Integer"));
+      return Arrays.asList(new PParameter("segment", "hu.bme.mit.trainbenchmark.ttc.railway.Segment"));
     }
     
     @Override
@@ -96,16 +96,14 @@ public final class PosLengthQuerySpecification extends BaseGeneratedEMFQuerySpec
       	PVariable var_segment = body.getOrCreateVariableByName("segment");
       	PVariable var_length = body.getOrCreateVariableByName("length");
       	body.setExportedParameters(Arrays.<ExportedParameter>asList(
-      		new ExportedParameter(body, var_segment, "segment"),
-      				
-      		new ExportedParameter(body, var_length, "length")
+      		new ExportedParameter(body, var_segment, "segment")
       	));
       	new TypeBinary(body, CONTEXT, var_segment, var_length, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Segment", "length"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Segment.length");
       new ExpressionEvaluation(body, new IExpressionEvaluator() {
       	
       	@Override
       	public String getShortDescription() {
-      		return "Expression evaluation from pattern PosLength";
+      		return "Expression evaluation from pattern posLength";
       	}
       
       	@Override

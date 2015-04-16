@@ -29,5 +29,5 @@
   "JVM": {
     "vmargs": "-Xmx10G"
   },
-  "Timeout": 600
+  "Timeout": 300
 }

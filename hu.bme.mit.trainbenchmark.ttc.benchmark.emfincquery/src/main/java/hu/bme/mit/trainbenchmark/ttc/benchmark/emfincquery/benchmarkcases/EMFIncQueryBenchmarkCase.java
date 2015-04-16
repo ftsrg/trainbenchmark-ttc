@@ -12,6 +12,7 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches.EMFIncQueryBenchmarkComparator;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -30,6 +31,11 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 	protected AdvancedIncQueryEngine engine;
 	protected IncQueryMatcher<Match> matcher;
 
+	@Override
+	protected void registerComparator() {
+		comparator = new EMFIncQueryBenchmarkComparator();		
+	}
+	
 	@Override
 	public void init() throws IOException {
 		IncQueryLoggingUtil.getDefaultLogger().setLevel(Level.OFF);

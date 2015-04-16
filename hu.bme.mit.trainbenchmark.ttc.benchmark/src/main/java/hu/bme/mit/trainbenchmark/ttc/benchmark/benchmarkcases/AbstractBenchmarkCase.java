@@ -18,10 +18,11 @@ import hu.bme.mit.trainbenchmark.ttc.benchmark.util.BenchmarkResult;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.Util;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+
+import com.google.common.collect.Ordering;
 
 public abstract class AbstractBenchmarkCase {
 
@@ -58,7 +59,7 @@ public abstract class AbstractBenchmarkCase {
 
 	protected abstract Collection<Object> check() throws IOException;
 
-	protected abstract void modify(Collection<Object> matches, long nElementsToModify);
+	protected abstract void modify(Collection<Object> matches);
 
 	// generic methods
 
@@ -101,15 +102,15 @@ public abstract class AbstractBenchmarkCase {
 		final long nElementsToModify = Util.calcModify(bmr);
 		bmr.addModifiedElementsSize(nElementsToModify);
 
+		// create a sorted copy of the matches
 		// we do not measure this in the benchmark results
-		final List<Object> sortedMatches = new ArrayList<>(matches);
-
-		// Collections.sort(sortedMatches, comparator);
+		final Ordering<Object> ordering = Ordering.from(comparator);
+		final List<Object> sortedMatches = ordering.sortedCopy(matches);
 		final List<Object> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
 
 		// we measure the transformation
 		bmr.restartClock();
-		modify(elementsToModify, nElementsToModify);
+		modify(elementsToModify);
 		bmr.addTransformationTime();
 
 		bmr.addTransformationMemory(getMemoryUsage());

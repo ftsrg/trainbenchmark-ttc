@@ -9,7 +9,7 @@ import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 /**
- * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength pattern,
+ * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength pattern,
  * to be used in conjunction with {@link PosLengthMatcher}.
  * 
  * <p>Class fields correspond to parameters of the pattern. Fields with value null are considered unassigned.
@@ -25,19 +25,15 @@ import org.eclipse.incquery.runtime.exception.IncQueryException;
 public abstract class PosLengthMatch extends BasePatternMatch {
   private Segment fSegment;
   
-  private Integer fLength;
+  private static List<String> parameterNames = makeImmutableList("segment");
   
-  private static List<String> parameterNames = makeImmutableList("segment", "length");
-  
-  private PosLengthMatch(final Segment pSegment, final Integer pLength) {
+  private PosLengthMatch(final Segment pSegment) {
     this.fSegment = pSegment;
-    this.fLength = pLength;
   }
   
   @Override
   public Object get(final String parameterName) {
     if ("segment".equals(parameterName)) return this.fSegment;
-    if ("length".equals(parameterName)) return this.fLength;
     return null;
   }
   
@@ -45,19 +41,11 @@ public abstract class PosLengthMatch extends BasePatternMatch {
     return this.fSegment;
   }
   
-  public Integer getLength() {
-    return this.fLength;
-  }
-  
   @Override
   public boolean set(final String parameterName, final Object newValue) {
     if (!isMutable()) throw new java.lang.UnsupportedOperationException();
     if ("segment".equals(parameterName) ) {
     	this.fSegment = (hu.bme.mit.trainbenchmark.ttc.railway.Segment) newValue;
-    	return true;
-    }
-    if ("length".equals(parameterName) ) {
-    	this.fLength = (java.lang.Integer) newValue;
     	return true;
     }
     return false;
@@ -68,14 +56,9 @@ public abstract class PosLengthMatch extends BasePatternMatch {
     this.fSegment = pSegment;
   }
   
-  public void setLength(final Integer pLength) {
-    if (!isMutable()) throw new java.lang.UnsupportedOperationException();
-    this.fLength = pLength;
-  }
-  
   @Override
   public String patternName() {
-    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLength";
+    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.posLength";
   }
   
   @Override
@@ -85,20 +68,18 @@ public abstract class PosLengthMatch extends BasePatternMatch {
   
   @Override
   public Object[] toArray() {
-    return new Object[]{fSegment, fLength};
+    return new Object[]{fSegment};
   }
   
   @Override
   public PosLengthMatch toImmutable() {
-    return isMutable() ? newMatch(fSegment, fLength) : this;
+    return isMutable() ? newMatch(fSegment) : this;
   }
   
   @Override
   public String prettyPrint() {
     StringBuilder result = new StringBuilder();
-    result.append("\"segment\"=" + prettyPrintValue(fSegment) + ", ");
-    
-    result.append("\"length\"=" + prettyPrintValue(fLength)
+    result.append("\"segment\"=" + prettyPrintValue(fSegment)
     );
     return result.toString();
   }
@@ -108,7 +89,6 @@ public abstract class PosLengthMatch extends BasePatternMatch {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((fSegment == null) ? 0 : fSegment.hashCode());
-    result = prime * result + ((fLength == null) ? 0 : fLength.hashCode());
     return result;
   }
   
@@ -131,8 +111,6 @@ public abstract class PosLengthMatch extends BasePatternMatch {
     PosLengthMatch other = (PosLengthMatch) obj;
     if (fSegment == null) {if (other.fSegment != null) return false;}
     else if (!fSegment.equals(other.fSegment)) return false;
-    if (fLength == null) {if (other.fLength != null) return false;}
-    else if (!fLength.equals(other.fLength)) return false;
     return true;
   }
   
@@ -154,7 +132,7 @@ public abstract class PosLengthMatch extends BasePatternMatch {
    * 
    */
   public static PosLengthMatch newEmptyMatch() {
-    return new Mutable(null, null);
+    return new Mutable(null);
   }
   
   /**
@@ -162,12 +140,11 @@ public abstract class PosLengthMatch extends BasePatternMatch {
    * Fields of the mutable match can be filled to create a partial match, usable as matcher input.
    * 
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return the new, mutable (partial) match object.
    * 
    */
-  public static PosLengthMatch newMutableMatch(final Segment pSegment, final Integer pLength) {
-    return new Mutable(pSegment, pLength);
+  public static PosLengthMatch newMutableMatch(final Segment pSegment) {
+    return new Mutable(pSegment);
   }
   
   /**
@@ -175,17 +152,16 @@ public abstract class PosLengthMatch extends BasePatternMatch {
    * This can be used e.g. to call the matcher with a partial match.
    * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
    * @param pSegment the fixed value of pattern parameter segment, or null if not bound.
-   * @param pLength the fixed value of pattern parameter length, or null if not bound.
    * @return the (partial) match object.
    * 
    */
-  public static PosLengthMatch newMatch(final Segment pSegment, final Integer pLength) {
-    return new Immutable(pSegment, pLength);
+  public static PosLengthMatch newMatch(final Segment pSegment) {
+    return new Immutable(pSegment);
   }
   
   private static final class Mutable extends PosLengthMatch {
-    Mutable(final Segment pSegment, final Integer pLength) {
-      super(pSegment, pLength);
+    Mutable(final Segment pSegment) {
+      super(pSegment);
     }
     
     @Override
@@ -195,8 +171,8 @@ public abstract class PosLengthMatch extends BasePatternMatch {
   }
   
   private static final class Immutable extends PosLengthMatch {
-    Immutable(final Segment pSegment, final Integer pLength) {
-      super(pSegment, pLength);
+    Immutable(final Segment pSegment) {
+      super(pSegment);
     }
     
     @Override
