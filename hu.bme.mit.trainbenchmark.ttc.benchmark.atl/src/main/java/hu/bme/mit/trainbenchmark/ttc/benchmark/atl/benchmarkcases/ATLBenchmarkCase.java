@@ -12,6 +12,7 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.ttc.benchmark.atl.benchmarkcases;
 
+import hu.bme.mit.trainbenchmark.ttc.benchmark.atl.matches.ATLBenchmarkComparator;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage;
 
@@ -37,13 +38,21 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 
 	public static final String QUERY_PATH = ATLBenchmarkCase.class.getResource(
 			"/queries").toString();
-	public static final String TRANSFORMATION_PATH = ATLBenchmarkCase.class.getResource(
-			"/transformations").toString();
+	public static final String TRANSFORMATION_PATH = ATLBenchmarkCase.class
+			.getResource("/transformations").toString();
 
 	protected ExecEnv queryExecEnv;
 	protected ExecEnv transformExecEnv;
 	protected ModuleResolver queryMr;
 	protected ModuleResolver transformationMr;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void registerComparator() {
+		comparator = new ATLBenchmarkComparator();
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -83,10 +92,10 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	@Override
 	public void read() throws IOException {
 		super.read();
-	
+
 		final Model model = EmftvmFactory.eINSTANCE.createModel();
 		model.setResource(resource);
-	
+
 		queryExecEnv.registerInputModel("IN", model);
 		transformExecEnv.registerInOutModel("IN", model);
 	}
@@ -99,10 +108,10 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	@Override
 	protected Collection<Object> check() {
 		matches = new ArrayList<>();
-	
+
 		final List<?> result = (List<?>) queryExecEnv.run(null);
 		matches.addAll(result);
-	
+
 		return matches;
 	}
 
@@ -113,15 +122,13 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	 * 
 	 * @param matches
 	 *            the matches to transform
-	 * @param nElementsToModify
-	 *            the number of elements that should be modified by the
-	 *            transformation
 	 */
 	@Override
-	protected void modify(final Collection<Object> matches, final long nElementsToModify) {
-		final Field matchesField = transformExecEnv.findStaticField(EmftvmPackage.eINSTANCE.getExecEnv(), "matches");
+	protected void modify(final Collection<Object> matches) {
+		final Field matchesField = transformExecEnv.findStaticField(
+				EmftvmPackage.eINSTANCE.getExecEnv(), "matches");
 		matchesField.setStaticValue(matches);
-		
+
 		transformExecEnv.run(null);
 	}
 
