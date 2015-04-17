@@ -12,11 +12,11 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.config;
 
-import hu.bme.mit.trainbenchmark.ttc.config.TrainBenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
 
 import org.apache.commons.cli.ParseException;
 
-public class BenchmarkConfig extends TrainBenchmarkConfig {
+public class BenchmarkConfig extends GenericConfig {
 
 	protected static final String CHANGE_SET = "changeSet";
 	protected static final String RUN_INDEX = "runIndex";

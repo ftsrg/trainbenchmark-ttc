@@ -22,7 +22,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-public class TrainBenchmarkConfig {
+public class GenericConfig {
 
 	protected static final String SIZE_STRING = "size";
 	protected final Options options = new Options();
@@ -33,11 +33,11 @@ public class TrainBenchmarkConfig {
 	protected int size;
 	protected String workspacePath = "..";
 
-	public TrainBenchmarkConfig(final int size) {
+	public GenericConfig(final int size) {
 		this.size = size;
 	}
 
-	public TrainBenchmarkConfig(final String args[]) throws ParseException {
+	public GenericConfig(final String args[]) throws ParseException {
 		initOptions();
 
 		if (Arrays.asList(args).contains("-help")) {
