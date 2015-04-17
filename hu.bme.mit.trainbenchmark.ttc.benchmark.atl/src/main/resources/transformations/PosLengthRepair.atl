@@ -12,6 +12,6 @@ lazy rule Repair {
 	from
 		s: RAILWAY!Segment
 	do {
-		s.length <:= 0 - s.length + 1;
+		s.length <:= -s.length + 1;
 	}
 }
