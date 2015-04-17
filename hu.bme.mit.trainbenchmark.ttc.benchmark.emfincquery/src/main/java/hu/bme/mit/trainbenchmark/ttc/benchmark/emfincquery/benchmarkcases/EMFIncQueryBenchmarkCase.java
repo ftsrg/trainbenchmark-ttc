@@ -33,9 +33,9 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 
 	@Override
 	protected void registerComparator() {
-		comparator = new EMFIncQueryBenchmarkComparator();		
+		comparator = new EMFIncQueryBenchmarkComparator();
 	}
-	
+
 	@Override
 	public void init() throws IOException {
 		IncQueryLoggingUtil.getDefaultLogger().setLevel(Level.OFF);
@@ -49,7 +49,7 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 	@Override
 	public void read() throws IOException {
 		super.read();
-		
+
 		try {
 			final EMFScope emfScope = new EMFScope(resource);
 			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);

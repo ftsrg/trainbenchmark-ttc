@@ -24,8 +24,7 @@ import org.apache.commons.cli.PosixParser;
 
 public class TrainBenchmarkConfig {
 
-	private static final String SIZE_STRING = "size";
-	private static final String WORKSPACE_PATH = "workspacePath";
+	protected static final String SIZE_STRING = "size";
 	protected final Options options = new Options();
 	protected final CommandLineParser parser = new PosixParser();
 	protected CommandLine cmd;
@@ -37,7 +36,7 @@ public class TrainBenchmarkConfig {
 	public TrainBenchmarkConfig(final int size) {
 		this.size = size;
 	}
-	
+
 	public TrainBenchmarkConfig(final String args[]) throws ParseException {
 		initOptions();
 
@@ -57,16 +56,11 @@ public class TrainBenchmarkConfig {
 	protected void initOptions() {
 		options.addOption("help", false, "displays this text");
 		options.addOption(requiredOption(SIZE_STRING, "model size, e.g. 4"));
-		options.addOption(WORKSPACE_PATH, true, "path of the Eclipse workspace with all projects");
 	}
 
 	protected void processArguments(final String[] args) throws ParseException {
 		cmd = parser.parse(options, args);
 
-		if (cmd.hasOption(WORKSPACE_PATH)) {
-			workspacePath = cmd.getOptionValue(WORKSPACE_PATH);
-		}
-		
 		size = Integer.parseInt(cmd.getOptionValue(SIZE_STRING));
 	}
 
