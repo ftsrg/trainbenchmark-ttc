@@ -13,7 +13,7 @@ helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
 	RAILWAY!Route.allInstances()->reject(r | r.exit.oclIsUndefined());
 
 --- Returns the sensor tuples and their track elements that match the given route.
-helper context RAILWAY!Route def : sensorTuples : Sequence(
+helper context RAILWAY!Route def : sensorTuples : Set(
 		TupleType(
 			r1 : RAILWAY!Route,
 			s1 : RAILWAY!Sensor, 
@@ -26,13 +26,13 @@ helper context RAILWAY!Route def : sensorTuples : Sequence(
 			te1.connectsTo->reject(te2 | 
 				let s2 : RAILWAY!Sensor = te2.sensor in
 				s2.oclIsUndefined() or (
-					let s2routes : Sequence(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
+					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
 					s2routes.oclIsUndefined() or s2routes->isEmpty() or
 					s2routes->exists(r2 | r2.entry = self.exit)
 				)
 			)->collect(te2 |
 				let s2 : RAILWAY!Sensor = te2.sensor in
-				let s2routes : Sequence(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
+				let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
 				s2routes->select(r3 |
 					r3 <> self and r3.definedBy->includes(s2)
 				)->collect(r3 |
@@ -44,16 +44,5 @@ helper context RAILWAY!Route def : sensorTuples : Sequence(
 
 --- Returns the Routes mapped by their Sensor.
 --- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
-helper def : routesBySensor : Map(RAILWAY!Sensor, Sequence(RAILWAY!Route)) =
-	RAILWAY!Route.allInstances()->iterate(e; acc : Map(RAILWAY!Sensor, Sequence(RAILWAY!Route)) = Map{} |
-		e.definedBy->iterate(s; acc2 : Map(RAILWAY!Sensor, Sequence(RAILWAY!Route)) = acc  |
-			let void : OclAny = acc2.put(s, 
-				let c : Sequence(RAILWAY!Route) = acc.get(s) in
-				if c.oclIsUndefined() then
-					Sequence{e}
-				else
-					c->including(e)
-				endif
-			) in acc2
-		)
-	);
+helper def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
+	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
