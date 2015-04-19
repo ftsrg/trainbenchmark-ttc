@@ -22,7 +22,40 @@ Angers, France}
 \end{abstract}
 
 \section{Introduction}
+\label{sec:intro}
 
+This paper describes the ATL~\cite{journal/scp/Jouault2008} solution of the TTC 2015 Train Benchmark Case~\cite{conf/ttc/Szarnyas2015}. The Train Benchmark Case consists of several model validation and model repair tasks, all of which are run again increasing model sizes in order to measure the performance of each solution for the case. A complete solution for all tasks is provided, and is available as a GitHub fork of the original assignment\footnote{\url{https://github.com/dwagelaar/trainbenchmark-ttc}}.
+
+The remainder of this paper is structured as follows: section~\ref{sec:atl} describes the ATL transformation tool and its features that are relevant to the case. Section~\ref{sec:solution} describes the solution to the case, and section~\ref{sec:eval} concludes this paper with an evaluation.
+
+\section{ATL}
+\label{sec:atl} 
+
+ATL is a rule-based, hybrid model transformation language that allows declarative as well as imperative transformation styles. For this TTC solution, we use the new EMF Transformation Virtual Machine (EMFTVM)~\cite{conf/models/Wagelaar2011}. EMFTVM includes a number of language enhancements, as well as performance enhancements. For this TTC case, specific performance enhancements are relevant. Each of these enhancements is described briefly in the following subsections.
+
+\subsection{JIT compiler}
+
+EMFTVM includes a Just-In-Time (JIT) compiler that translates EMFTVM bytecode to Java bytecode. EMFTVM bytecode instructions are organised in \emph{code blocks}, which are effectively closures\footnote{\url{http://en.wikipedia.org/wiki/Closure\_(computer_programming)}}. EMFTVM records how often each code block is executed, as well as some execution metadata, such as which methods were dispatched in each virtual method call. When a code block is executed more often than a predefined threshold, the JIT compiler triggers, and will generate a Java bytecode equivalent for the EMFTVM code block. The JIT compiler provides the best performance improvement for large and complex code blocks.
+
+\subsection{Lazy evaluation}
+
+EMFTVM includes an implementation of the OCL 2.2 standard library~\cite{omg/ocl22}, and employs lazy evaluation for the collection operations (e.g. "select", "collect", "flatten", "isEmpty", etc.). In addition, short-circuit evaluation is applied to boolean expressions (i.e. "and", "or", and "not"). While this may not be a desirable semantics for OCL in general, it is advantageous for using OCL as a navigation language: only the relevant parts of the model are navigated. Lazy evaluation provides the best performance improvement when only consuming a small part of a string of collection operations (e.g. \texttt{collection->reject(x | x.attr.oclIsUndefined())->collect(x | x.attr)->first()}). Short-circuit evaluation prevents having to use (nested) \texttt{if-then-else-endif} blocks everywhere.
+
+\section{Solution Description}
+\label{sec:solution}
+
+\subsection{Task 1: PosLength}
+
+\subsection{Task 2: SwitchSensor}
+
+\subsection{Task 3: SwitchSet}
+
+\subsection{Extension Task 1: RouteSensor}
+
+\subsection{Extension Task 2: SemaphoreNeighbor}
+
+\section{Evaluation and Conclusion}
+\label{sec:eval}
 
 \bibliographystyle{eptcs}
 \bibliography{ttc15-atl}
