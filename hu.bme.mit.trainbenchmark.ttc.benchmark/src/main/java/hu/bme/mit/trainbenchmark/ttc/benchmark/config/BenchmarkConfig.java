@@ -12,20 +12,19 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.config;
 
-import hu.bme.mit.trainbenchmark.ttc.config.TrainBenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
 
 import org.apache.commons.cli.ParseException;
 
-public class BenchmarkConfig extends TrainBenchmarkConfig {
+public class BenchmarkConfig extends GenericConfig {
 
-	private static final String CHANGE_SET = "changeSet";
-	private static final String SIZE_STRING = "size";
-	private static final String RUN_INDEX = "runIndex";
-	private static final String ITERATION_COUNT = "iterationCount";
-	private static final String QUERY = "query";
-	private static final String FIXED = "fixed";
-	private static final String PROPORTIONAL = "proportional";
-	
+	protected static final String CHANGE_SET = "changeSet";
+	protected static final String RUN_INDEX = "runIndex";
+	protected static final String ITERATION_COUNT = "iterationCount";
+	protected static final String QUERY = "query";
+	protected static final String FIXED = "fixed";
+	protected static final String PROPORTIONAL = "proportional";
+
 	// modification constants
 	protected ChangeSet changeSet;
 	protected long transformationConstant = 10;
@@ -39,7 +38,7 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 		super(args);
 		this.tool = tool;
 	}
-	
+
 	public BenchmarkConfig(final String tool, final int size, final int runIndex, final String query, final int iterationCount,
 			final ChangeSet changeSet, final long transformationConstant) {
 		super(size);
@@ -55,7 +54,6 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 	protected void initOptions() {
 		super.initOptions();
 
-		options.addOption(requiredOption(SIZE_STRING, "model size, e.g. 4"));
 		options.addOption(requiredOption(QUERY, "the query to run, e.g. RouteSensor"));
 		options.addOption(requiredOption(CHANGE_SET, "the size of the change set, possible values: {fixed,proportional}"));
 		options.addOption(RUN_INDEX, true, "index of the run in the benchmark series");
@@ -67,7 +65,7 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 		super.processArguments(args);
 
 		// queries argument -> testCases list
-		query = cmd.getOptionValue(QUERY);		
+		query = cmd.getOptionValue(QUERY);
 		switch (cmd.getOptionValue(CHANGE_SET).toString()) {
 		case FIXED:
 			changeSet = ChangeSet.FIXED;
@@ -109,11 +107,11 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 	public String getTool() {
 		return tool;
 	}
-	
+
 	public ChangeSet getChangeSet() {
 		return changeSet;
 	}
-	
+
 	public long getTransformationConstant() {
 		return transformationConstant;
 	}

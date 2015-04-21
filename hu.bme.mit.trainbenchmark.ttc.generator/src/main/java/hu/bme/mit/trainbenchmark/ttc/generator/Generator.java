@@ -29,7 +29,7 @@ import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.SIGNAL;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.SWITCH;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.SWITCHPOSITION;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.SWITCH_EDGE;
-import hu.bme.mit.trainbenchmark.ttc.config.TrainBenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
 import hu.bme.mit.trainbenchmark.ttc.constants.Position;
 import hu.bme.mit.trainbenchmark.ttc.constants.Signal;
 import hu.bme.mit.trainbenchmark.ttc.constants.TrainBenchmarkConstants;
@@ -49,7 +49,7 @@ public abstract class Generator {
 	protected int id = 0;
 
 	// static configuration
-	protected TrainBenchmarkConfig generatorConfig;
+	protected GenericConfig generatorConfig;
 
 	// dynamic configuration
 	protected int maxSegments;
