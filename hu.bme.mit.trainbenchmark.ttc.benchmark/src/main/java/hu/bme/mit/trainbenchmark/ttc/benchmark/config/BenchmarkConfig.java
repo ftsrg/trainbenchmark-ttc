@@ -24,10 +24,11 @@ public class BenchmarkConfig extends GenericConfig {
 	protected static final String QUERY = "query";
 	protected static final String FIXED = "fixed";
 	protected static final String PROPORTIONAL = "proportional";
+	protected static final String TRANSFORMATION_CONSTANT = "transformationConstant";
 
 	// modification constants
 	protected ChangeSet changeSet;
-	protected long transformationConstant = 10;
+	protected long transformationConstant;
 
 	protected int iterationCount;
 	protected int runIndex;
@@ -55,9 +56,12 @@ public class BenchmarkConfig extends GenericConfig {
 		super.initOptions();
 
 		options.addOption(requiredOption(QUERY, "the query to run, e.g. RouteSensor"));
-		options.addOption(requiredOption(CHANGE_SET, "the size of the change set, possible values: {fixed,proportional}"));
+		options.addOption(requiredOption(CHANGE_SET, "the size of the change set, possible values: {fixed, proportional}"));
 		options.addOption(RUN_INDEX, true, "index of the run in the benchmark series");
 		options.addOption(ITERATION_COUNT, true, "number of modify-check iterations");
+		options.addOption(TRANSFORMATION_CONSTANT, true, "constant value for the transformations: "
+				+ "for a fixed change set, it defines the number of elements; "
+				+ "for a proportional change set, it defines the proportion of the elements");
 	}
 
 	@Override
@@ -89,6 +93,13 @@ public class BenchmarkConfig extends GenericConfig {
 			runIndex = new Integer(runIndexString);
 		} else {
 			runIndex = 0;
+		}
+
+		final String transformationConstantString = cmd.getOptionValue(TRANSFORMATION_CONSTANT);
+		if (transformationConstantString != null) {
+			transformationConstant = new Integer(iterationCountString);
+		} else {
+			transformationConstant = 10;
 		}
 	}
 
