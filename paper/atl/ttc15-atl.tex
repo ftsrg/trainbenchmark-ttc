@@ -1,6 +1,22 @@
 \documentclass[submission,copyright,creativecommons]{eptcs}
 \providecommand{\event}{TTC 2015} % Name of the event you are submitting to
 \usepackage{breakurl}             % Not needed if you use pdflatex only.
+\usepackage{flafter}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{url}
+
+%ATL language highlighting
+\lstdefinelanguage{atl}
+  {morekeywords={module, create, from, to, using, mapsTo, rule, helper, refining,
+                 context, def, if, then, else, endif, library, and, or, not, query, 
+                 do, endpoint, entrypoint, lazy, unique, nodefault, for, in, self,
+                 thisModule, uses},
+   sensitive=true,
+   morecomment=[l]{--}}
+
+%Standard listing style
+\lstset{basicstyle=\scriptsize\tt,keywordstyle=\scriptsize\tt\bf}
 
 \title{The {ATL} Solution to the Train Benchmark Case for {TTC2015}}
 \author{Dennis Wagelaar
@@ -35,20 +51,188 @@ ATL is a rule-based, hybrid model transformation language that allows declarativ
 
 \subsection{JIT compiler}
 
-EMFTVM includes a Just-In-Time (JIT) compiler that translates EMFTVM bytecode to Java bytecode. EMFTVM bytecode instructions are organised in \emph{code blocks}, which are effectively closures\footnote{\url{http://en.wikipedia.org/wiki/Closure\_(computer_programming)}}. EMFTVM records how often each code block is executed, as well as some execution metadata, such as which methods were dispatched in each virtual method call. When a code block is executed more often than a predefined threshold, the JIT compiler triggers, and will generate a Java bytecode equivalent for the EMFTVM code block. The JIT compiler provides the best performance improvement for large and complex code blocks.
+EMFTVM includes a Just-In-Time (JIT) compiler that translates EMFTVM bytecode to Java bytecode. EMFTVM bytecode instructions are organised in \emph{code blocks} (see Fig.~\ref{fig:emftvm-rules}). Code blocks are executable lists of instructions, and have a number of local variables and a local stack space. Code blocks are used to represent operation bodies, field initialisers, rule guards, and rule bodies. Code blocks may also have nested code blocks, which effectively represent \emph{closures}\footnote{\url{http://en.wikipedia.org/wiki/Closure\_(computer_programming)}}. EMFTVM records how often each code block is executed, as well as some execution metadata, such as which methods were dispatched in each virtual method call. When a code block is executed more often than a predefined threshold, the JIT compiler triggers, and will generate a Java bytecode equivalent for the EMFTVM code block. The JIT compiler provides the best performance improvement for large and complex code blocks.
+
+\begin{figure}[ht]
+\centerline{
+\includegraphics[width=12cm]{figures/emftvm-rules-stripped}}
+\caption{Structure of EMFTVM rules and code blocks}
+\label{fig:emftvm-rules}
+\end{figure}
 
 \subsection{Lazy evaluation}
 
-EMFTVM includes an implementation of the OCL 2.2 standard library~\cite{omg/ocl22}, and employs lazy evaluation for the collection operations (e.g. "select", "collect", "flatten", "isEmpty", etc.). In addition, short-circuit evaluation is applied to boolean expressions (i.e. "and", "or", and "not"). While this may not be a desirable semantics for OCL in general, it is advantageous for using OCL as a navigation language: only the relevant parts of the model are navigated. Lazy evaluation provides the best performance improvement when only consuming a small part of a string of collection operations (e.g. \texttt{collection->reject(x | x.attr.oclIsUndefined())->collect(x | x.attr)->first()}). Short-circuit evaluation prevents having to use (nested) \texttt{if-then-else-endif} blocks everywhere.
+EMFTVM includes an implementation of the OCL 2.2 standard library~\cite{omg/ocl22}, and employs lazy evaluation for the collection operations\footnote{\url{https://wiki.eclipse.org/ATL/EMFTVM\#Lazy\_collections}} (e.g. \texttt{select}, \texttt{collect}, \texttt{flatten}, \texttt{isEmpty}, etc.). That means you can invoke operations on the collections, but those operations will not be executed until you actually evaluate the collection. Also, collection operations will only be evaluated partially, depending on how much of the collection you evaluate. To illustrate how this works, look at the example code in Listing~\ref{lst:lazy}. The \texttt{lazytest} query invokes "collect" on a Sequence of all numbers from 0 to 100, and replaces each value in the Sequence by its squared value. Finally, we're only interested in the last value of the changed Sequence. \texttt{collect} returns a lazy Sequence, which is just waiting to be evaluated. Only when "last" is invoked on the lazy Sequence will the Sequence invoke the "expensive" operation on the last element of the input Sequence. As a result, \texttt{square} is only invoked once.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={Lazy collections in ATL}, label=lst:lazy, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+query lazytest = Sequence{0..100}->collect(x | x.square())->last();
+
+helper context Integer def : square() : Integer =
+	(self * self).debug('square');
+\end{lstlisting}
+
+In addition, short-circuit evaluation is applied to boolean expressions (i.e. \textbf{and}, \textbf{or}, and \textbf{not}). While this may not be a desirable semantics for OCL in general, it is advantageous for using OCL as a navigation language: only the relevant parts of the model are navigated. Lazy evaluation provides the best performance improvement when only consuming a small part of a string of collection operations (e.g. \texttt{list->reject(x | x.attr.oclIsUndefined())->collect(x | x.attr)->first()}). Short-\\circuit evaluation prevents having to use (nested) \texttt{if-then-else-endif} blocks everywhere.
 
 \section{Solution Description}
 \label{sec:solution}
 
+The Train Benchmark Case involves first querying a model for constraint violations, and then repairing some of those constraint violations that are randomly selected by the benchmark framework. This means that the matching phase and the transformation phase, which are normally integrated in ATL, are now separated by the benchmark framework. The framework first launches the matching phase, and collects the found matches. After that, it randomly selects a number of matches, and feeds them into the transformation phase.
+
+ATL provides a \textbf{query} construct that allows one to query the model using OCL. The resulting values are returned by the ATL VM. The selected matches are fed back into the ATL VM through a helper attribute, specified in the framework repair transformation module shown in Listing~\ref{lst:repair}. The Repair transformation module contains a helper attribute \texttt{matches}, which is used to inject the matches selected by the benchmark framework. Furthermore, it contains a lazy rule \texttt{Repair}, which does nothing in this framework transformation. The \texttt{Repair} rule is invoked by every element in \texttt{matches} by the \texttt{Main} endpoint rule. The \texttt{Main} endpoint rule is automatically invoked. Normally, ATL transformations use matched rules that are automatically triggered for all matching elements in the input model(s). However, this benchmark requires the elements to transform to be set explicitly. Hence the need for this framework transformation module. All specific repair transformation modules are superimposed~\cite{journal/sosym/Wagelaar2009} onto the framework transformation module, and redefine the \texttt{Repair} rule. This means that for each task we only need to define an ATL query and a \texttt{Repair} rule. The Java code in the benchmark plug-in for ATL is made up of a base class \texttt{ATLBenchmarkCase} that provides the generic logic for:
+
+\begin{enumerate}
+\item instantiating a query VM, a transformation VM, and loading the metamodels (\texttt{init});
+\item loading the models (\texttt{read});
+\item performing the query phase of the benchmark (\texttt{check});
+\item performing the transformation phase of the benchmark (\texttt{modify}).
+\end{enumerate}
+
+Each specific task subclasses the \texttt{ATLBenchmarkCase} class, but only has to override the \texttt{init} method. The overridden \texttt{init} does all of the superclass \texttt{init}, but also loads the ATL transformation bytecode into the query VM and the transformation VM.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={Framework repair transformation module in ATL}, label=lst:repair, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- Base transformation for match repairs.
+module Repair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+--- Helper attribute that holds the matches to transform.
+--- Injected from outside the transformation.
+helper def : matches : Collection(OclAny) = Sequence{};
+
+--- Base implementation of the Repair rule that does nothing.
+lazy rule Repair {
+	from
+		s: OclAny
+}
+
+--- Applies the Repair rule to all matches.
+endpoint rule Main() {
+	do {
+		for (s in thisModule.matches) {
+			thisModule.Repair(s);
+		}
+	}
+}
+\end{lstlisting}
+
 \subsection{Task 1: PosLength}
+
+The PosLength task consists of a query that checks for Segments with a length less than or equal to zero, and a repair transformation that updates the length attribute of the segment in the match to \texttt{−length+1}. Listing~\ref{lst:poslength} shows the ATL query for Poslength. It simply collects all Segment instances with a length of zero or smaller. Listing~\ref{lst:poslengthrepair} shows the ATL repair transformation module for Poslength. It imports the framework Repair transformation module from Listing~\ref{lst:repair}, and redefines the \texttt{Repair} rule. As no new elements need to be created, and no implicit tracing of source elements to target elements is required, an imperative \textbf{do} block is used to make the required modification directly on the source element. The \texttt{<:=} assignment operator is used instead of the \texttt{<-} binding operator, such that the implicit source-to-target tracing is skipped.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={PosLength query in ATL}, label=lst:poslength, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+query PosLength = RAILWAY!Segment.allInstances()->select(s | s.length <= 0);
+\end{lstlisting}
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={PosLength repair transformation module in ATL}, label=lst:poslengthrepair, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+module PosLengthRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s: RAILWAY!Segment
+	do {
+		s.length <:= -s.length + 1;
+	}
+}
+\end{lstlisting}
 
 \subsection{Task 2: SwitchSensor}
 
+The SwitchSensor task consists of a query that checks for Switches that are not connected to a Sensor, and a repair transformation that creates and connects a new Sensor. Listing~\ref{lst:switchsensor} shows the ATL query for SwitchSensor. It collects all Switch instances for which the sensor is not set. Listing~\ref{lst:switchsensorrepair} shows the ATL repair transformation module for SwitchSensor. This time, the \texttt{Repair} rule also contains a \textbf{to} section that creates a new Sensor instance \texttt{se}. In the \textbf{do} section, this Sensor is assigned to the sensor reference of the input Switch element.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={SwitchSensor query in ATL}, label=lst:switchsensor, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+query SwitchSensor = RAILWAY!Switch.allInstances()->select(s | s.sensor.oclIsUndefined());
+\end{lstlisting}
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={SwitchSensor repair transformation module in ATL}, label=lst:switchsensorrepair, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+module SwitchSensorRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s: RAILWAY!Switch
+	to
+		se: RAILWAY!Sensor
+	do {
+		s.sensor <:= se;
+	}
+}
+\end{lstlisting}
+
 \subsection{Task 3: SwitchSet}
+
+The SwitchSet task consists of a query that checks for Routes that are not connected to a Sensor, which have a semaphore that show the GO signal. Additionally, the route follows a switch position (p) that is connected to a switch (sw), but the switch position (p.position) defines a different position from the current position of the switch (sw.currentPosition). Furthermore, a repair transformation is provided, which sets the currentPosition attribute of the switch to the position of the switchPosition. Listing~\ref{lst:switchset} shows the ATL query for SwitchSet. This query is more complex, and uses two helper attributes, \texttt{goRoutes} and \texttt{wrongSwitchPositions}, to spread the complexity. The main query collects Tuples of each match, where a match is defined by Route \texttt{r}, Semaphore \texttt{s}, SwitchPosition \texttt{p}, and Switch \texttt{sw}. A Tuple is created for each wrong SwitchPosition that was found for each Route with a ``GO'' signal. As one can see, Tuples allow for returning matches with multiple elements to the benchmark framework. Listing~\ref{lst:switchsetrepair} shows the ATL repair transformation module for SwitchSet. The \texttt{Repair} rule takes the Tuple match as input element this time, and assigns the SwitchPosition's position to the Switch's currentPosition.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={SwitchSet query in ATL}, label=lst:switchset, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+query SwitchSet = thisModule.goRoutes
+	->collect(r | r.wrongSwitchPositions
+		->collect(p | 
+			Tuple{r = r, s = r.entry, p = p, sw = p.switch}
+		)
+	)
+	->flatten();
+
+--- Returns all Routes with a #GO signal on the entry Semaphore.
+helper def : goRoutes : Sequence(RAILWAY!Route) =
+	RAILWAY!Route.allInstances()->select(r | 
+		not r.entry.oclIsUndefined() and r.entry.signal = #GO
+	);
+
+--- Returns all wrong SwitchPositions for the given Route.
+helper context RAILWAY!Route def : wrongSwitchPositions : Sequence(RAILWAY!SwitchPosition) =
+	self.follows->select(p | 
+		not p.switch.oclIsUndefined() and p.switch.currentPosition <> p.position
+	);
+\end{lstlisting}
+
+\lstset{language=atl}
+\begin{lstlisting}[float=ht, caption={SwitchSet repair transformation module in ATL}, label=lst:switchsetrepair, captionpos=b, frame=tb, belowskip=-10pt]
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+module SwitchSetRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s : TupleType(
+			r : RAILWAY!Route, 
+			s : RAILWAY!Semaphore, 
+			p : RAILWAY!SwitchPosition, 
+			sw : RAILWAY!Switch)
+	do {
+		s.sw.currentPosition <:= s.p.position;
+	}
+}
+\end{lstlisting}
 
 \subsection{Extension Task 1: RouteSensor}
 
