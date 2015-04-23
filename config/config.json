@@ -1,25 +1,31 @@
 {
-  "MinSize": 32,
-  "MaxSize": 32,
-  "Queries": [
-    "PosLength",
-    "SwitchSensor"
-  ],
-  "_Comment": "The _AllQueries field is not used by the framework.",
-  "_AllQueries": [
-    "RouteSensor",
-    "SemaphoreNeighbor",
-    "SwitchSet"
-  ],
-  "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"],
-  "ChangeSets": [
-    "fixed",
-    "proportional"
-  ],
-  "Runs": 5,
-  "IterationCount": 10,
-  "JVM": {
-    "vmargs": ["-Xmx2G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
-  },
-  "Timeout": 600
+    "MinSize": 1,
+    "MaxSize": 512,
+    "Queries": [
+	"PosLength",
+	"SwitchSensor",
+	"RouteSensor",
+	"SemaphoreNeighbor",
+	"SwitchSet"
+    ],
+    "_Comment": "The _AllQueries field is not used by the framework.",
+    "_AllQueries": [
+	"RouteSensor",
+	"SemaphoreNeighbor",
+	"SwitchSet"
+    ],
+    "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.java",
+	      "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery",
+	      "hu.bme.mit.trainbenchmark.ttc.benchmark.funnyqtglue"],
+    "ChangeSets": [
+	"fixed",
+	"proportional"
+    ],
+    "Runs": 2,
+    "IterationCount": 10,
+    "JVM": {
+	"vmargs": ["-Xmx2G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
+    },
+    "Timeout": 600
 }
+
