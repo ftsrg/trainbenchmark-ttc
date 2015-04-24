@@ -1,6 +1,6 @@
 {
   "MinSize": 1,
-  "MaxSize": 4,
+  "MaxSize": 512,
   "Queries": [
     "PosLength",
     "SwitchSensor",
@@ -17,7 +17,6 @@
     "SemaphoreNeighbor"
   ],
   "Tools": [
-    "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.atl"
   ],
   "ChangeSets": [
@@ -27,7 +26,7 @@
   "Runs": 1,
   "IterationCount": 10,
   "JVM": {
-    "vmargs": "-Xmx10G"
+    "vmargs": "-Xmx512m"
   },
   "Timeout": 300
 }
