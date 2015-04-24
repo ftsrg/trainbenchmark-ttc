@@ -2,8 +2,8 @@
 -- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
 
 -- The query checks for routes which have a semaphore that show the GO signal. Additionally,
--- the route follows a switch position (swP) that is connected to a switch (sw), but the switch position
--- (swP.position) defines a different position from the current position of the switch (sw.currentPosition).
+-- the route follows a switch position (p) that is connected to a switch (sw), but the switch position
+-- (p.position) defines a different position from the current position of the switch (sw.currentPosition).
 query SwitchSet = thisModule.goRoutes
 	->collect(r | r.wrongSwitchPositions
 		->collect(p | 

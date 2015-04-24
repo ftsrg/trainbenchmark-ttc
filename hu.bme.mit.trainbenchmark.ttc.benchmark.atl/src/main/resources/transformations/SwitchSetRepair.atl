@@ -2,7 +2,7 @@
 -- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
 
 -- For a given match, the currentPosition attribute of the switch is set to the
--- position of the switchPsosition.
+-- position of the switchPosition.
 module SwitchSetRepair;
 create OUT: RAILWAY refining IN: RAILWAY;
 
