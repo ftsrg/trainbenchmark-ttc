@@ -96,12 +96,16 @@ helper context Integer def : square() : Integer =
 
 In addition, short-circuit evaluation is applied to boolean expressions (i.e. \textbf{and}, \textbf{or}, and \textbf{not}). While this may not be a desirable semantics for OCL in general, it is advantageous for using OCL as a navigation language: only the relevant parts of the model are navigated. Lazy evaluation provides the best performance improvement when only consuming a small part of a string of collection operations (e.g. \texttt{list->reject(x | x.attr.oclIsUndefined())->collect(x | x.attr)->first()}). Short-\\circuit evaluation prevents having to use (nested) \texttt{if-then-else-endif} blocks everywhere.
 
+\subsection{Caching of model elements}
+
+Model transformations usually look up model elements by their type or meta-class. In the Eclipse Modeling Framework (EMF)~\cite{book/Budinsky03}, this means iterating over the entire model and filtering on element type. Often, an element look up by type is made repeatedly on the same model (especially when doing recursive, in-place transformation\footnote{\url{https://code.google.com/a/eclipselabs.org/p/simplegt/}}). In the case of this benchmark, the same query/transformation is run multiple times on the same model. For this reason, EMFTVM keeps a cache of model elements by type for each model. This cache is automatically kept up to date when adding/removing model elements through EMFTVM. The cache is built up lazily, which means that a full iteration over the model, looking for a specific element type, must have taken place before the cache is activated for that element type. This prevents a build up of caches that are never used.
+
 \section{Solution Description}
 \label{sec:solution}
 
 The Train Benchmark Case involves first querying a model for constraint violations, and then repairing some of those constraint violations that are randomly selected by the benchmark framework. This means that the matching phase and the transformation phase, which are normally integrated in ATL, are now separated by the benchmark framework. The framework first launches the matching phase, and collects the found matches. After that, it randomly selects a number of matches, and feeds them into the transformation phase.
 
-ATL provides a \textbf{query} construct that allows one to query the model using OCL. The resulting values are returned by the ATL VM. The selected matches are fed back into the ATL VM through a helper attribute, specified in the framework repair transformation module shown in Listing~\ref{lst:repair}.
+ATL provides a \textbf{query} construct that allows one to query the model using OCL. The resulting values are returned by the ATL VM. The selected matches are fed back into the ATL VM through a helper attribute, specified in the framework repair transformation module shown in Listing~\ref{lst:repair}. Note that the ATL query returns a \emph{lazy} collection, which is just waiting to be evaluated. The benchmark framework compensates for this by copying all values of the returned lazy collection into a regular \texttt{java.util.ArrayList}, which triggers evaluation. This ensures that the performance measurements are valid.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={Framework repair transformation module in ATL}, label=lst:repair, captionpos=b, frame=tb, belowskip=-10pt]
@@ -128,7 +132,7 @@ endpoint rule Main() {
 }
 \end{lstlisting}
 
-The Repair transformation module contains a helper attribute \texttt{matches}, which is used to inject the matches selected by the benchmark framework. Furthermore, it contains a lazy rule \texttt{Repair}, which does nothing in this framework transformation. The \texttt{Repair} rule is invoked by every element in \texttt{matches} by the \texttt{Main} endpoint rule. The \texttt{Main} endpoint rule is automatically invoked. Normally, ATL transformations use matched rules that are automatically triggered for all matching elements in the input model(s). However, this benchmark requires the elements to transform to be set explicitly. Hence the need for this framework transformation module. All specific repair transformation modules are superimposed~\cite{journal/sosym/Wagelaar2009} onto the framework transformation module, and redefine the \texttt{Repair} rule. This means that for each task we only need to define an ATL query and a \texttt{Repair} rule. The Java code in the benchmark plug-in for ATL is made up of a base class \texttt{ATLBenchmarkCase} that provides the generic logic for:
+The Repair transformation module contains a helper attribute \texttt{matches}, which is used to inject the matches selected by the benchmark framework. Furthermore, it contains a lazy rule \texttt{Repair}, which does nothing in this framework transformation. The \texttt{Repair} rule is invoked by every element in \texttt{matches} by the \texttt{Main} endpoint rule. The \texttt{Main} endpoint rule is automatically invoked. Normally, ATL transformations use matched rules that are automatically triggered for all matching elements in the input model(s). However, this benchmark requires the elements to transform to be set explicitly. Hence the need for this framework transformation module. All specific repair transformation modules are \emph{superimposed}~\cite{journal/sosym/Wagelaar2009} onto the framework transformation module, and redefine the \texttt{Repair} rule. This means that for each task we only need to define an ATL query and a \texttt{Repair} rule. The Java code in the benchmark plug-in for ATL is made up of a base class \texttt{ATLBenchmarkCase} that provides the generic logic for:
 
 \begin{enumerate}
 \item instantiating a query VM, a transformation VM, and loading the metamodels (\texttt{init});
@@ -255,7 +259,7 @@ lazy rule Repair {
 
 The RouteSensor task consists of a query that checks for Sensors that are connected to a Switch, but the Sensor and the Switch are not connected to the same Route. The repair transformation inserts the missing definedBy Sensors for the Route. 
 
-Listing~\ref{lst:routesensor} shows the ATL query for RouteSensor. This query uses two helper attributes, \texttt{routesWithSensors} and \texttt{wrongSwitchPositions}, to spread the complexity. The main query collects Tuples  of each match, where a match is defined by Route \texttt{r}, SwitchPosition \texttt{p}, Switch \texttt{sw}, and Sensor \texttt{s}. A Tuple is created for each SwitchPosition connected to a Sensor that is not connected to the Route (\texttt{wrongSwitchPositions}), for each Route that has Sensors connected to it (\texttt{routesWithSensors}). 
+Listing~\ref{lst:routesensor} shows the ATL query for RouteSensor. This query uses two helper attributes, \texttt{routes\-With\-Sensors} and \texttt{wrongSwitchPositions}, to spread the complexity. The main query collects Tuples  of each match, where a match is defined by Route \texttt{r}, SwitchPosition \texttt{p}, Switch \texttt{sw}, and Sensor \texttt{s}. A Tuple is created for each SwitchPosition connected to a Sensor that is not connected to the Route (\texttt{wrongSwitchPositions}), for each Route that has Sensors connected to it (\texttt{routesWithSensors}). 
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={RouteSensor query in ATL}, label=lst:routesensor, captionpos=b, frame=tb, belowskip=-10pt]
@@ -381,6 +385,28 @@ lazy rule Repair {
 
 \section{Evaluation and Conclusion}
 \label{sec:eval}
+
+The solutions for the Train Benchmark Case are evaluated on three criteria: (1) \emph{Correctness and Completeness of Model Queries and Transformations}, (2) \emph{Applicability for Model Validation}, and (3) \emph{Performance on Large Models}. We will now discuss how the ATL solution aims to meet these criteria.
+
+\subsection{Correctness and Completeness}
+
+The benchmark framework provides a set of expected query/transformation results, against which the output of the ATL solution can be compared. The \texttt{ATLTest} JUnit test case verifies that the output of the ATL solution matches the reference solution. The test results of each build are kept in the cloud-based Travis continuous integration platform\footnote{\url{https://travis-ci.org/dwagelaar/trainbenchmark-ttc}}. This independent platform provides an objective proof that the ATL solution unit tests are passing. Furthermore, all git commits for the ATL solution are publicly available on GitHub, and it can be verified that no modifications are made to the benchmark framework and/or the expected result set.
+
+\subsection{Applicability}
+
+In order for a solution to be applicable for model validation, it must be concise and maintainable. Even though ATL is not primarily intended for interactive querying and transformation, it was easy to fit the ATL implementation into the benchmark framework. Simple queries are trivially expressed in OCL, using a functional programming style (PosLength, SwitchSensor). Complex queries that return tuples as matches (SwitchSet, RouteSensor, SemaphoreNeighbor) require a navigation strategy to be implemented. While this is not as declarative as first-class patterns, it is more concise than imperative programming. Also, ATL provides helper attributes and operations to divide the complexity into modular blocks.
+
+All transformations are all simple, single rule transformation modules that are \emph{superimposed} onto a single framework Repair transformation module (see Listing~\ref{lst:repair}). Query matches are provided via the rule \textbf{from} part, whereas the model element modification is done in a \textbf{do} block. Any new elements are specified in the \textbf{to} block.
+
+Most example and production ATL transformation modules are much longer than the ones used in the benchmark case solution\footnote{\url{https://www.eclipse.org/atl/atlTransformations/}}, with industrial cases going up to 7000 lines of ATL for a single transformation scenario\footnote{\url{http://www.slideshare.net/DennisWagelaar/wagelaar-sda2014}}. Even such long transformation modules have proven to be sufficiently maintainable, especially when compared to implementations in Java.
+
+\subsection{Performance}
+
+The benchmark framework supports running the solution against increasing model sizes, starting at $2^0$ and going up by $2^{n+1}$. Within the memory constraints of the SHARE image\footnote{\url{http://is.ieis.tue.nl/staff/pvgorp/share/?trgPage=LookupImage&vdiNameSearch=TTC15_ATL}} of 1 GB RAM, we managed to go up to model size 512 with \texttt{-Xmx512m} as JVM arguments. While all benchmark tasks can be completed on SHARE for this model size within the time constraint of 5 minutes, this does not work all of the time. The performance of a SHARE VM is not consistent, and we sometimes saw simple tasks time out (e.g. RouteSensor, SwitchSensor), while the most complex task (SemaphoreNeighbor) finishes. On local hardware (AMD 1055T\footnote{\url{http://www.cpubenchmark.net/cpu.php?cpu=AMD+Phenom+II+X6+1055T}}), with 8 GB RAM and using \texttt{-Xmx4G} as JVM arguments (\texttt{java-1.7.0-openjdk-1.7.0.79-2.5.5.0.fc20.x86\_64}), we managed to go up to model size 4096 without a single time-out.
+
+Performance in using the ATL language is achieved by using helper attributes instead of operations where possible, as helper attribute values are cached; accessing a helper attribute more than once on the same object will not trigger evaluation again, but just returns the cached value. In addition, design patterns specific to model transformation, such as the Object Indexing pattern~\cite{conf/icsea/Lano2011} can be used to reduce the search space for a given model element.
+
+Furthermore, the virtual machine (EMFTVM) also applies certain performance optimisations. Complex code blocks are JIT-compiled to Java bytecode, which in turn may be JIT-compiled to native code by the JVM. Collections and boolean expressions are evaluated lazily, preventing unnecessary navigation and allowing short-circuit evaluation of expressions. Finally, model elements are cached by their type, making repeated lookup of all instances of a certain metaclass more performant.
 
 \bibliographystyle{eptcs}
 \bibliography{ttc15-atl}
