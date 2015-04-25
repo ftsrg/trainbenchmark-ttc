@@ -43,27 +43,26 @@ def benchmark(conf):
         os.remove(result_file)
     shutil.copy(header, result_file)
     for change_set in conf.change_sets:
-        for run_index in range(1, conf.runs+1):
-            for tool in conf.tools:
-                for query in conf.queries:
-                    for size in conf.sizes:
-                        target = util.get_tool_jar(tool)
-                        print("Benchmark: ", tool, " ", change_set, " ",
-                              query, " Size:", size, " Run:", run_index)
-                        try:
-                            output = subprocess.check_output(
-                            ["java", conf.vmargs,
-                             "-jar", target,
-                             "-runIndex", str(run_index),
-                             "-size", str(size),
-                             "-query", query,
-                             "-changeSet", change_set,
-                             "-iterationCount", str(conf.iterations)], timeout=conf.timeout)
-                            with open(result_file, "ab") as file:
-                                file.write(output)
-                        except TimeoutExpired:
-                            print("Timed out after", conf.timeout, "s, continuing with the next query.")
-                            break
+        for tool in conf.tools:
+            for query in conf.queries:
+                for size in conf.sizes:
+                    target = util.get_tool_jar(tool)
+                    print("Running benchmark: tool = " + tool + ", change set = " + change_set +
+                        ", query = " + query + ", size = " + str(size))
+                    try:
+                        output = subprocess.check_output(
+                        ["java", conf.vmargs,
+                         "-jar", target,
+                         "-runs", str(conf.runs),
+                         "-size", str(size),
+                         "-query", query,
+                         "-changeSet", change_set,
+                         "-iterationCount", str(conf.iterations)], timeout=conf.timeout)
+                        with open(result_file, "ab") as file:
+                            file.write(output)
+                    except TimeoutExpired:
+                        print("Timed out after", conf.timeout, "s, continuing with the next query.")
+                        break
 
 def clean_dir(dir):
     if os.path.exists(dir):

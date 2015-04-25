@@ -1,6 +1,6 @@
 {
   "MinSize": 1,
-  "MaxSize": 4,
+  "MaxSize": 128,
   "Queries": [
     "PosLength",
     "SwitchSensor"
@@ -16,10 +16,10 @@
     "fixed",
     "proportional"
   ],
-  "Runs": 1,
+  "Runs": 5,
   "IterationCount": 10,
   "JVM": {
     "vmargs": "-Xmx10G"
   },
-  "Timeout": 300
+  "Timeout": 600
 }

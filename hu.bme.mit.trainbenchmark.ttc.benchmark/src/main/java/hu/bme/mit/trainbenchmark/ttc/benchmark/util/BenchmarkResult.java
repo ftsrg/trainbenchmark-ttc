@@ -35,6 +35,8 @@ public class BenchmarkResult {
 	protected Random random;
 	protected long startTime;
 
+	protected int runIndex;
+
 	protected final String SEPARATOR = "\t";
 
 	protected List<Long> modifiedElementsSizes = new ArrayList<>();
@@ -51,9 +53,11 @@ public class BenchmarkResult {
 	protected List<Long> repairTimes = new ArrayList<>();
 	protected List<Long> repairMemory = new ArrayList<>();
 
-	public BenchmarkResult(final String tool, final String query) {
+	public BenchmarkResult(final String tool, final String query, final int runIndex) {
 		this.tool = tool;
 		this.query = query;
+		this.runIndex = runIndex;
+
 		this.random = new UniqueRandom(TrainBenchmarkConstants.RANDOM_SEED);
 	}
 
@@ -172,7 +176,7 @@ public class BenchmarkResult {
 		builder.append(bc.getChangeSet().toString().toLowerCase());
 		builder.append(SEPARATOR);
 		// RunIndex
-		builder.append(bc.getRunIndex());
+		builder.append(runIndex);
 		builder.append(SEPARATOR);
 		// Tool
 		builder.append(bc.getTool());

@@ -19,7 +19,7 @@ import org.apache.commons.cli.ParseException;
 public class BenchmarkConfig extends GenericConfig {
 
 	protected static final String CHANGE_SET = "changeSet";
-	protected static final String RUN_INDEX = "runIndex";
+	protected static final String RUNS = "runs";
 	protected static final String ITERATION_COUNT = "iterationCount";
 	protected static final String QUERY = "query";
 	protected static final String FIXED = "fixed";
@@ -31,7 +31,7 @@ public class BenchmarkConfig extends GenericConfig {
 	protected long transformationConstant;
 
 	protected int iterationCount;
-	protected int runIndex;
+	protected int runs;
 	protected String query;
 	protected String tool;
 
@@ -40,11 +40,11 @@ public class BenchmarkConfig extends GenericConfig {
 		this.tool = tool;
 	}
 
-	public BenchmarkConfig(final String tool, final int size, final int runIndex, final String query, final int iterationCount,
+	public BenchmarkConfig(final String tool, final int size, final int runs, final String query, final int iterationCount,
 			final ChangeSet changeSet, final long transformationConstant) {
 		super(size);
 		this.tool = tool;
-		this.runIndex = runIndex;
+		this.runs = runs;
 		this.query = query;
 		this.iterationCount = iterationCount;
 		this.transformationConstant = transformationConstant;
@@ -57,7 +57,7 @@ public class BenchmarkConfig extends GenericConfig {
 
 		options.addOption(requiredOption(QUERY, "the query to run, e.g. RouteSensor"));
 		options.addOption(requiredOption(CHANGE_SET, "the size of the change set, possible values: {fixed, proportional}"));
-		options.addOption(RUN_INDEX, true, "index of the run in the benchmark series");
+		options.addOption(RUNS, true, "number of runs");
 		options.addOption(ITERATION_COUNT, true, "number of modify-check iterations");
 		options.addOption(TRANSFORMATION_CONSTANT, true, "constant value for the transformations: "
 				+ "for a fixed change set, it defines the number of elements; "
@@ -88,11 +88,11 @@ public class BenchmarkConfig extends GenericConfig {
 			iterationCount = 1;
 		}
 
-		final String runIndexString = cmd.getOptionValue(RUN_INDEX);
-		if (runIndexString != null) {
-			runIndex = new Integer(runIndexString);
+		final String runsString = cmd.getOptionValue(RUNS);
+		if (runsString != null) {
+			runs = new Integer(runsString);
 		} else {
-			runIndex = 0;
+			runs = 1;
 		}
 
 		final String transformationConstantString = cmd.getOptionValue(TRANSFORMATION_CONSTANT);
@@ -103,8 +103,8 @@ public class BenchmarkConfig extends GenericConfig {
 		}
 	}
 
-	public int getRunIndex() {
-		return runIndex;
+	public int getRuns() {
+		return runs;
 	}
 
 	public int getIterationCount() {
