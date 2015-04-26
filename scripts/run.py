@@ -14,6 +14,8 @@ import util
 from loader import Loader
 from subprocess import TimeoutExpired
 
+def flatten(lst):
+    return sum(([x] if not isinstance(x, list) else flatten(x) for x in lst), [])
 
 def build(skip_tests):
     """Builds the project.
@@ -31,7 +33,7 @@ def generate(conf):
     """
     target = util.get_generator_jar()
     for size in conf.sizes:
-        subprocess.check_call(["java", conf.vmargs, "-jar", target, "-size", str(size)])
+        subprocess.check_call(flatten(["java", conf.vmargs, "-jar", target, "-size", str(size)]))
 
 
 def benchmark(conf):
@@ -50,14 +52,14 @@ def benchmark(conf):
                     print("Running benchmark: tool = " + tool + ", change set = " + change_set +
                         ", query = " + query + ", size = " + str(size))
                     try:
-                        output = subprocess.check_output(
+                        output = subprocess.check_output(flatten(
                         ["java", conf.vmargs,
                          "-jar", target,
                          "-runs", str(conf.runs),
                          "-size", str(size),
                          "-query", query,
                          "-changeSet", change_set,
-                         "-iterationCount", str(conf.iterations)], timeout=conf.timeout)
+                         "-iterationCount", str(conf.iterations)]), timeout=conf.timeout)
                         with open(result_file, "ab") as file:
                             file.write(output)
                     except TimeoutExpired:
