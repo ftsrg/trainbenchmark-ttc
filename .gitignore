@@ -10,6 +10,8 @@ runtimeInfo
 workspace
 *.~vsdx
 .~*#
+*.xls*
+*.ods
 *._trace
 Thumbs.db
 .Rhistory

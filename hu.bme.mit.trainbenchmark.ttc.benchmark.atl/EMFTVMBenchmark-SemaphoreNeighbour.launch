@@ -9,7 +9,7 @@
 <mapAttribute key="Inout Models Output Locations"/>
 <mapAttribute key="Input Model Options"/>
 <mapAttribute key="Input Models">
-<mapEntry key="IN" value="platform:/resource/hu.bme.mit.trainbenchmark.ttc/models/railway-4.railway"/>
+<mapEntry key="IN" value="platform:/resource/hu.bme.mit.trainbenchmark.ttc/models/railway-512.railway"/>
 </mapAttribute>
 <mapAttribute key="Metamodel Options"/>
 <mapAttribute key="Metamodels">

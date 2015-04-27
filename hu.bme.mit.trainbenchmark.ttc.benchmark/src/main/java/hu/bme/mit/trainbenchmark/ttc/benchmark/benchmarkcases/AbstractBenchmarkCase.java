@@ -67,10 +67,10 @@ public abstract class AbstractBenchmarkCase {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
-	public void benchmarkInit(final BenchmarkConfig bc) throws IOException {
+	public void benchmarkInit(final BenchmarkConfig bc, final int runIndex) throws IOException {
 		this.bc = bc;
 
-		br = new BenchmarkResult(bc.getTool(), bc.getQuery());
+		br = new BenchmarkResult(bc.getTool(), bc.getQuery(), runIndex);
 		br.setBenchmarkConfig(bc);
 		registerComparator();
 		init();

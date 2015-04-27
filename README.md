@@ -87,5 +87,5 @@ is error-prone and should be avoided.
 
 ## Troubleshooting
 
-* **Problem:** some users reported that loading the model hangs in the `getResource()` EMF method. We were not able to reproduce this -- please raise an issue if this problem occurs on your configuration.
-* **Solution:** a workaround is to add the `-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false` argument to the JVM arguments.
+* **Problem:** if not running with Oracle JDK7, both the generation and the benchmarking freezes sometimes.
+* **Solution:** see [this issue](https://github.com/FTSRG/trainbenchmark-ttc/issues/7) for details.

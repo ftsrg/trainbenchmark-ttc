@@ -23,10 +23,10 @@
     "fixed",
     "proportional"
   ],
-  "Runs": 1,
+  "Runs": 5,
   "IterationCount": 10,
   "JVM": {
-    "vmargs": "-Xmx512m"
+    "vmargs": ["-Xmx512m", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
   },
-  "Timeout": 300
+  "Timeout": 600
 }
