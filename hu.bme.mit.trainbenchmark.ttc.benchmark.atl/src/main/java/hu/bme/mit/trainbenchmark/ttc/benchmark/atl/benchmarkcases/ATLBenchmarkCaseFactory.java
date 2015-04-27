@@ -20,19 +20,18 @@ public class ATLBenchmarkCaseFactory {
 	public AbstractBenchmarkCase create(final String query) {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
-			return new PosLength();
+			return PosLength.getInstance();
 		case QueryConstants.ROUTESENSOR:
-			return new RouteSensor();
+			return RouteSensor.getInstance();
 		case QueryConstants.SWITCHSENSOR:
-			return new SwitchSensor();
+			return SwitchSensor.getInstance();
 		case QueryConstants.SEMAPHORENEIGHBOR:
-			return new SemaphoreNeighbor();
+			return SemaphoreNeighbor.getInstance();
 		case QueryConstants.SWITCHSET:
-			return new SwitchSet();
+			return SwitchSet.getInstance();
 		default:
 			throw new IllegalArgumentException();
 		}
 	}
-	
-	
+
 }

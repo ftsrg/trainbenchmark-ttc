@@ -15,12 +15,28 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.atl.benchmarkcases;
 
 import java.io.IOException;
 
+import org.eclipse.m2m.atl.emftvm.EmftvmFactory;
+
 /**
  * The ATL/EMFTVM implementation of the PosLength benchmark.
  * 
  * @author dennis
  */
 public class PosLength extends ATLBenchmarkCase {
+
+	private static PosLength instance;
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return the singleton instance
+	 */
+	public static PosLength getInstance() {
+		if (instance == null) {
+			instance = new PosLength();
+		}
+		return instance;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -31,8 +47,17 @@ public class PosLength extends ATLBenchmarkCase {
 	protected void init() throws IOException {
 		super.init();
 
-		queryExecEnv.loadModule(queryMr, "PosLength");
-		transformExecEnv.loadModule(transformationMr, "PosLengthRepair");
+		if (queryExecEnv == null) {
+			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			queryExecEnv.registerMetaModel("RAILWAY", railway);
+			queryExecEnv.loadModule(queryMr, "PosLength");
+		}
+
+		if (transformExecEnv == null) {
+			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			transformExecEnv.registerMetaModel("RAILWAY", railway);
+			transformExecEnv.loadModule(transformationMr, "PosLengthRepair");
+		}
 	}
 
 }

@@ -15,12 +15,28 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.atl.benchmarkcases;
 
 import java.io.IOException;
 
+import org.eclipse.m2m.atl.emftvm.EmftvmFactory;
+
 /**
  * The ATL/EMFTVM implementation of the SwitchSensor benchmark.
  * 
  * @author dennis
  */
 public class SemaphoreNeighbor extends ATLBenchmarkCase {
+
+	private static SemaphoreNeighbor instance;
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return the singleton instance
+	 */
+	public static SemaphoreNeighbor getInstance() {
+		if (instance == null) {
+			instance = new SemaphoreNeighbor();
+		}
+		return instance;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -31,9 +47,18 @@ public class SemaphoreNeighbor extends ATLBenchmarkCase {
 	protected void init() throws IOException {
 		super.init();
 
-		queryExecEnv.loadModule(queryMr, "SemaphoreNeighbour");
-		transformExecEnv.loadModule(transformationMr,
-				"SemaphoreNeighbourRepair");
+		if (queryExecEnv == null) {
+			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			queryExecEnv.registerMetaModel("RAILWAY", railway);
+			queryExecEnv.loadModule(queryMr, "SemaphoreNeighbour");
+		}
+
+		if (transformExecEnv == null) {
+			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			transformExecEnv.registerMetaModel("RAILWAY", railway);
+			transformExecEnv.loadModule(transformationMr,
+					"SemaphoreNeighbourRepair");
+		}
 	}
 
 }

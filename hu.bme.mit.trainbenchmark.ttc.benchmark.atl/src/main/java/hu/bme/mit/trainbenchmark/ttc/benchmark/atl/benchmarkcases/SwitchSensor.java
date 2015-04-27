@@ -15,12 +15,28 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.atl.benchmarkcases;
 
 import java.io.IOException;
 
+import org.eclipse.m2m.atl.emftvm.EmftvmFactory;
+
 /**
  * The ATL/EMFTVM implementation of the SwitchSensor benchmark.
  * 
  * @author dennis
  */
 public class SwitchSensor extends ATLBenchmarkCase {
+
+	private static SwitchSensor instance;
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return the singleton instance
+	 */
+	public static SwitchSensor getInstance() {
+		if (instance == null) {
+			instance = new SwitchSensor();
+		}
+		return instance;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -31,8 +47,17 @@ public class SwitchSensor extends ATLBenchmarkCase {
 	protected void init() throws IOException {
 		super.init();
 
-		queryExecEnv.loadModule(queryMr, "SwitchSensor");
-		transformExecEnv.loadModule(transformationMr, "SwitchSensorRepair");
+		if (queryExecEnv == null) {
+			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			queryExecEnv.registerMetaModel("RAILWAY", railway);
+			queryExecEnv.loadModule(queryMr, "SwitchSensor");
+		}
+
+		if (transformExecEnv == null) {
+			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			transformExecEnv.registerMetaModel("RAILWAY", railway);
+			transformExecEnv.loadModule(transformationMr, "SwitchSensorRepair");
+		}
 	}
 
 }

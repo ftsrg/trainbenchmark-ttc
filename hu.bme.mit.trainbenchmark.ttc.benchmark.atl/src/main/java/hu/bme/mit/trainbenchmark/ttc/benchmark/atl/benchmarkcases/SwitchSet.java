@@ -15,12 +15,28 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.atl.benchmarkcases;
 
 import java.io.IOException;
 
+import org.eclipse.m2m.atl.emftvm.EmftvmFactory;
+
 /**
  * The ATL/EMFTVM implementation of the SwitchSet benchmark.
  * 
  * @author dennis
  */
 public class SwitchSet extends ATLBenchmarkCase {
+
+	private static SwitchSet instance;
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return the singleton instance
+	 */
+	public static SwitchSet getInstance() {
+		if (instance == null) {
+			instance = new SwitchSet();
+		}
+		return instance;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -31,8 +47,17 @@ public class SwitchSet extends ATLBenchmarkCase {
 	protected void init() throws IOException {
 		super.init();
 
-		queryExecEnv.loadModule(queryMr, "SwitchSet");
-		transformExecEnv.loadModule(transformationMr, "SwitchSetRepair");
+		if (queryExecEnv == null) {
+			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			queryExecEnv.registerMetaModel("RAILWAY", railway);
+			queryExecEnv.loadModule(queryMr, "SwitchSet");
+		}
+
+		if (transformExecEnv == null) {
+			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			transformExecEnv.registerMetaModel("RAILWAY", railway);
+			transformExecEnv.loadModule(transformationMr, "SwitchSetRepair");
+		}
 	}
 
 }

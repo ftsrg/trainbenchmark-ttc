@@ -45,9 +45,9 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	protected ExecEnv transformExecEnv;
 	protected ModuleResolver queryMr;
 	protected ModuleResolver transformationMr;
+	protected Metamodel railway;
 
 	private ResourceSet rs;
-	private Metamodel railway;
 
 	/**
 	 * {@inheritDoc}
@@ -86,16 +86,6 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 		if (railway == null) {
 			railway = EmftvmFactory.eINSTANCE.createMetamodel();
 			railway.setResource(RailwayPackage.eINSTANCE.eResource());
-		}
-
-		if (queryExecEnv == null) {
-			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
-			queryExecEnv.registerMetaModel("RAILWAY", railway);
-		}
-
-		if (transformExecEnv == null) {
-			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
-			transformExecEnv.registerMetaModel("RAILWAY", railway);
 		}
 	}
 

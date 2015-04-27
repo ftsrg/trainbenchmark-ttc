@@ -15,12 +15,28 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.atl.benchmarkcases;
 
 import java.io.IOException;
 
+import org.eclipse.m2m.atl.emftvm.EmftvmFactory;
+
 /**
  * The ATL/EMFTVM implementation of the RouteSensor benchmark.
  * 
  * @author dennis
  */
 public class RouteSensor extends ATLBenchmarkCase {
+
+	private static RouteSensor instance;
+
+	/**
+	 * Returns the singleton instance.
+	 * 
+	 * @return the singleton instance
+	 */
+	public static RouteSensor getInstance() {
+		if (instance == null) {
+			instance = new RouteSensor();
+		}
+		return instance;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -31,8 +47,17 @@ public class RouteSensor extends ATLBenchmarkCase {
 	protected void init() throws IOException {
 		super.init();
 
-		queryExecEnv.loadModule(queryMr, "RouteSensor");
-		transformExecEnv.loadModule(transformationMr, "RouteSensorRepair");
+		if (queryExecEnv == null) {
+			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			queryExecEnv.registerMetaModel("RAILWAY", railway);
+			queryExecEnv.loadModule(queryMr, "RouteSensor");
+		}
+
+		if (transformExecEnv == null) {
+			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			transformExecEnv.registerMetaModel("RAILWAY", railway);
+			transformExecEnv.loadModule(transformationMr, "RouteSensorRepair");
+		}
 	}
 
 }
