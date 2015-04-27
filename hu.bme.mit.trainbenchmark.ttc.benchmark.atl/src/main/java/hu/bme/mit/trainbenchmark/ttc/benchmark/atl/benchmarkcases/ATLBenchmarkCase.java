@@ -46,6 +46,9 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	protected ModuleResolver queryMr;
 	protected ModuleResolver transformationMr;
 
+	private ResourceSet rs;
+	private Metamodel railway;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -64,24 +67,36 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	protected void init() throws IOException {
 		super.init();
 
-		final ResourceSet rs = new ResourceSetImpl();
-		rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put("emftvm", new EMFTVMResourceFactoryImpl());
+		if (rs == null) {
+			rs = new ResourceSetImpl();
+			rs.getResourceFactoryRegistry().getExtensionToFactoryMap()
+					.put("emftvm", new EMFTVMResourceFactoryImpl());
+		}
 
-		queryMr = new DefaultModuleResolver(URI.createURI(QUERY_PATH + "/")
-				.toString(), rs);
+		if (queryMr == null) {
+			queryMr = new DefaultModuleResolver(URI.createURI(QUERY_PATH + "/")
+					.toString(), rs);
+		}
 
-		transformationMr = new DefaultModuleResolver(URI.createURI(
-				TRANSFORMATION_PATH + "/").toString(), rs);
+		if (transformationMr == null) {
+			transformationMr = new DefaultModuleResolver(URI.createURI(
+					TRANSFORMATION_PATH + "/").toString(), rs);
+		}
 
-		final Metamodel railway = EmftvmFactory.eINSTANCE.createMetamodel();
-		railway.setResource(RailwayPackage.eINSTANCE.eResource());
+		if (railway == null) {
+			railway = EmftvmFactory.eINSTANCE.createMetamodel();
+			railway.setResource(RailwayPackage.eINSTANCE.eResource());
+		}
 
-		queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
-		queryExecEnv.registerMetaModel("RAILWAY", railway);
+		if (queryExecEnv == null) {
+			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			queryExecEnv.registerMetaModel("RAILWAY", railway);
+		}
 
-		transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
-		transformExecEnv.registerMetaModel("RAILWAY", railway);
+		if (transformExecEnv == null) {
+			transformExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
+			transformExecEnv.registerMetaModel("RAILWAY", railway);
+		}
 	}
 
 	/**
@@ -107,10 +122,8 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	 */
 	@Override
 	protected Collection<Object> check() {
-		matches = new ArrayList<>();
-
 		final List<?> result = (List<?>) queryExecEnv.run(null);
-		matches.addAll(result);
+		matches = new ArrayList<>(result); // copy lazy result list to trigger evaluation
 
 		return matches;
 	}
