@@ -13,7 +13,7 @@ helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
 	RAILWAY!Route.allInstances()->reject(r | r.exit.oclIsUndefined());
 
 --- Returns the sensor tuples and their track elements that match the given route.
-helper context RAILWAY!Route def : sensorTuples : Set(
+helper context RAILWAY!Route def : sensorTuples : Sequence(
 		TupleType(
 			r1 : RAILWAY!Route,
 			s1 : RAILWAY!Sensor, 
@@ -27,7 +27,7 @@ helper context RAILWAY!Route def : sensorTuples : Set(
 				let s2 : RAILWAY!Sensor = te2.sensor in
 				s2.oclIsUndefined() or (
 					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-					s2routes.oclIsUndefined() or s2routes->isEmpty() or
+					s2routes.oclIsUndefined() or
 					s2routes->exists(r2 | r2.entry = self.exit)
 				)
 			)->collect(te2 |
@@ -39,7 +39,7 @@ helper context RAILWAY!Route def : sensorTuples : Set(
 					Tuple{r1 = self, s1 = s1, te1 = te1, te2 = te2, s2 = s2, r3 = r3}
 				)
 			)
-		) 
+		)
 	)->flatten();
 
 --- Returns the Routes mapped by their Sensor.
