@@ -34,6 +34,11 @@ import org.eclipse.m2m.atl.emftvm.impl.resource.EMFTVMResourceFactoryImpl;
 import org.eclipse.m2m.atl.emftvm.util.DefaultModuleResolver;
 import org.eclipse.m2m.atl.emftvm.util.ModuleResolver;
 
+/**
+ * The ATL/EMFTVM base implementation for all benchmarks.
+ * 
+ * @author dennis
+ */
 public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 
 	public static final String QUERY_PATH = ATLBenchmarkCase.class.getResource(
@@ -90,6 +95,24 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	}
 
 	/**
+	 * Resets all fields.
+	 */
+	public void reset() {
+		// Do not clear the VMs themselves, or all JIT code is lost
+		if (queryExecEnv != null) {
+			queryExecEnv.clearModels();
+		}
+
+		if (transformExecEnv != null) {
+			transformExecEnv.clearModels();
+		}
+
+		container = null;
+		resource = null;
+		matches = null;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * 
 	 * Loads and registers the input model with the {@link ExecEnv}s.
@@ -113,7 +136,8 @@ public abstract class ATLBenchmarkCase extends EMFBenchmarkCase {
 	@Override
 	protected Collection<Object> check() {
 		final List<?> result = (List<?>) queryExecEnv.run(null);
-		matches = new ArrayList<>(result); // copy lazy result list to trigger evaluation
+		matches = new ArrayList<>(result); // copy lazy result list to trigger
+											// evaluation
 
 		return matches;
 	}

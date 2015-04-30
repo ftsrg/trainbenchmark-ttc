@@ -18,20 +18,28 @@ import hu.bme.mit.trainbenchmark.ttc.constants.QueryConstants;
 public class ATLBenchmarkCaseFactory {
 
 	public AbstractBenchmarkCase create(final String query) {
+		final ATLBenchmarkCase benchmarkCase;
 		switch (query) {
 		case QueryConstants.POSLENGTH:
-			return PosLength.getInstance();
+			benchmarkCase = PosLength.getInstance();
+			break;
 		case QueryConstants.ROUTESENSOR:
-			return RouteSensor.getInstance();
+			benchmarkCase = RouteSensor.getInstance();
+			break;
 		case QueryConstants.SWITCHSENSOR:
-			return SwitchSensor.getInstance();
+			benchmarkCase = SwitchSensor.getInstance();
+			break;
 		case QueryConstants.SEMAPHORENEIGHBOR:
-			return SemaphoreNeighbor.getInstance();
+			benchmarkCase = SemaphoreNeighbor.getInstance();
+			break;
 		case QueryConstants.SWITCHSET:
-			return SwitchSet.getInstance();
+			benchmarkCase = SwitchSet.getInstance();
+			break;
 		default:
 			throw new IllegalArgumentException();
 		}
+		benchmarkCase.reset();
+		return benchmarkCase;
 	}
 
 }
