@@ -34,7 +34,7 @@ helper context RAILWAY!Route def : sensorTuples : Sequence(
 				let s2 : RAILWAY!Sensor = te2.sensor in
 				let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
 				s2routes->select(r3 |
-					r3 <> self and r3.definedBy->includes(s2)
+					r3 <> self
 				)->collect(r3 |
 					Tuple{r1 = self, s1 = s1, te1 = te1, te2 = te2, s2 = s2, r3 = r3}
 				)
