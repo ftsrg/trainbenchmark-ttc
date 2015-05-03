@@ -1,0 +1,41 @@
+-- The query checks for routes which have an exit semaphore and a sensor connected to another
+-- sensor (which defines another route) by two track elements, but there is no other route that connects the
+-- same semaphore and the other sensor.
+module SemaphoreNeighbourCheck;
+metamodel RAILWAY : '/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore';
+transform IN : RAILWAY;
+
+-- Checks for matches
+single rule Check {
+	from
+		r1 : RAILWAY!Route (definedBy =~ s1),
+		s1 : RAILWAY!Sensor (elements =~ te1),
+		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
+		te2 : RAILWAY!TrackElement (sensor =~ s2),
+		s2 : RAILWAY!Sensor (routes =~ r3),
+		r3 : RAILWAY!Route
+	not
+		s2 : RAILWAY!Sensor (routes =~ r2),
+		r2 : RAILWAY!Route (entry =~ r1.exit)
+	to
+		r1 : RAILWAY!Route (definedBy =~ s1),
+		s1 : RAILWAY!Sensor (elements =~ te1),
+		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
+		te2 : RAILWAY!TrackElement (sensor =~ s2),
+		s2 : RAILWAY!Sensor (routes =~ r3),
+		r3 : RAILWAY!Route
+}
+
+-- Returns the Routes mapped by their Sensor.
+context RAILWAY!Sensor def : routes : Set(RAILWAY!Route) =
+	let routes : Set(RAILWAY!Route) = Env::routesBySensor.get(self) in
+	if routes.oclIsUndefined() then
+		Set{}
+	else
+		routes
+	endif;
+
+-- Returns the Routes mapped by their Sensor.
+-- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
+static def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
+	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);

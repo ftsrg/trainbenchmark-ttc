@@ -1,0 +1,16 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- The query checks for routes which have an exit semaphore and a sensor connected to another
+-- sensor (which defines another route) by two track elements, but there is no other route that connects the
+-- same semaphore and the other sensor.
+query SemaphoreNeighbourQuery = thisModule.traces.getLinksByRule('Check', true).links
+		->collect(l | Tuple{
+			r1 = l.getSourceElement('r1', true).object,
+			s1 = l.getSourceElement('s1', true).object,
+			te1 = l.getSourceElement('te1', true).object,
+			te2 = l.getSourceElement('te2', true).object,
+			s2 = l.getSourceElement('s2', true).object,
+			r3 = l.getSourceElement('r3', true).object});
+
+uses SemaphoreNeighbourCheck;

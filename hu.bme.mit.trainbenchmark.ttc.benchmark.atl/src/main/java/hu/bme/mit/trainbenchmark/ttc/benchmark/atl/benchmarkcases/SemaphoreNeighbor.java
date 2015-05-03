@@ -50,7 +50,7 @@ public class SemaphoreNeighbor extends ATLBenchmarkCase {
 		if (queryExecEnv == null) {
 			queryExecEnv = EmftvmFactory.eINSTANCE.createExecEnv();
 			queryExecEnv.registerMetaModel("RAILWAY", railway);
-			queryExecEnv.loadModule(queryMr, "SemaphoreNeighbour");
+			queryExecEnv.loadModule(queryMr, "SemaphoreNeighbourQuery");
 		}
 
 		if (transformExecEnv == null) {
