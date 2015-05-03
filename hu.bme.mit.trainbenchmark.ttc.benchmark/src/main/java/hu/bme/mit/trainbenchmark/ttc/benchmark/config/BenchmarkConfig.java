@@ -12,26 +12,26 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.config;
 
-import hu.bme.mit.trainbenchmark.ttc.config.TrainBenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
 
 import org.apache.commons.cli.ParseException;
 
-public class BenchmarkConfig extends TrainBenchmarkConfig {
+public class BenchmarkConfig extends GenericConfig {
 
-	private static final String CHANGE_SET = "changeSet";
-	private static final String SIZE_STRING = "size";
-	private static final String RUN_INDEX = "runIndex";
-	private static final String ITERATION_COUNT = "iterationCount";
-	private static final String QUERY = "query";
-	private static final String FIXED = "fixed";
-	private static final String PROPORTIONAL = "proportional";
-	
+	protected static final String CHANGE_SET = "changeSet";
+	protected static final String RUNS = "runs";
+	protected static final String ITERATION_COUNT = "iterationCount";
+	protected static final String QUERY = "query";
+	protected static final String FIXED = "fixed";
+	protected static final String PROPORTIONAL = "proportional";
+	protected static final String TRANSFORMATION_CONSTANT = "transformationConstant";
+
 	// modification constants
 	protected ChangeSet changeSet;
-	protected long transformationConstant = 10;
+	protected long transformationConstant;
 
 	protected int iterationCount;
-	protected int runIndex;
+	protected int runs;
 	protected String query;
 	protected String tool;
 
@@ -39,12 +39,12 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 		super(args);
 		this.tool = tool;
 	}
-	
-	public BenchmarkConfig(final String tool, final int size, final int runIndex, final String query, final int iterationCount,
+
+	public BenchmarkConfig(final String tool, final int size, final int runs, final String query, final int iterationCount,
 			final ChangeSet changeSet, final long transformationConstant) {
 		super(size);
 		this.tool = tool;
-		this.runIndex = runIndex;
+		this.runs = runs;
 		this.query = query;
 		this.iterationCount = iterationCount;
 		this.transformationConstant = transformationConstant;
@@ -55,11 +55,13 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 	protected void initOptions() {
 		super.initOptions();
 
-		options.addOption(requiredOption(SIZE_STRING, "model size, e.g. 4"));
 		options.addOption(requiredOption(QUERY, "the query to run, e.g. RouteSensor"));
-		options.addOption(requiredOption(CHANGE_SET, "the size of the change set, possible values: {fixed,proportional}"));
-		options.addOption(RUN_INDEX, true, "index of the run in the benchmark series");
+		options.addOption(requiredOption(CHANGE_SET, "the size of the change set, possible values: {fixed, proportional}"));
+		options.addOption(RUNS, true, "number of runs");
 		options.addOption(ITERATION_COUNT, true, "number of modify-check iterations");
+		options.addOption(TRANSFORMATION_CONSTANT, true, "constant value for the transformations: "
+				+ "for a fixed change set, it defines the number of elements; "
+				+ "for a proportional change set, it defines the proportion of the elements");
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 		super.processArguments(args);
 
 		// queries argument -> testCases list
-		query = cmd.getOptionValue(QUERY);		
+		query = cmd.getOptionValue(QUERY);
 		switch (cmd.getOptionValue(CHANGE_SET).toString()) {
 		case FIXED:
 			changeSet = ChangeSet.FIXED;
@@ -86,16 +88,23 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 			iterationCount = 1;
 		}
 
-		final String runIndexString = cmd.getOptionValue(RUN_INDEX);
-		if (runIndexString != null) {
-			runIndex = new Integer(runIndexString);
+		final String runsString = cmd.getOptionValue(RUNS);
+		if (runsString != null) {
+			runs = new Integer(runsString);
 		} else {
-			runIndex = 0;
+			runs = 1;
+		}
+
+		final String transformationConstantString = cmd.getOptionValue(TRANSFORMATION_CONSTANT);
+		if (transformationConstantString != null) {
+			transformationConstant = new Integer(iterationCountString);
+		} else {
+			transformationConstant = 10;
 		}
 	}
 
-	public int getRunIndex() {
-		return runIndex;
+	public int getRuns() {
+		return runs;
 	}
 
 	public int getIterationCount() {
@@ -109,11 +118,11 @@ public class BenchmarkConfig extends TrainBenchmarkConfig {
 	public String getTool() {
 		return tool;
 	}
-	
+
 	public ChangeSet getChangeSet() {
 		return changeSet;
 	}
-	
+
 	public long getTransformationConstant() {
 		return transformationConstant;
 	}

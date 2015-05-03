@@ -20,8 +20,9 @@ import java.io.IOException;
 
 public class ScenarioLogic {
 
-	public BenchmarkResult runBenchmark(final BenchmarkConfig bc, final AbstractBenchmarkCase testCase) throws IOException {
-		testCase.benchmarkInit(bc);
+	public BenchmarkResult runBenchmark(final BenchmarkConfig bc, final AbstractBenchmarkCase testCase, final int runIndex)
+			throws IOException {
+		testCase.benchmarkInit(bc, runIndex);
 
 		testCase.benchmarkRead();
 		testCase.benchmarkCheck();

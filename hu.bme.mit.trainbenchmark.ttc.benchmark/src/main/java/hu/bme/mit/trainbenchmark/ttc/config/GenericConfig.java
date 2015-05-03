@@ -22,10 +22,9 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-public class TrainBenchmarkConfig {
+public class GenericConfig {
 
-	private static final String SIZE_STRING = "size";
-	private static final String WORKSPACE_PATH = "workspacePath";
+	protected static final String SIZE_STRING = "size";
 	protected final Options options = new Options();
 	protected final CommandLineParser parser = new PosixParser();
 	protected CommandLine cmd;
@@ -34,11 +33,11 @@ public class TrainBenchmarkConfig {
 	protected int size;
 	protected String workspacePath = "..";
 
-	public TrainBenchmarkConfig(final int size) {
+	public GenericConfig(final int size) {
 		this.size = size;
 	}
-	
-	public TrainBenchmarkConfig(final String args[]) throws ParseException {
+
+	public GenericConfig(final String args[]) throws ParseException {
 		initOptions();
 
 		if (Arrays.asList(args).contains("-help")) {
@@ -57,16 +56,11 @@ public class TrainBenchmarkConfig {
 	protected void initOptions() {
 		options.addOption("help", false, "displays this text");
 		options.addOption(requiredOption(SIZE_STRING, "model size, e.g. 4"));
-		options.addOption(WORKSPACE_PATH, true, "path of the Eclipse workspace with all projects");
 	}
 
 	protected void processArguments(final String[] args) throws ParseException {
 		cmd = parser.parse(options, args);
 
-		if (cmd.hasOption(WORKSPACE_PATH)) {
-			workspacePath = cmd.getOptionValue(WORKSPACE_PATH);
-		}
-		
 		size = Integer.parseInt(cmd.getOptionValue(SIZE_STRING));
 	}
 

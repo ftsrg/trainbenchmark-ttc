@@ -26,14 +26,14 @@ import com.google.common.collect.Ordering;
 
 public abstract class AbstractBenchmarkCase {
 
-	protected BenchmarkResult bmr;
+	protected BenchmarkResult br;
 	protected BenchmarkConfig bc;
 	protected Collection<Object> matches;
 	protected Comparator<Object> comparator;
 
 	// simple getters and setters
 	public BenchmarkResult getBenchmarkResult() {
-		return bmr;
+		return br;
 	}
 
 	// shorthands
@@ -67,11 +67,11 @@ public abstract class AbstractBenchmarkCase {
 		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
-	public void benchmarkInit(final BenchmarkConfig bc) throws IOException {
+	public void benchmarkInit(final BenchmarkConfig bc, final int runIndex) throws IOException {
 		this.bc = bc;
 
-		bmr = new BenchmarkResult(bc.getTool(), bc.getQuery());
-		bmr.setBenchmarkConfig(bc);
+		br = new BenchmarkResult(bc.getTool(), bc.getQuery(), runIndex);
+		br.setBenchmarkConfig(bc);
 		registerComparator();
 		init();
 		runGC();
@@ -82,25 +82,25 @@ public abstract class AbstractBenchmarkCase {
 	}
 
 	public void benchmarkRead() throws IOException {
-		bmr.restartClock();
+		br.restartClock();
 		read();
-		bmr.setReadTime();
+		br.setReadTime();
 
-		bmr.setReadMemory(getMemoryUsage());
+		br.setReadMemory(getMemoryUsage());
 	}
 
 	public void benchmarkCheck() throws IOException {
-		bmr.restartClock();
+		br.restartClock();
 		check();
-		bmr.addResultSize(matches.size());
-		bmr.addCheckTime();
+		br.addResultSize(matches.size());
+		br.addCheckTime();
 
-		bmr.addCheckMemory(getMemoryUsage());
+		br.addCheckMemory(getMemoryUsage());
 	}
 
 	public void benchmarkModify() throws IOException {
-		final long nElementsToModify = Util.calcModify(bmr);
-		bmr.addModifiedElementsSize(nElementsToModify);
+		final long nElementsToModify = Util.calcModify(br);
+		br.addModifiedElementsSize(nElementsToModify);
 
 		// create a sorted copy of the matches
 		// we do not measure this in the benchmark results
@@ -109,11 +109,11 @@ public abstract class AbstractBenchmarkCase {
 		final List<Object> elementsToModify = TransformationUtil.pickRandom(nElementsToModify, sortedMatches);
 
 		// we measure the transformation
-		bmr.restartClock();
+		br.restartClock();
 		modify(elementsToModify);
-		bmr.addTransformationTime();
+		br.addTransformationTime();
 
-		bmr.addTransformationMemory(getMemoryUsage());
+		br.addTransformationMemory(getMemoryUsage());
 	}
 
 	protected void runGC() throws IOException {

@@ -15,7 +15,7 @@ package hu.bme.mit.trainbenchmark.ttc.generator.emf;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.CURRENTPOSITION;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.POSITION;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.SIGNAL;
-import hu.bme.mit.trainbenchmark.ttc.config.TrainBenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
 import hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants;
 import hu.bme.mit.trainbenchmark.ttc.emf.FileBroker;
 import hu.bme.mit.trainbenchmark.ttc.generator.Generator;
@@ -44,7 +44,7 @@ public class EMFGenerator extends Generator {
 
 	public EMFGenerator(final String args[]) throws ParseException {
 		super();
-		generatorConfig = new TrainBenchmarkConfig(args);
+		generatorConfig = new GenericConfig(args);
 	}
 
 	protected Resource resource;
