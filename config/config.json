@@ -1,6 +1,6 @@
 {
-  "MinSize": 32,
-  "MaxSize": 32,
+  "MinSize": 1,
+  "MaxSize": 512,
   "Queries": [
     "PosLength",
     "SwitchSensor"
@@ -19,7 +19,7 @@
   "Runs": 5,
   "IterationCount": 10,
   "JVM": {
-    "vmargs": ["-Xmx2G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
+    "vmargs": ["-Xms4G", "-Xmx4G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
   },
   "Timeout": 600
 }
