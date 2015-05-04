@@ -13,6 +13,7 @@ import sys
 import util
 from loader import Loader
 from subprocess import TimeoutExpired
+from subprocess import CalledProcessError
 
 def flatten(lst):
     return sum(([x] if not isinstance(x, list) else flatten(x) for x in lst), [])
@@ -64,6 +65,9 @@ def benchmark(conf):
                             file.write(output)
                     except TimeoutExpired:
                         print("Timed out after", conf.timeout, "s, continuing with the next query.")
+                        break
+                    except CalledProcessError as e:
+                        print("Program exited with error")
                         break
 
 def clean_dir(dir):
