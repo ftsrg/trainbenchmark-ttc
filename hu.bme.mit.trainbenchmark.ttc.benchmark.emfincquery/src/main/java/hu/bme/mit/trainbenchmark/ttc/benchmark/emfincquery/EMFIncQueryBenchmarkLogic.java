@@ -22,7 +22,7 @@ public class EMFIncQueryBenchmarkLogic extends AbstractBenchmarkLogic {
 
 	public EMFIncQueryBenchmarkLogic(final String[] args) throws ParseException {
 		super();
-		benchmarkConfig = new BenchmarkConfig(args, getTool());
+		benchmarkConfig = new EMFIncQueryBenchmarkConfig(args, getTool());
 	}
 
 	public EMFIncQueryBenchmarkLogic(final BenchmarkConfig bc) {
