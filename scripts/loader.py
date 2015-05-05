@@ -7,9 +7,7 @@ import sys
 import os
 import json
 import logging
-
 import util
-
 
 class Loader():
     def __init__(self):
@@ -57,6 +55,7 @@ class Loader():
         config.runs = config_json["Runs"]
         config.vmargs = config_json["JVM"]["vmargs"]
         config.timeout = config_json["Timeout"]
+        config.optional_arguments = config_json["OptionalArguments"]
 
         return config
 

@@ -51,6 +51,11 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 	}
 
 	@Override
+	protected void destroy() throws IOException {
+		super.destroy();
+		engine.dispose();
+	}
+
 	public Collection<Object> check() throws IOException {
 		if (eiqbc.isLocalSearch()) {
 			try {
@@ -61,10 +66,6 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 		} else {
 			return matches;
 		}
-	}
-	protected void destroy() throws IOException {
-		super.destroy();
-		engine.dispose();
 	}
 
 	@Override

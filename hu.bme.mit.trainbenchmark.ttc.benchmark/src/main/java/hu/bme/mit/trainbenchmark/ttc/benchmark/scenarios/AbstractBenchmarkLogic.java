@@ -39,5 +39,5 @@ public abstract class AbstractBenchmarkLogic {
 		return benchmarkConfig;
 	}
 
-	protected abstract String getTool();
+	// protected abstract String getTool();
 }

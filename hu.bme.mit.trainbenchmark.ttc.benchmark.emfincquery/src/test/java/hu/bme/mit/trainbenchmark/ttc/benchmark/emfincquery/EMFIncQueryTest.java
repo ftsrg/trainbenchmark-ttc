@@ -24,13 +24,12 @@ public abstract class EMFIncQueryTest extends TrainBenchmarkTest {
 	protected AbstractBenchmarkLogic getBenchmarkLogic(final BenchmarkConfig bc) {
 		return new EMFIncQueryBenchmarkLogic(bc);
 	}
-	
 
 	@Override
-	public BenchmarkConfig initialize(final String query, final String tool) throws IOException {
-		return new EMFIncQueryBenchmarkConfig(tool, 1, 1, query, 1, ChangeSet.FIXED, 1, isLocalSearch());
+	public BenchmarkConfig initialize(final String query) throws IOException {
+		return new EMFIncQueryBenchmarkConfig(1, 1, query, 1, ChangeSet.FIXED, 1, isLocalSearch());
 	}
-	
+
 	protected abstract boolean isLocalSearch();
-	
+
 }

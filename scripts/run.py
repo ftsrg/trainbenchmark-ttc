@@ -49,26 +49,29 @@ def benchmark(conf):
         for tool in conf.tools:
             for query in conf.queries:
                 for size in conf.sizes:
-                    target = util.get_tool_jar(tool)
-                    print("Running benchmark: tool = " + tool + ", change set = " + change_set +
-                        ", query = " + query + ", size = " + str(size))
-                    try:
-                        output = subprocess.check_output(flatten(
-                        ["java", conf.vmargs,
-                         "-jar", target,
-                         "-runs", str(conf.runs),
-                         "-size", str(size),
-                         "-query", query,
-                         "-changeSet", change_set,
-                         "-iterationCount", str(conf.iterations)]), timeout=conf.timeout)
-                        with open(result_file, "ab") as file:
-                            file.write(output)
-                    except TimeoutExpired:
-                        print("Timed out after", conf.timeout, "s, continuing with the next query.")
-                        break
-                    except CalledProcessError as e:
-                        print("Program exited with error")
-                        break
+                    for args in conf.optional_arguments:
+                        target = util.get_tool_jar(tool)
+                        print("Running benchmark: tool = " + tool + ", change set = " + change_set +
+                            ", query = " + query + ", size = " + str(size) + ", extra arguments = " + str(args))
+                        try:
+                            command = ["java", conf.vmargs,
+                                 "-jar", target,
+                                 "-runs", str(conf.runs),
+                                 "-size", str(size),
+                                 "-query", query,
+                                 "-changeSet", change_set,
+                                 "-iterationCount", str(conf.iterations)]
+                            command += args
+                            command = flatten(command)
+                            output = subprocess.check_output(command, timeout=conf.timeout)
+                            with open(result_file, "ab") as file:
+                                file.write(output)
+                        except TimeoutExpired:
+                            print("Timed out after", conf.timeout, "s, continuing with the next query.")
+                            break
+                        except CalledProcessError as e:
+                            print("Program exited with error")
+                            break
 
 def clean_dir(dir):
     if os.path.exists(dir):
