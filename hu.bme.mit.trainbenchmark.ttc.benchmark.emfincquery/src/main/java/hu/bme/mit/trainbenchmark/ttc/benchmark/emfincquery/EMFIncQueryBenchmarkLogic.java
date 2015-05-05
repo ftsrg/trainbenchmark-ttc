@@ -20,19 +20,16 @@ import org.apache.commons.cli.ParseException;
 
 public class EMFIncQueryBenchmarkLogic extends AbstractBenchmarkLogic {
 
+	protected EMFIncQueryBenchmarkConfig eiqbc;
+
 	public EMFIncQueryBenchmarkLogic(final String[] args) throws ParseException {
 		super();
-		benchmarkConfig = new EMFIncQueryBenchmarkConfig(args, getTool());
+		benchmarkConfig = eiqbc = new EMFIncQueryBenchmarkConfig(args);
 	}
 
 	public EMFIncQueryBenchmarkLogic(final BenchmarkConfig bc) {
 		super();
 		this.benchmarkConfig = bc;
-	}
-	
-	@Override
-	protected String getTool() {
-		return "EMFIncQuery";
 	}
 
 	@Override
