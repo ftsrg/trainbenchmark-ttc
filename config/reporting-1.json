@@ -6,7 +6,7 @@
     },
     "Groups": {
       "Query": true,
-      "Tool": false
+      "Tool": true
     }
   },
   "Summarize_Functions": [

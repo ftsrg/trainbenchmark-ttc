@@ -1,8 +1,8 @@
 {
   "Dimensions": {
     "X_Dimensions": {
-      "Size": false,
-      "Iteration": true
+      "Size": true,
+      "Iteration": false
     },
     "Groups": {
       "Query": true,
