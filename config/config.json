@@ -21,7 +21,7 @@
 	"fixed",
 	"proportional"
     ],
-    "Runs": 3,
+    "Runs": 2,
     "IterationCount": 10,
     "JVM": {
 	"vmargs": ["-Xmx2G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
