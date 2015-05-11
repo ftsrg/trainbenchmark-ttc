@@ -64,8 +64,8 @@ public abstract class AbstractBenchmarkCase {
 	// generic methods
 
 	protected long getMemoryUsage() throws IOException {
-		runGc();
-	        return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+		runGC();
+		return Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
 	}
 
 	public void benchmarkInit(final BenchmarkConfig bc, final int runIndex) throws IOException {
