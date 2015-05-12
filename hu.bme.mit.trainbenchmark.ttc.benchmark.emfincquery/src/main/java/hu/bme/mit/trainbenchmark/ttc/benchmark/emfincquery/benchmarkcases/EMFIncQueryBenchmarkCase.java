@@ -23,6 +23,7 @@ import org.apache.log4j.Level;
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine;
 import org.eclipse.incquery.runtime.api.IMatchUpdateListener;
 import org.eclipse.incquery.runtime.api.IPatternMatch;
+import org.eclipse.incquery.runtime.api.IncQueryEngine;
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.emf.EMFScope;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
@@ -53,7 +54,7 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 	@Override
 	protected void destroy() throws IOException {
 		super.destroy();
-		engine.dispose();
+//		engine.dispose();
 	}
 
 	public Collection<Object> check() throws IOException {
@@ -73,19 +74,17 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 		super.read();
 
 		try {
-			Iterable<Entry<Class<? extends IQueryBackend>, IQueryBackendFactory>> factories = QueryBackendRegistry.getInstance()
-					.getAllKnownFactories();
-			boolean registered = false;
-			for (Entry<Class<? extends IQueryBackend>, IQueryBackendFactory> entry : factories) {
-				if (entry.getKey().equals(LocalSearchBackend.class)) {
-					registered = true;
+			if(eiqbc.isLocalSearch()){
+				// When running local search, make sure the factory is registered
+				IQueryBackendFactory backendFactory = QueryBackendRegistry.getInstance().getFactory(LocalSearchBackend.class);
+				if(backendFactory == null){
+					QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class, new LocalSearchBackendFactory());
 				}
 			}
-			if (!registered) {
-				QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class, new LocalSearchBackendFactory());
-			}
+
 			final EMFScope emfScope = new EMFScope(resource);
-			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);
+//			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);
+			engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(emfScope));
 
 			matches = getResultSet();
 			if (!eiqbc.isLocalSearch()) {
