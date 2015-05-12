@@ -15,11 +15,26 @@
   morestring=[b]',
   classoffset=0,
   morekeywords={module, create, from, to, using, mapsTo, rule, helper, refining,
-                 context, def, if, then, else, endif, library, and, or, not, query, 
-                 do, endpoint, entrypoint, lazy, unique, nodefault, for, in, self,
-                 thisModule, uses},
+                context, def, if, then, else, endif, library, and, or, not, query, 
+                do, endpoint, entrypoint, lazy, unique, nodefault, for, in, self,
+                thisModule, uses, let},
   classoffset=1,
-  morekeywords={Integer,Real,String,Boolean,Collection,Bag,Set,OrderedSet,Sequence,Map,Tuple,TupleType}
+  morekeywords={OclAny,Integer,Real,String,Boolean,Collection,Bag,Set,OrderedSet,
+                Sequence,Map,Tuple,TupleType}
+}
+
+%SimpleGT language highlighting
+\lstdefinelanguage{simplegt}
+{
+  sensitive=true,
+  morecomment=[l]{--},
+  classoffset=0,
+  morekeywords={module, import, transform, from, to, abstract, rule, before, 
+                def, if, then, else, endif, and, or, not, lazy, unique, default,
+                in, self, uses, env, single, context, static, let},
+  classoffset=1,
+  morekeywords={OclAny,Integer,Real,String,Boolean,Collection,Bag,Set,OrderedSet,
+                Sequence,Map,Tuple,TupleType,Env}
 }
 
 \definecolor{commentgreen}{rgb}{0.0, 0.4, 0.1}
@@ -40,19 +55,14 @@
   classoffset=0 % restore default
 }
 
-\title{The {ATL} Solution to the Train Benchmark Case for {TTC2015}}
+\title{The {ATL/EMFTVM} Solution to the Train Benchmark Case for {TTC2015}}
 \author{Dennis Wagelaar
 \institute{HealthConnect\\
 Vilvoorde, Belgium}
 \email{dennis.wagelaar@healthconnect.be}
-\and
-Fr\'{e}d\'{e}ric Jouault
-\institute{ESEO-Tech\\
-Angers, France}
-\email{Frederic.Jouault@eseo.fr}
 }
-\def\titlerunning{The {ATL} Solution to the Train Benchmark Case for {TTC2015}}
-\def\authorrunning{D. Wagelaar, F. Jouault}
+\def\titlerunning{The {ATL/EMFTVM} Solution to the Train Benchmark Case for {TTC2015}}
+\def\authorrunning{D. Wagelaar}
 \begin{document}
 \maketitle
 
@@ -62,7 +72,7 @@ Angers, France}
 \section{Introduction}
 \label{sec:intro}
 
-This paper describes the ATL~\cite{journal/scp/Jouault2008} solution of the TTC 2015 Train Benchmark Case~\cite{conf/ttc/Szarnyas2015}. The Train Benchmark Case consists of several model validation and model repair tasks, all of which are run again increasing model sizes in order to measure the performance of each solution for the case. A complete solution for all tasks is provided, and is available as a GitHub fork of the original assignment\footnote{\url{https://github.com/dwagelaar/trainbenchmark-ttc}}.
+This paper describes the ATL/EMFTVM~\cite{journal/scp/Jouault2008} solution of the TTC 2015 Train Benchmark Case~\cite{conf/ttc/Szarnyas2015}. The Train Benchmark Case consists of several model validation and model repair tasks, all of which are run again increasing model sizes in order to measure the performance of each solution for the case. A complete solution for all tasks is provided, and is available as a GitHub fork of the original assignment\footnote{\url{https://github.com/dwagelaar/trainbenchmark-ttc}}.
 
 The remainder of this paper is structured as follows: section~\ref{sec:atl} describes the ATL transformation tool and its features that are relevant to the case. Section~\ref{sec:solution} describes the solution to the case, and section~\ref{sec:eval} concludes this paper with an evaluation.
 
@@ -310,9 +320,149 @@ lazy rule Repair {
 
 \subsection{Extension Task 2: SemaphoreNeighbor}
 
-The SemaphoreNeighbor task consists of a query that checks for Routes \texttt{r1} that have an exit Semaphore, and a Sensor \texttt{s1} connected to another Sensor \texttt{s2} -- defining another Route \texttt{r3} -- by two TrackElements \texttt{te1} and \texttt{te2}, for which there is no other Route \texttt{r2} that connects the same Semaphore and the other Sensor \texttt{s2}. Furthermore, a repair transformation is provided, which removes the exit Semaphore from Route \texttt{r1}. 
+The SemaphoreNeighbor task consists of a query that checks for Routes \texttt{r1} that have an exit Semaphore, and a Sensor \texttt{s1} connected to another Sensor \texttt{s2} -- defining another Route \texttt{r3} -- by two TrackElements \texttt{te1} and \texttt{te2}, for which there is no other Route \texttt{r2} that connects the same Semaphore and the other Sensor \texttt{s2}. Furthermore, a repair transformation is provided, which removes the exit Semaphore from Route \texttt{r1}.
 
-Listing~\ref{lst:semaphoreneighbor} shows the ATL query for SemaphoreNeighbor. This query uses three helper attributes, \texttt{routesWithExitSemaphore}, \texttt{sensorTuples}, and \texttt{routesBySensor}, to spread the complexity. The main query collects the \texttt{sensorTuples} for each Route with an exit Semaphore, and flattens the resulting Sets into a single Set of Tuples. The \texttt{sensorTuples} helper collects the match Tuples, where a match is defined by Route \texttt{r1}, Sensor \texttt{s1}, TrackElement \texttt{te1}, TrackElement \texttt{te2}, Sensor \texttt{s2}, and Route \texttt{r3}. A Tuple is created for each Route \texttt{r3} that is different from Route \texttt{r1}, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this. 
+Listing~\ref{lst:semaphoreneighborquery} shows the ATL query for SemaphoreNeighbor. The query uses a SimpleGT~\cite{conf/models/Wagelaar2011} transformation module to collect matches. SimpleGT is a minimal graph transformation language with embedded OCL support, and supports local search plans for pattern matching. Both SimpleGT and ATL compile to EMFTVM bytecode, and can hence be executed together as a single transformation. Experimentation has shown the EMFTVM local search support to be more performant than encoding the search plan directly in OCL. The pure ATL/OCL query alternative solution is given for reference purposes in Appendix~\ref{appendix:a}.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=htb, caption={SemaphoreNeighborQuery in ATL}, label=lst:semaphoreneighborquery, captionpos=b, frame=tb, belowskip=-10pt]
+query SemaphoreNeighbourQuery = thisModule.traces.getLinksByRule('Check', true).links
+		->collect(l | Tuple{
+			r1 = l.getSourceElement('r1', true).object,
+			s1 = l.getSourceElement('s1', true).object,
+			te1 = l.getSourceElement('te1', true).object,
+			te2 = l.getSourceElement('te2', true).object,
+			s2 = l.getSourceElement('s2', true).object,
+			r3 = l.getSourceElement('r3', true).object});
+
+uses SemaphoreNeighbourCheck;
+\end{lstlisting}
+
+SimpleGT matches are recorded in the implicit trace model by EMFTVM. The ATL query reads the recorded traces using reflection, and creates OCL Tuples for each matching trace. Fig.~\ref{fig:emftvm-trace} shows a class diagram of the EMFTVM Trace metamodel, including the built-in operations. The root object of the trace model is a TraceLinkSet, which can be accessed from ATL using the built-in \texttt{thisModule.traces} helper attribute.
+
+\begin{figure}[ht]
+\centerline{
+\includegraphics[width=15cm]{figures/trace}}
+\caption{The EMFTVM Trace metamodel}
+\label{fig:emftvm-trace}
+\end{figure}
+
+Listing~\ref{lst:semaphoreneighborcheck} shows the SimpleGT check transformation for SemaphoreNeighbor. It uses a ``single'' rule (i.e. one-shot, non-recursive matching) to match the required pattern. Whenever a navigation is possible from one element to the next, the SimpleGT compiler produces a local search expression to find the next element. EMFTVM will evaluate this local search expression whenever available instead of iterating over the entire model. There is one situation where direct navigation is not possible: finding Route \texttt{r3} from Sensor \texttt{s2}. To get around this problem, the \texttt{routes} helper attribute is defined on the Sensor metaclass. This helper attribute uses uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this. The \texttt{routes} helper attribute can now be used in the Check rule to navigate from Sensor \texttt{s2} to all possible Routes \texttt{r3}. The \textbf{not} part in the rule represents a \emph{negative application condition} (NAC), which specifies a condition that may not occur in a valid match. A rule can have multiple \textbf{not} parts. SimpleGT requires you to specify a \emph{left-hand-side} (LHS) and \emph{right-hand-side} (RHS) for each rule, represented by the \textbf{from} and the \textbf{to} part, respectively. The LHS is always replaced by the RHS. Because we don't want the Check rule to change anything, we must repeat the LHS in the RHS to prevent it from being deleted.
+
+\lstset{language=simplegt}
+\begin{lstlisting}[float=htb, caption={SemaphoreNeighborCheck transformation module in SimpleGT}, label=lst:semaphoreneighborcheck, captionpos=b, frame=tb, belowskip=-10pt]
+module SemaphoreNeighbourCheck;
+metamodel RAILWAY : '/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore';
+transform IN : RAILWAY;
+
+-- Checks for matches
+single rule Check {
+	from
+		r1 : RAILWAY!Route (definedBy =~ s1),
+		s1 : RAILWAY!Sensor (elements =~ te1),
+		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
+		te2 : RAILWAY!TrackElement (sensor =~ s2),
+		s2 : RAILWAY!Sensor (routes =~ r3),
+		r3 : RAILWAY!Route
+	not
+		s2 : RAILWAY!Sensor (routes =~ r2),
+		r2 : RAILWAY!Route (entry =~ r1.exit)
+	to
+		r1 : RAILWAY!Route (definedBy =~ s1),
+		s1 : RAILWAY!Sensor (elements =~ te1),
+		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
+		te2 : RAILWAY!TrackElement (sensor =~ s2),
+		s2 : RAILWAY!Sensor (routes =~ r3),
+		r3 : RAILWAY!Route
+}
+
+-- Returns the Routes mapped by their Sensor.
+context RAILWAY!Sensor def : routes : Set(RAILWAY!Route) =
+	let routes : Set(RAILWAY!Route) = Env::routesBySensor.get(self) in
+	if routes.oclIsUndefined() then
+		Set{}
+	else
+		routes
+	endif;
+
+-- Returns the Routes mapped by their Sensor.
+-- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
+static def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
+	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
+\end{lstlisting}
+
+Listing~\ref{lst:semaphoreneighborrepair} shows the ATL repair transformation module for SemaphoreNeighbor. The \texttt{Repair} rule takes the Tuple match as input element, and removes the exit Semaphore from Route \texttt{r1}.
+
+\lstset{language=atl}
+\begin{lstlisting}[float=htb, caption={SemaphoreNeighbor repair transformation module in ATL}, label=lst:semaphoreneighborrepair, captionpos=b, frame=tb, belowskip=-10pt]
+module SemaphoreNeighbourRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+lazy rule Repair {
+	from
+		s : TupleType(
+			r1 : RAILWAY!Route,
+			s1 : RAILWAY!Sensor, 
+			te1 : RAILWAY!TrackElement, 
+			te2 : RAILWAY!TrackElement, 
+			s2 : RAILWAY!Sensor,
+			r3 : RAILWAY!Route)
+	do {
+		s.r1.exit <:= OclUndefined;
+	}
+}
+\end{lstlisting}
+
+\section{Evaluation and Conclusion}
+\label{sec:eval}
+
+The solutions for the Train Benchmark Case are evaluated on three criteria: (1) \emph{Correctness and Completeness of Model Queries and Transformations}, (2) \emph{Applicability for Model Validation}, and (3) \emph{Performance on Large Models}. We will now discuss how the ATL solution aims to meet these criteria.
+
+\subsection{Correctness and Completeness}
+
+The benchmark framework provides a set of expected query/transformation results, against which the output of the ATL solution can be compared. The \texttt{ATLTest} JUnit test case verifies that the output of the ATL solution matches the reference solution. The test results of each build are kept in the cloud-based Travis continuous integration platform\footnote{\url{https://travis-ci.org/dwagelaar/trainbenchmark-ttc}}. This independent platform provides an objective proof that the ATL solution unit tests are passing. Furthermore, all git commits for the ATL solution are publicly available on GitHub, and it can be verified that no modifications are made to the benchmark framework and/or the expected result set.
+
+\subsection{Applicability}
+
+In order for a solution to be applicable for model validation, it must be concise and maintainable. Even though ATL is not primarily intended for interactive querying and transformation, it was easy to fit the ATL implementation into the benchmark framework. Simple queries are trivially expressed in OCL, using a functional programming style (PosLength, SwitchSensor). Complex queries that return tuples as matches (SwitchSet, RouteSensor, SemaphoreNeighbor) require a navigation strategy to be implemented. While this is not as declarative as first-class patterns, it is more concise than imperative programming. Also, ATL provides helper attributes and operations to divide the complexity into modular blocks. For very complex patterns, EMFTVM provides a built in local search engine. Currently, this engine is only used by the SimpleGT graph transformation language, which also compiles to EMFTVM bytecode. Because of this, a hybrid ATL/SimpleGT solution can be used to perform the check phase of the SemaphoreNeighbor task, which is more readable overall.
+
+All repair phase transformations are all simple, single rule transformation modules that are \emph{superimposed} onto a single framework Repair transformation module (see Listing~\ref{lst:repair}). Query matches are provided via the rule \textbf{from} part, whereas the model element modification is done in a \textbf{do} block. Any new elements are specified in the \textbf{to} block.
+
+Most example and production ATL transformation modules are much longer than the ones used in the benchmark case solution\footnote{\url{https://www.eclipse.org/atl/atlTransformations/}}, with industrial cases going up to 7000 lines of ATL for a single transformation scenario\footnote{\url{http://www.slideshare.net/DennisWagelaar/wagelaar-sda2014}}. Even such long transformation modules have proven to be sufficiently maintainable, especially when compared to implementations in Java.
+
+\subsection{Performance}
+
+The benchmark framework supports running the solution against increasing model sizes, starting at $2^0$ and going up by $2^{n+1}$. Within the memory constraints of the SHARE image\footnote{\url{http://is.ieis.tue.nl/staff/pvgorp/share/?trgPage=LookupImage&vdiNameSearch=TTC15_ATL}} of 1 GB RAM, we managed to go up to model size 512 with \texttt{-Xmx512m} as JVM arguments. While all benchmark tasks can be completed on SHARE for this model size within the time constraint of 5 minutes, this does not work all of the time. The performance of a SHARE VM is not consistent, and we sometimes saw simple tasks time out (e.g. RouteSensor, SwitchSensor), while the most complex task (SemaphoreNeighbor) finishes. On local hardware (AMD 1055T\footnote{\url{http://www.cpubenchmark.net/cpu.php?cpu=AMD+Phenom+II+X6+1055T}}), with 8 GB RAM and using \texttt{-Xmx4G} as JVM arguments (\texttt{java-1.7.0-openjdk-1.7.0.79-2.5.5.0.fc20.x86\_64}), we managed to go up to model size 4096 without a single time-out.
+
+In the ATL language, performance is achieved by using helper attributes instead of operations where possible, as helper attribute values are cached; accessing a helper attribute more than once on the same object will not trigger evaluation again, but just returns the cached value. In addition, design patterns specific to model transformation, such as the Object Indexing pattern~\cite{conf/icsea/Lano2011} can be used to reduce the search space for a given model element.
+
+Furthermore, the virtual machine (EMFTVM) also applies certain performance optimisations. Complex code blocks are JIT-compiled to Java bytecode, which in turn may be JIT-compiled to native code by the JVM. Collections and boolean expressions are evaluated lazily, preventing unnecessary navigation and allowing short-circuit evaluation of expressions. Finally, model elements are cached by their type, making repeated lookup of all instances of a certain metaclass more performant.
+
+Fig.~\ref{fig:atl-batch-performance} shows the batch read and check scenario performance for the ATL/EMFTVM solution, and Fig.~\ref{fig:atl-recheck-performance} shows the repetitive recheck and repair scenario performance. Whereas most tasks have similar performance in ATL/EMFTVM, the SemaphoreNeighbor task is an outlier. SemaphoreNeighbor proved much heavier to solve for ATL/EMFTVM than the others. SemaphoreNeighbor requires local search in order to be performant. The effect of caching model elements by type is minimal in this case, as this cache will only provide the first element of the entire pattern. The lack of the element type cache advantage is especially apparent in the recheck and revalidate scenario. SwitchSensor, on the other hand, has significantly better performance for recheck and repair than the other tasks. This is due to -- apart from element type caching for all Switch instances -- an efficient implementation in EMFTVM of the \texttt{oclIsUndefined()} operation, which maps directly to the \texttt{ISNULL} instruction in EMFTVM. Combined with JIT compilation, this yields very efficient Java bytecode.
+
+\begin{figure}[ht]
+\centerline{
+\includegraphics[width=15cm]{figures/fixed-ATL-GroupBy-Query-time-batch-validation}}
+\caption{ATL batch validation performance for the fixed scenario}
+\label{fig:atl-batch-performance}
+\end{figure}
+
+\begin{figure}[ht]
+\centerline{
+\includegraphics[width=15cm]{figures/fixed-ATL-GroupBy-Query-time-revalidation}}
+\caption{ATL revalidation performance for the fixed scenario}
+\label{fig:atl-recheck-performance}
+\end{figure}
+
+
+\appendix
+
+\section{Alternative Solution for SemaphoreNeighbor}
+\label{appendix:a}
+
+Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. This query uses three helper attributes, \texttt{routesWithExitSemaphore}, \texttt{sensorTuples}, and \texttt{routesBySensor}, to spread the complexity. The main query collects the \texttt{sensorTuples} for each Route with an exit Semaphore, and flattens the resulting Sets into a single Set of Tuples. The \texttt{sensorTuples} helper collects the match Tuples, where a match is defined by Route \texttt{r1}, Sensor \texttt{s1}, TrackElement \texttt{te1}, TrackElement \texttt{te2}, Sensor \texttt{s2}, and Route \texttt{r3}. A Tuple is created for each Route \texttt{r3} that is different from Route \texttt{r1}, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighbor query in ATL}, label=lst:semaphoreneighbor, captionpos=b, frame=tb, belowskip=-10pt]
@@ -359,54 +509,22 @@ helper def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
 	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
 \end{lstlisting}
 
-Listing~\ref{lst:semaphoreneighborrepair} shows the ATL repair transformation module for SemaphoreNeighbor. The \texttt{Repair} rule takes the Tuple match as input element, and removes the exit Semaphore from Route \texttt{r1}.
+Fig.~\ref{fig:atl-batch-performance-alt} shows the batch read and check scenario performance for the ATL/EMFTVM solution, and Fig.~\ref{fig:atl-recheck-performance-alt} shows the repetitive recheck and repair scenario performance. When comparing these figures to Fig.~\ref{fig:atl-batch-performance} and Fig.~\ref{fig:atl-recheck-performance}, one sees that the performance of this alternative query is consistently worse than the SimpleGT solution. Apparently, the overhead of the OCL collection operations -- many \texttt{collect}s followed by \texttt{flatten} -- makes a bug difference. Apart from that, the local search algorithm implemented here in OCL closely resembles what EMFTVM's built in local search engine does.
 
-\lstset{language=atl}
-\begin{lstlisting}[float=htb, caption={SemaphoreNeighbor repair transformation module in ATL}, label=lst:semaphoreneighborrepair, captionpos=b, frame=tb, belowskip=-10pt]
-module SemaphoreNeighbourRepair;
-create OUT: RAILWAY refining IN: RAILWAY;
+\begin{figure}[ht]
+\centerline{
+\includegraphics[width=15cm]{figures/fixed-ATL-GroupBy-Query-time-batch-validation-alt}}
+\caption{ATL alternative solution batch validation performance for the fixed scenario}
+\label{fig:atl-batch-performance-alt}
+\end{figure}
 
-uses Repair;
+\begin{figure}[ht]
+\centerline{
+\includegraphics[width=15cm]{figures/fixed-ATL-GroupBy-Query-time-revalidation-alt}}
+\caption{ATL alternative solution revalidation performance for the fixed scenario}
+\label{fig:atl-recheck-performance-alt}
+\end{figure}
 
-lazy rule Repair {
-	from
-		s : TupleType(
-			r1 : RAILWAY!Route,
-			s1 : RAILWAY!Sensor, 
-			te1 : RAILWAY!TrackElement, 
-			te2 : RAILWAY!TrackElement, 
-			s2 : RAILWAY!Sensor,
-			r3 : RAILWAY!Route)
-	do {
-		s.r1.exit <:= OclUndefined;
-	}
-}
-\end{lstlisting}
-
-\section{Evaluation and Conclusion}
-\label{sec:eval}
-
-The solutions for the Train Benchmark Case are evaluated on three criteria: (1) \emph{Correctness and Completeness of Model Queries and Transformations}, (2) \emph{Applicability for Model Validation}, and (3) \emph{Performance on Large Models}. We will now discuss how the ATL solution aims to meet these criteria.
-
-\subsection{Correctness and Completeness}
-
-The benchmark framework provides a set of expected query/transformation results, against which the output of the ATL solution can be compared. The \texttt{ATLTest} JUnit test case verifies that the output of the ATL solution matches the reference solution. The test results of each build are kept in the cloud-based Travis continuous integration platform\footnote{\url{https://travis-ci.org/dwagelaar/trainbenchmark-ttc}}. This independent platform provides an objective proof that the ATL solution unit tests are passing. Furthermore, all git commits for the ATL solution are publicly available on GitHub, and it can be verified that no modifications are made to the benchmark framework and/or the expected result set.
-
-\subsection{Applicability}
-
-In order for a solution to be applicable for model validation, it must be concise and maintainable. Even though ATL is not primarily intended for interactive querying and transformation, it was easy to fit the ATL implementation into the benchmark framework. Simple queries are trivially expressed in OCL, using a functional programming style (PosLength, SwitchSensor). Complex queries that return tuples as matches (SwitchSet, RouteSensor, SemaphoreNeighbor) require a navigation strategy to be implemented. While this is not as declarative as first-class patterns, it is more concise than imperative programming. Also, ATL provides helper attributes and operations to divide the complexity into modular blocks.
-
-All transformations are all simple, single rule transformation modules that are \emph{superimposed} onto a single framework Repair transformation module (see Listing~\ref{lst:repair}). Query matches are provided via the rule \textbf{from} part, whereas the model element modification is done in a \textbf{do} block. Any new elements are specified in the \textbf{to} block.
-
-Most example and production ATL transformation modules are much longer than the ones used in the benchmark case solution\footnote{\url{https://www.eclipse.org/atl/atlTransformations/}}, with industrial cases going up to 7000 lines of ATL for a single transformation scenario\footnote{\url{http://www.slideshare.net/DennisWagelaar/wagelaar-sda2014}}. Even such long transformation modules have proven to be sufficiently maintainable, especially when compared to implementations in Java.
-
-\subsection{Performance}
-
-The benchmark framework supports running the solution against increasing model sizes, starting at $2^0$ and going up by $2^{n+1}$. Within the memory constraints of the SHARE image\footnote{\url{http://is.ieis.tue.nl/staff/pvgorp/share/?trgPage=LookupImage&vdiNameSearch=TTC15_ATL}} of 1 GB RAM, we managed to go up to model size 512 with \texttt{-Xmx512m} as JVM arguments. While all benchmark tasks can be completed on SHARE for this model size within the time constraint of 5 minutes, this does not work all of the time. The performance of a SHARE VM is not consistent, and we sometimes saw simple tasks time out (e.g. RouteSensor, SwitchSensor), while the most complex task (SemaphoreNeighbor) finishes. On local hardware (AMD 1055T\footnote{\url{http://www.cpubenchmark.net/cpu.php?cpu=AMD+Phenom+II+X6+1055T}}), with 8 GB RAM and using \texttt{-Xmx4G} as JVM arguments (\texttt{java-1.7.0-openjdk-1.7.0.79-2.5.5.0.fc20.x86\_64}), we managed to go up to model size 4096 without a single time-out.
-
-Performance in using the ATL language is achieved by using helper attributes instead of operations where possible, as helper attribute values are cached; accessing a helper attribute more than once on the same object will not trigger evaluation again, but just returns the cached value. In addition, design patterns specific to model transformation, such as the Object Indexing pattern~\cite{conf/icsea/Lano2011} can be used to reduce the search space for a given model element.
-
-Furthermore, the virtual machine (EMFTVM) also applies certain performance optimisations. Complex code blocks are JIT-compiled to Java bytecode, which in turn may be JIT-compiled to native code by the JVM. Collections and boolean expressions are evaluated lazily, preventing unnecessary navigation and allowing short-circuit evaluation of expressions. Finally, model elements are cached by their type, making repeated lookup of all instances of a certain metaclass more performant.
 
 \bibliographystyle{eptcs}
 \bibliography{ttc15-atl}
