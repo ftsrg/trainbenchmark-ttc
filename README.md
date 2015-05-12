@@ -50,13 +50,13 @@ Make sure you read the `README.md` file in the `reporting` directory and install
 
 It is recommended to start with an Eclipse distribution tailored to developing EMF-based applications, e.g. Eclipse Modeling.
 
-If you'd like to try the EMF-IncQuery implementation, it is recommended to use **Eclipse Luna**. There are two ways to resolve the dependencies:
+If you'd like to try the ATL/EMFTVM implementation, it is recommended to use **Eclipse Luna**. There are two ways to resolve the dependencies:
 
 1. **Maven dependencies** (`pom.xml` files). This requires the m2e Eclipse plugin (this is included in Eclipse for Java developers but is not included in Modeling distribution). The m2e plugin can be installed from the the update site of your release (Kepler/Luna).
 2. **Plug-in dependencies** (`MANIFEST.MF` files).
   * Use the Orbit update site for your release (<http://download.eclipse.org/tools/orbit/downloads/>) to install the **Apache Commons CLI** and the **Guava: Google Core Libraries for Java Source** plug-ins.
   
-  * If you wish to run the EMF-IncQuery implementation, install EMF-IncQuery from <http://download.eclipse.org/incquery/updates/release>.
+  * If you wish to run the ATL/EMFTVM implementation, install ATL/EMFTVM and SimpleGT from <http://marketplace.eclipse.org/content/atlemftvm> and <http://marketplace.eclipse.org/content/simplegt>.
 
 In general, we recommend to stick to your proven build solution, else you may spend a lot of time tinkering with the build. In theory, you can build Eclipse plug-ins with the Tycho Maven plug-in, however, it has a steep learning curve and is tricky to debug. For reference, see <https://github.com/FTSRG/cheat-sheets/wiki/Maven-and-Eclipse>.
 
