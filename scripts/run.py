@@ -48,8 +48,8 @@ def benchmark(conf):
     for change_set in conf.change_sets:
         for tool in conf.tools:
             for query in conf.queries:
-				for args in conf.optional_arguments:
-					for size in conf.sizes:
+                for args in conf.optional_arguments:
+                    for size in conf.sizes:
                         target = util.get_tool_jar(tool)
                         print("Running benchmark: tool = " + tool + ", change set = " + change_set +
                             ", query = " + query + ", size = " + str(size) + ", extra arguments = " + str(args))
