@@ -36,7 +36,7 @@ import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
  * 	SwitchPosition.^switch(switchPosition, sw);
  * 	TrackElement.sensor(sw, sensor);
  * 	
- * 	neg find inverseRouteDefinition(sensor, route);	
+ * 	neg find definedBy(route, sensor);	
  * }
  * </pre></code>
  * 

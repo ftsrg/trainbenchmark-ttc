@@ -3,7 +3,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util;
 import com.google.common.collect.Sets;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatcher;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.InverseRouteDefinitionQuerySpecification;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.DefinedByQuerySpecification;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -109,7 +109,7 @@ public final class RouteSensorQuerySpecification extends BaseGeneratedEMFQuerySp
       	new TypeBinary(body, CONTEXT, var_route, var_switchPosition, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "follows"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Route.follows");
       	new TypeBinary(body, CONTEXT, var_switchPosition, var_sw, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "switch"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/SwitchPosition.switch");
       	new TypeBinary(body, CONTEXT, var_sw, var_sensor, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "TrackElement", "sensor"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/TrackElement.sensor");
-      	new NegativePatternCall(body, new FlatTuple(var_sensor, var_route), InverseRouteDefinitionQuerySpecification.instance().getInternalQueryRepresentation());
+      	new NegativePatternCall(body, new FlatTuple(var_route, var_sensor), DefinedByQuerySpecification.instance().getInternalQueryRepresentation());
       	bodies.add(body);
       }
       	// to silence compiler error

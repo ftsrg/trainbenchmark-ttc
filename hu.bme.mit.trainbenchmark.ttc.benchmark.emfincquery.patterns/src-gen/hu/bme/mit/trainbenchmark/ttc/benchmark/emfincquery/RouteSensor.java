@@ -1,8 +1,8 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.InverseRouteDefinitionMatcher;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.DefinedByMatcher;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatcher;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.InverseRouteDefinitionQuerySpecification;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.DefinedByQuerySpecification;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.RouteSensorQuerySpecification;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
 import org.eclipse.incquery.runtime.api.impl.BaseGeneratedPatternGroup;
@@ -17,7 +17,7 @@ import org.eclipse.incquery.runtime.exception.IncQueryException;
  * 
  * <p> From package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery, the group contains the definition of the following patterns: <ul>
  * <li>routeSensor</li>
- * <li>inverseRouteDefinition</li>
+ * <li>definedBy</li>
  * </ul>
  * 
  * @see IPatternGroup
@@ -43,7 +43,7 @@ public final class RouteSensor extends BaseGeneratedPatternGroup {
   
   private RouteSensor() throws IncQueryException {
     querySpecifications.add(RouteSensorQuerySpecification.instance());
-    querySpecifications.add(InverseRouteDefinitionQuerySpecification.instance());
+    querySpecifications.add(DefinedByQuerySpecification.instance());
   }
   
   public RouteSensorQuerySpecification getRouteSensor() throws IncQueryException {
@@ -54,11 +54,11 @@ public final class RouteSensor extends BaseGeneratedPatternGroup {
     return RouteSensorMatcher.on(engine);
   }
   
-  public InverseRouteDefinitionQuerySpecification getInverseRouteDefinition() throws IncQueryException {
-    return InverseRouteDefinitionQuerySpecification.instance();
+  public DefinedByQuerySpecification getDefinedBy() throws IncQueryException {
+    return DefinedByQuerySpecification.instance();
   }
   
-  public InverseRouteDefinitionMatcher getInverseRouteDefinition(final IncQueryEngine engine) throws IncQueryException {
-    return InverseRouteDefinitionMatcher.on(engine);
+  public DefinedByMatcher getDefinedBy(final IncQueryEngine engine) throws IncQueryException {
+    return DefinedByMatcher.on(engine);
   }
 }

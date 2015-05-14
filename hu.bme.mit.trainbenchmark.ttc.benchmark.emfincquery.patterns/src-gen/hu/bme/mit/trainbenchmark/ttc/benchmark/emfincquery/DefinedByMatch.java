@@ -1,6 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.InverseRouteDefinitionQuerySpecification;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.DefinedByQuerySpecification;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
 import java.util.Arrays;
@@ -10,63 +10,58 @@ import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 
 /**
- * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.inverseRouteDefinition pattern,
- * to be used in conjunction with {@link InverseRouteDefinitionMatcher}.
+ * Pattern-specific match representation of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.definedBy pattern,
+ * to be used in conjunction with {@link DefinedByMatcher}.
  * 
  * <p>Class fields correspond to parameters of the pattern. Fields with value null are considered unassigned.
  * Each instance is a (possibly partial) substitution of pattern parameters,
  * usable to represent a match of the pattern in the result of a query,
  * or to specify the bound (fixed) input parameters when issuing a query.
  * 
- * @see InverseRouteDefinitionMatcher
- * @see InverseRouteDefinitionProcessor
+ * @see DefinedByMatcher
+ * @see DefinedByProcessor
  * 
  */
 @SuppressWarnings("all")
-public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
-  private Sensor fSensor;
-  
+public abstract class DefinedByMatch extends BasePatternMatch {
   private Route fRoute;
   
-  private static List<String> parameterNames = makeImmutableList("sensor", "route");
+  private Sensor fSensor;
   
-  private InverseRouteDefinitionMatch(final Sensor pSensor, final Route pRoute) {
-    this.fSensor = pSensor;
+  private static List<String> parameterNames = makeImmutableList("route", "sensor");
+  
+  private DefinedByMatch(final Route pRoute, final Sensor pSensor) {
     this.fRoute = pRoute;
+    this.fSensor = pSensor;
   }
   
   @Override
   public Object get(final String parameterName) {
-    if ("sensor".equals(parameterName)) return this.fSensor;
     if ("route".equals(parameterName)) return this.fRoute;
+    if ("sensor".equals(parameterName)) return this.fSensor;
     return null;
-  }
-  
-  public Sensor getSensor() {
-    return this.fSensor;
   }
   
   public Route getRoute() {
     return this.fRoute;
   }
   
+  public Sensor getSensor() {
+    return this.fSensor;
+  }
+  
   @Override
   public boolean set(final String parameterName, final Object newValue) {
     if (!isMutable()) throw new java.lang.UnsupportedOperationException();
-    if ("sensor".equals(parameterName) ) {
-    	this.fSensor = (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) newValue;
-    	return true;
-    }
     if ("route".equals(parameterName) ) {
     	this.fRoute = (hu.bme.mit.trainbenchmark.ttc.railway.Route) newValue;
     	return true;
     }
+    if ("sensor".equals(parameterName) ) {
+    	this.fSensor = (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) newValue;
+    	return true;
+    }
     return false;
-  }
-  
-  public void setSensor(final Sensor pSensor) {
-    if (!isMutable()) throw new java.lang.UnsupportedOperationException();
-    this.fSensor = pSensor;
   }
   
   public void setRoute(final Route pRoute) {
@@ -74,32 +69,37 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
     this.fRoute = pRoute;
   }
   
+  public void setSensor(final Sensor pSensor) {
+    if (!isMutable()) throw new java.lang.UnsupportedOperationException();
+    this.fSensor = pSensor;
+  }
+  
   @Override
   public String patternName() {
-    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.inverseRouteDefinition";
+    return "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.definedBy";
   }
   
   @Override
   public List<String> parameterNames() {
-    return InverseRouteDefinitionMatch.parameterNames;
+    return DefinedByMatch.parameterNames;
   }
   
   @Override
   public Object[] toArray() {
-    return new Object[]{fSensor, fRoute};
+    return new Object[]{fRoute, fSensor};
   }
   
   @Override
-  public InverseRouteDefinitionMatch toImmutable() {
-    return isMutable() ? newMatch(fSensor, fRoute) : this;
+  public DefinedByMatch toImmutable() {
+    return isMutable() ? newMatch(fRoute, fSensor) : this;
   }
   
   @Override
   public String prettyPrint() {
     StringBuilder result = new StringBuilder();
-    result.append("\"sensor\"=" + prettyPrintValue(fSensor) + ", ");
+    result.append("\"route\"=" + prettyPrintValue(fRoute) + ", ");
     
-    result.append("\"route\"=" + prettyPrintValue(fRoute)
+    result.append("\"sensor\"=" + prettyPrintValue(fSensor)
     );
     return result.toString();
   }
@@ -108,8 +108,8 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((fSensor == null) ? 0 : fSensor.hashCode());
     result = prime * result + ((fRoute == null) ? 0 : fRoute.hashCode());
+    result = prime * result + ((fSensor == null) ? 0 : fSensor.hashCode());
     return result;
   }
   
@@ -117,7 +117,7 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
   public boolean equals(final Object obj) {
     if (this == obj)
     	return true;
-    if (!(obj instanceof InverseRouteDefinitionMatch)) { // this should be infrequent
+    if (!(obj instanceof DefinedByMatch)) { // this should be infrequent
     	if (obj == null) {
     		return false;
     	}
@@ -129,18 +129,18 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
     		return false;
     	return Arrays.deepEquals(toArray(), otherSig.toArray());
     }
-    InverseRouteDefinitionMatch other = (InverseRouteDefinitionMatch) obj;
-    if (fSensor == null) {if (other.fSensor != null) return false;}
-    else if (!fSensor.equals(other.fSensor)) return false;
+    DefinedByMatch other = (DefinedByMatch) obj;
     if (fRoute == null) {if (other.fRoute != null) return false;}
     else if (!fRoute.equals(other.fRoute)) return false;
+    if (fSensor == null) {if (other.fSensor != null) return false;}
+    else if (!fSensor.equals(other.fSensor)) return false;
     return true;
   }
   
   @Override
-  public InverseRouteDefinitionQuerySpecification specification() {
+  public DefinedByQuerySpecification specification() {
     try {
-    	return InverseRouteDefinitionQuerySpecification.instance();
+    	return DefinedByQuerySpecification.instance();
     } catch (IncQueryException ex) {
      	// This cannot happen, as the match object can only be instantiated if the query specification exists
      	throw new IllegalStateException (ex);
@@ -154,7 +154,7 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
    * @return the empty match.
    * 
    */
-  public static InverseRouteDefinitionMatch newEmptyMatch() {
+  public static DefinedByMatch newEmptyMatch() {
     return new Mutable(null, null);
   }
   
@@ -162,31 +162,31 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
    * Returns a mutable (partial) match.
    * Fields of the mutable match can be filled to create a partial match, usable as matcher input.
    * 
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @return the new, mutable (partial) match object.
    * 
    */
-  public static InverseRouteDefinitionMatch newMutableMatch(final Sensor pSensor, final Route pRoute) {
-    return new Mutable(pSensor, pRoute);
+  public static DefinedByMatch newMutableMatch(final Route pRoute, final Sensor pSensor) {
+    return new Mutable(pRoute, pSensor);
   }
   
   /**
    * Returns a new (partial) match.
    * This can be used e.g. to call the matcher with a partial match.
    * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @return the (partial) match object.
    * 
    */
-  public static InverseRouteDefinitionMatch newMatch(final Sensor pSensor, final Route pRoute) {
-    return new Immutable(pSensor, pRoute);
+  public static DefinedByMatch newMatch(final Route pRoute, final Sensor pSensor) {
+    return new Immutable(pRoute, pSensor);
   }
   
-  private static final class Mutable extends InverseRouteDefinitionMatch {
-    Mutable(final Sensor pSensor, final Route pRoute) {
-      super(pSensor, pRoute);
+  private static final class Mutable extends DefinedByMatch {
+    Mutable(final Route pRoute, final Sensor pSensor) {
+      super(pRoute, pSensor);
     }
     
     @Override
@@ -195,9 +195,9 @@ public abstract class InverseRouteDefinitionMatch extends BasePatternMatch {
     }
   }
   
-  private static final class Immutable extends InverseRouteDefinitionMatch {
-    Immutable(final Sensor pSensor, final Route pRoute) {
-      super(pSensor, pRoute);
+  private static final class Immutable extends DefinedByMatch {
+    Immutable(final Route pRoute, final Sensor pSensor) {
+      super(pRoute, pSensor);
     }
     
     @Override
