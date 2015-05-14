@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sigma
+Bundle-SymbolicName: hu.bme.mit.trainbenchmark.ttc.benchmark.sigma
+Bundle-Version: 1.0.0.qualifier
+Export-Package: hu.bme.mit.trainbenchmark.ttc.benchmark.sigma,
+ hu.bme.mit.trainbenchmark.ttc.railway.support
+Require-Bundle: hu.bme.mit.trainbenchmark.ttc.benchmark;bundle-version="1.0.0",
+ hu.bme.mit.trainbenchmark.ttc.emf.model;bundle-version="1.0.0",
+ hu.bme.mit.trainbenchmark.ttc.emf;bundle-version="1.0.0"

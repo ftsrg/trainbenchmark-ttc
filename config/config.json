@@ -1,9 +1,12 @@
 {
-  "MinSize": 32,
+  "MinSize": 1,
   "MaxSize": 32,
   "Queries": [
     "PosLength",
-    "SwitchSensor"
+    "SwitchSensor",
+    "SwitchSet",
+    "RouteSensor",
+    "SemaphoreNeighbor"
   ],
   "_Comment": "The _AllQueries field is not used by the framework.",
   "_AllQueries": [
@@ -11,12 +14,15 @@
     "SemaphoreNeighbor",
     "SwitchSet"
   ],
-  "Tools": ["hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"],
+  "Tools": [
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery",
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.java",
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma"],
   "ChangeSets": [
     "fixed",
     "proportional"
   ],
-  "Runs": 5,
+  "Runs": 2,
   "IterationCount": 10,
   "JVM": {
     "vmargs": ["-Xmx2G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
