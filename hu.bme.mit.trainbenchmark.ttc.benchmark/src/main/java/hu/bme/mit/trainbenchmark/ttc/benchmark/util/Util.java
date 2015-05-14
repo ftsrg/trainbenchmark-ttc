@@ -18,9 +18,9 @@ import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
 public class Util {
 
 	public static void runGC() {
-		for (int i = 0; i < 5; i++) {
-			Runtime.getRuntime().gc();
-		}
+//		for (int i = 0; i < 5; i++) {
+//			Runtime.getRuntime().gc();
+//		}
 	}
 
 	public static long calcModify(final BenchmarkResult bmr) {
