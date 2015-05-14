@@ -10,7 +10,6 @@ pattern semaphoreNeighbor(semaphore, route1, route2, sensor1, sensor2, te1, te2)
 	TrackElement.connectsTo(te1, te2);
 	TrackElement.sensor(te2, sensor2);
 	Route.definedBy(route2, sensor2);
-	
 	neg find entrySemaphore(route2, semaphore);
 
 	route1 != route2;
