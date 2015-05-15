@@ -77,7 +77,7 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 			if(eiqbc.isLocalSearch()){
 				// When running local search, make sure the factory is registered
 				
-				// This solution cannot be used yet, sa the getFactory method will throw an exception due to unknown backend
+				// This solution cannot be used yet, as the getFactory() method will throw an exception due to unknown backend
 				// IQueryBackendFactory backendFactory = QueryBackendRegistry.getInstance().getFactory(LocalSearchBackend.class);
 				// if(backendFactory == null){
 				// 	QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class, new LocalSearchBackendFactory());
@@ -98,7 +98,6 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 			}
 
 			final EMFScope emfScope = new EMFScope(resource);
-//			engine = AdvancedIncQueryEngine.createUnmanagedEngine(emfScope);
 			engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(emfScope));
 
 			matches = getResultSet();
