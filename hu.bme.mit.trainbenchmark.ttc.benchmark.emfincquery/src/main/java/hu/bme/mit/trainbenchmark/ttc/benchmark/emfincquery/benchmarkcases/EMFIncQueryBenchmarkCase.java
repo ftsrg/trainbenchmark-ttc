@@ -54,7 +54,6 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 	@Override
 	protected void destroy() throws IOException {
 		super.destroy();
-//		engine.dispose();
 	}
 
 	public Collection<Object> check() throws IOException {
