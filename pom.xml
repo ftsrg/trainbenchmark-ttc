@@ -101,5 +101,10 @@
 			<name>Acceleo Repository (with EMF)</name>
 			<url>https://repo.eclipse.org/content/groups/acceleo</url>
 		</repository>
+		<repository>
+			<id>sigma</id>
+			<name>SIGMA repository</name>
+			<url>https://dl.dropboxusercontent.com/u/4168936/mvn-repo</url>
+		</repository>
 	</repositories>
 </project>

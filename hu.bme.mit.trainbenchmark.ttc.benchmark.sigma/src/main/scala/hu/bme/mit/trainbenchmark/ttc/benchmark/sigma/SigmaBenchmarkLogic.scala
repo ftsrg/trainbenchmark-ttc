@@ -11,7 +11,9 @@ abstract class BaseBenchmarkLogic extends AbstractBenchmarkLogic {
 }
 
 class SigmaBenchmarkLogic(config: BenchmarkConfig) extends BaseBenchmarkLogic {
-  
+
+  import SigmaBenchmarkCase._
+
   _benchmarkConfig = config
   
   override def getTool = "Sigma"
@@ -21,7 +23,7 @@ class SigmaBenchmarkLogic(config: BenchmarkConfig) extends BaseBenchmarkLogic {
     case QueryConstants.SWITCHSENSOR => Solution.SwitchSensor
     case QueryConstants.SWITCHSET => Solution.SwitchSet
     case QueryConstants.ROUTESENSOR => Solution.RouteSensor
-    case QueryConstants.SEMAPHORENEIGHBOR => Solution.SemaphoreNeighbour
+    case QueryConstants.SEMAPHORENEIGHBOR => Solution.SemaphoreNeighbor
     case _ => sys.error(s"Unknown query: $query")
   }
 

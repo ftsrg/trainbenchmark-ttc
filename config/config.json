@@ -1,6 +1,6 @@
 {
   "MinSize": 1,
-  "MaxSize": 32,
+  "MaxSize": 4096,
   "Queries": [
     "PosLength",
     "SwitchSensor",
@@ -15,17 +15,17 @@
     "SwitchSet"
   ],
   "Tools": [
-    "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.java",
-    "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma"],
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma",
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery"
+  ],
   "ChangeSets": [
-    "fixed",
-    "proportional"
+    "fixed"
   ],
   "Runs": 2,
-  "IterationCount": 10,
+  "IterationCount": 5,
   "JVM": {
-    "vmargs": ["-Xmx2G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
+    "vmargs": ["-Xmx8G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
   },
   "Timeout": 600
 }

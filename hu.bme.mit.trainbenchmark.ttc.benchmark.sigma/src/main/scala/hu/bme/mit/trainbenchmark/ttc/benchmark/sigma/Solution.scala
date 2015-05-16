@@ -6,17 +6,17 @@ import hu.bme.mit.trainbenchmark.ttc.railway.support.Railway._railway._
 
 object Solution extends Railway {
 
-  val PosLength = SigmaBenchmarkCase[Segment, Segment](
-    query = segment => if (segment.length < 0) Some(segment) else None,
+  val PosLength = BooleanConstraint[Segment](
+    query = segment => segment.length < 0,
     repair = segment => segment.length += -segment.length + 1
   )
 
-  val SwitchSensor = SigmaBenchmarkCase[Switch, Switch](
-    query = switch => if (switch.sensor.isEmpty) Some(switch) else None,
+  val SwitchSensor = BooleanConstraint[Switch](
+    query = switch => switch.sensor.isEmpty,
     repair = switch => switch.sensor = Sensor()
   )
 
-  val SwitchSet = SigmaBenchmarkCase[SwitchPosition, (Semaphore, Route, SwitchPosition, Switch)](
+  val SwitchSet = Constraint[SwitchPosition, (Semaphore, Route, SwitchPosition, Switch)](
     query = swP => {
       for {
         semaphore <- Option(swP.route.entry) if semaphore.signal == Signal.GO // faulty meta-model - if it is possible not to have entry -> cardinality should be 0..1
@@ -29,17 +29,13 @@ object Solution extends Railway {
     }
   )
 
-  val RouteSensor = SigmaBenchmarkCase[Route, (Route, Sensor, SwitchPosition, Switch)](
-    query = { route =>
-      val matches = for {
+  val RouteSensor = Constraint[Route, (Route, Sensor, SwitchPosition, Switch)](
+    query = route => {
+      for {
         swP <- route.follows
         sw = swP.switch
         sensor <- sw.sensor if !(route.definedBy contains sensor)
       } yield (route, sensor, swP, sw)
-
-      println(matches.size)
-
-      matches.headOption
     },
 
     repair = {
@@ -47,36 +43,16 @@ object Solution extends Railway {
     }
   )
 
-//  val RouteSensor = SigmaBenchmarkCase[Sensor, (Route, Sensor, SwitchPosition, Switch)](
-//    query = sensor => {
-//      val matches = for {
-//        sw <- sensor.elements collect { case x: Switch => x }
-//        swP <- sw.positions
-//        route = swP.route if !(route.definedBy contains sensor)
-//      } yield (route, sensor, swP, sw)
-//
-//      println(matches.size)
-//
-//      matches.headOption
-//    },
-//
-//    repair = {
-//      case (route, sensor, _, _) => route.definedBy += sensor
-//    }
-//  )
-
-  val SemaphoreNeighbour = SigmaBenchmarkCase[Route,(Semaphore, Route, Route, Sensor, Sensor, TrackElement, TrackElement)](
-    query = { route1 =>
-      val matches = for {
+  val SemaphoreNeighbor = Constraint[Route, (Semaphore, Route, Route, Sensor, Sensor, TrackElement, TrackElement)](
+    query = route1 => {
+      for {
         sensor1 <- route1.definedBy if route1.exit != null
         te1 <- sensor1.elements
         te2 <- te1.connectsTo
         sensor2 <- te2.sensor
-        semaphore <- Option(route1.exit) // faulty meta-model - if it is possible not to have exit -> cardinality should be 0..1
-        route2 <- sensor2.sContainer[Route] if route1 != route2 && semaphore != route2.entry
+        route2 <- sensor2.sContainer[Route] if route1 != route2
+        semaphore = route1.exit if semaphore != route2.entry
       } yield (semaphore, route1, route2, sensor1, sensor2, te1, te2)
-
-      matches.headOption
     },
 
     repair = {
