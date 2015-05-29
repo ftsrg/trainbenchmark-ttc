@@ -31,7 +31,7 @@
   classoffset=0,
   morekeywords={module, import, transform, from, to, abstract, rule, before, 
                 def, if, then, else, endif, and, or, not, lazy, unique, default,
-                in, self, uses, env, single, context, static, let},
+                in, self, uses, env, single, context, static, let, metamodel},
   classoffset=1,
   morekeywords={OclAny,Integer,Real,String,Boolean,Collection,Bag,Set,OrderedSet,
                 Sequence,Map,Tuple,TupleType,Env}
@@ -329,12 +329,13 @@ Listing~\ref{lst:semaphoreneighborquery} shows the ATL query for SemaphoreNeighb
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighborQuery in ATL}, label=lst:semaphoreneighborquery, captionpos=b, frame=tb, belowskip=-10pt]
 query SemaphoreNeighbourQuery = thisModule.traces.getLinksByRule('Check', true).links
 		->collect(l | Tuple{
+			s = l.getSourceElement('s', true).object,
 			r1 = l.getSourceElement('r1', true).object,
+			r2 = l.getSourceElement('r2', true).object,
 			s1 = l.getSourceElement('s1', true).object,
-			te1 = l.getSourceElement('te1', true).object,
-			te2 = l.getSourceElement('te2', true).object,
 			s2 = l.getSourceElement('s2', true).object,
-			r3 = l.getSourceElement('r3', true).object});
+			te1 = l.getSourceElement('te1', true).object,
+			te2 = l.getSourceElement('te2', true).object});
 
 uses SemaphoreNeighbourCheck;
 \end{lstlisting}
@@ -348,7 +349,7 @@ SimpleGT matches are recorded in the implicit trace model by EMFTVM. The ATL que
 \label{fig:emftvm-trace}
 \end{figure}
 
-Listing~\ref{lst:semaphoreneighborcheck} shows the SimpleGT check transformation for SemaphoreNeighbor. It uses a ``single'' rule (i.e. one-shot, non-recursive matching) to match the required pattern. Whenever a navigation is possible from one element to the next, the SimpleGT compiler produces a local search expression to find the next element. EMFTVM will evaluate this local search expression whenever available instead of iterating over the entire model. There is one situation where direct navigation is not possible: finding Route \texttt{r3} from Sensor \texttt{s2}. To get around this problem, the \texttt{routes} helper attribute is defined on the Sensor metaclass. This helper attribute uses uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this. The \texttt{routes} helper attribute can now be used in the Check rule to navigate from Sensor \texttt{s2} to all possible Routes \texttt{r3}. The \textbf{not} part in the rule represents a \emph{negative application condition} (NAC), which specifies a condition that may not occur in a valid match. A rule can have multiple \textbf{not} parts. SimpleGT requires you to specify a \emph{left-hand-side} (LHS) and \emph{right-hand-side} (RHS) for each rule, represented by the \textbf{from} and the \textbf{to} part, respectively. The LHS is always replaced by the RHS. Because we don't want the Check rule to change anything, we must repeat the LHS in the RHS to prevent it from being deleted.
+Listing~\ref{lst:semaphoreneighborcheck} shows the SimpleGT check transformation for SemaphoreNeighbor. It uses a ``single'' rule (i.e. one-shot, non-recursive matching) to match the required pattern. Whenever a navigation is possible from one element to the next, the SimpleGT compiler produces a local search expression to find the next element. EMFTVM will evaluate this local search expression whenever available instead of iterating over the entire model. There is one situation where direct navigation is not possible: finding Route \texttt{r2} from Sensor \texttt{s2}. To get around this problem, the \texttt{routes} helper attribute is defined on the Sensor metaclass. This helper attribute uses uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r2}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this. The \texttt{routes} helper attribute can now be used in the Check rule to navigate from Sensor \texttt{s2} to all possible Routes \texttt{r2}. The \textbf{not} part in the rule represents a \emph{negative application condition} (NAC), which specifies a condition that may not occur in a valid match. A rule can have multiple \textbf{not} parts. SimpleGT requires you to specify a \emph{left-hand-side} (LHS) and \emph{right-hand-side} (RHS) for each rule, represented by the \textbf{from} and the \textbf{to} part, respectively. The LHS is always replaced by the RHS. Because we don't want the Check rule to change anything, we must repeat the LHS in the RHS to prevent it from being deleted.
 
 \lstset{language=simplegt}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighborCheck transformation module in SimpleGT}, label=lst:semaphoreneighborcheck, captionpos=b, frame=tb, belowskip=-10pt]
@@ -359,22 +360,23 @@ transform IN : RAILWAY;
 -- Checks for matches
 single rule Check {
 	from
-		r1 : RAILWAY!Route (definedBy =~ s1),
+		r1 : RAILWAY!Route (definedBy =~ s1, exit =~ s),
+		s : RAILWAY!Semaphore,
 		s1 : RAILWAY!Sensor (elements =~ te1),
 		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
 		te2 : RAILWAY!TrackElement (sensor =~ s2),
-		s2 : RAILWAY!Sensor (routes =~ r3),
-		r3 : RAILWAY!Route
-	not
 		s2 : RAILWAY!Sensor (routes =~ r2),
+		r2 : RAILWAY!Route
+	not
 		r2 : RAILWAY!Route (entry =~ r1.exit)
 	to
-		r1 : RAILWAY!Route (definedBy =~ s1),
+		r1 : RAILWAY!Route (definedBy =~ s1, exit =~ s),
+		s : RAILWAY!Semaphore,
 		s1 : RAILWAY!Sensor (elements =~ te1),
 		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
 		te2 : RAILWAY!TrackElement (sensor =~ s2),
-		s2 : RAILWAY!Sensor (routes =~ r3),
-		r3 : RAILWAY!Route
+		s2 : RAILWAY!Sensor (routes =~ r2),
+		r2 : RAILWAY!Route
 }
 
 -- Returns the Routes mapped by their Sensor.
@@ -463,7 +465,7 @@ Fig.~\ref{fig:atl-batch-performance} shows the batch read and check scenario per
 \section{Alternative Solution for SemaphoreNeighbor}
 \label{appendix:a}
 
-Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. This query uses three helper attributes, \texttt{routesWithExitSemaphore}, \texttt{sensorTuples}, and \texttt{routesBySensor}, to spread the complexity. The main query collects the \texttt{sensorTuples} for each Route with an exit Semaphore, and flattens the resulting Sets into a single Set of Tuples. The \texttt{sensorTuples} helper collects the match Tuples, where a match is defined by Route \texttt{r1}, Sensor \texttt{s1}, TrackElement \texttt{te1}, TrackElement \texttt{te2}, Sensor \texttt{s2}, and Route \texttt{r3}. A Tuple is created for each Route \texttt{r3} that is different from Route \texttt{r1}, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this.
+Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. This query uses three helper attributes, \texttt{routesWithExitSemaphore}, \texttt{sensorTuples}, and \texttt{routesBySensor}, to spread the complexity. The main query collects the \texttt{sensorTuples} for each Route with an exit Semaphore, and flattens the resulting Sets into a single Set of Tuples. The \texttt{sensorTuples} helper collects the match Tuples, where a match is defined by Semaphore \texttt{s}, Route \texttt{r1}, Route \texttt{r2}, Sensor \texttt{s1}, Sensor \texttt{s2}, TrackElement \texttt{te1}, and TrackElement \texttt{te2}. A Tuple is created for each Route \texttt{r2} that is different from Route \texttt{r1} and of which the entry differs from the \texttt{r1} exit, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighbor query in ATL}, label=lst:semaphoreneighbor, captionpos=b, frame=tb, belowskip=-10pt]
@@ -478,34 +480,33 @@ helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
 --- Returns the sensor tuples and their track elements that match the given route.
 helper context RAILWAY!Route def : sensorTuples : Sequence(
 		TupleType(
+			s : RAILWAY!Semaphore,
 			r1 : RAILWAY!Route,
-			s1 : RAILWAY!Sensor, 
-			te1 : RAILWAY!TrackElement, 
-			te2 : RAILWAY!TrackElement, 
+			r2 : RAILWAY!Route,
+			s1 : RAILWAY!Sensor,
 			s2 : RAILWAY!Sensor,
-			r3 : RAILWAY!Route)) =
+			te1 : RAILWAY!TrackElement, 
+			te2 : RAILWAY!TrackElement)) =
 	self.definedBy->collect(s1 | 
 		s1.elements->collect(te1 | 
 			te1.connectsTo->reject(te2 | 
 				let s2 : RAILWAY!Sensor = te2.sensor in
-				s2.oclIsUndefined() or (
-					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-					s2routes.oclIsUndefined() or
-					s2routes->exists(r2 | r2.entry = self.exit)
-				)
+				s2.oclIsUndefined() or 
+				thisModule.routesBySensor.get(s2).oclIsUndefined()
 			)->collect(te2 |
 				let s2 : RAILWAY!Sensor = te2.sensor in
 				let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-				s2routes->select(r3 |
-					r3 <> self
-				)->collect(r3 |
-					Tuple{r1 = self, s1 = s1, te1 = te1, te2 = te2, s2 = s2, r3 = r3}
+				s2routes->select(r2 |
+					r2 <> self and r2.entry <> self.exit
+				)->collect(r2 |
+					Tuple{s = self.exit, r1 = self, r2 = r2, s1 = s1, s2 = s2, te1 = te1, te2 = te2}
 				)
 			)
 		)
 	)->flatten();
 
 --- Returns the Routes mapped by their Sensor.
+--- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
 helper def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
 	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
 \end{lstlisting}

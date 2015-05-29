@@ -12,13 +12,14 @@ uses Repair;
 lazy rule Repair {
 	from
 		s : TupleType(
+			s : RAILWAY!Semaphore,
 			r1 : RAILWAY!Route,
-			s1 : RAILWAY!Sensor, 
-			te1 : RAILWAY!TrackElement, 
-			te2 : RAILWAY!TrackElement, 
+			r2 : RAILWAY!Route,
+			s1 : RAILWAY!Sensor,
 			s2 : RAILWAY!Sensor,
-			r3 : RAILWAY!Route)
+			te1 : RAILWAY!TrackElement, 
+			te2 : RAILWAY!TrackElement)
 	do {
-		s.r1.exit <:= OclUndefined;
+		s.r2.entry <:= s.s;
 	}
 }
