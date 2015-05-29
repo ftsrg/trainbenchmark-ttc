@@ -1,42 +1,27 @@
 -- @atlcompiler emftvm
 -- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
 
--- The query checks for routes which have an exit semaphore and a sensor connected to another
--- sensor (which defines another route) by two track elements, but there is no other route that connects the
--- same semaphore and the other sensor.
-query SemaphoreNeighbour = thisModule.routesWithExitSemaphore
-	->collect(r | r.sensorTuples)
-	->flatten();
-
---- Returns all Routes with exit Semaphore.
-helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->reject(r | r.exit.oclIsUndefined());
-
---- Returns the sensor tuples and their track elements that match the given route.
-helper context RAILWAY!Route def : sensorTuples : Sequence(
-		TupleType(
-			r1 : RAILWAY!Route,
-			s1 : RAILWAY!Sensor, 
-			te1 : RAILWAY!TrackElement, 
-			te2 : RAILWAY!TrackElement, 
-			s2 : RAILWAY!Sensor,
-			r3 : RAILWAY!Route)) =
-	self.definedBy->collect(s1 | 
-		s1.elements->collect(te1 | 
-			te1.connectsTo->reject(te2 | 
-				let s2 : RAILWAY!Sensor = te2.sensor in
-				s2.oclIsUndefined() or (
+-- The query checks for routes (r1) which have an exit semaphore (s) and a sensor
+-- (s1) connected to a track element (te1). This track element is connected to another track element
+-- (te2) which is connected to another sensor (s2) which (partially) defines another, different route
+-- (r2), while the semaphore is not on the entry of this route (r2).
+query SemaphoreNeighbour = RAILWAY!Route.allInstances()
+	->reject(r1 | r1.exit.oclIsUndefined())
+	->collect(r1 | 
+		r1.definedBy->collect(s1 | 
+			s1.elements->collect(te1 | 
+				te1.connectsTo->reject(te2 | 
+					let s2 : RAILWAY!Sensor = te2.sensor in
+					s2.oclIsUndefined() or 
+					thisModule.routesBySensor.get(s2).oclIsUndefined()
+				)->collect(te2 |
+					let s2 : RAILWAY!Sensor = te2.sensor in
 					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-					s2routes.oclIsUndefined() or
-					s2routes->exists(r2 | r2.entry = self.exit)
-				)
-			)->collect(te2 |
-				let s2 : RAILWAY!Sensor = te2.sensor in
-				let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-				s2routes->select(r3 |
-					r3 <> self
-				)->collect(r3 |
-					Tuple{r1 = self, s1 = s1, te1 = te1, te2 = te2, s2 = s2, r3 = r3}
+					s2routes->select(r2 |
+						r2 <> r1 and r2.entry <> r1.exit
+					)->collect(r2 |
+						Tuple{s = r1.exit, r1 = r1, r2 = r2, s1 = s1, s2 = s2, te1 = te1, te2 = te2}
+					)
 				)
 			)
 		)

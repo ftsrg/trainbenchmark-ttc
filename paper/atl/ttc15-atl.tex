@@ -218,30 +218,20 @@ lazy rule Repair {
 
 The SwitchSet task consists of a query that checks for Routes that are not connected to a Sensor, which have a semaphore that show the GO signal. Additionally, the route follows a switch position (p) that is connected to a switch (sw), but the switch position (p.position) defines a different position from the current position of the switch (sw.currentPosition). Furthermore, a repair transformation is provided, which sets the currentPosition attribute of the switch to the position of the switchPosition. 
 
-Listing~\ref{lst:switchset} shows the ATL query for SwitchSet. This query is more complex, and uses two helper attributes, \texttt{goRoutes} and \texttt{wrongSwitchPositions}, to spread the complexity. The main query collects Tuples of each match, where a match is defined by Route \texttt{r}, Semaphore \texttt{s}, SwitchPosition \texttt{p}, and Switch \texttt{sw}. A Tuple is created for each wrong SwitchPosition that was found for each Route with a ``GO'' signal. As one can see, Tuples allow for returning matches with multiple elements to the benchmark framework.
+Listing~\ref{lst:switchset} shows the ATL query for SwitchSet. The query collects Tuples of each match, where a match is defined by Route \texttt{r}, Semaphore \texttt{s}, SwitchPosition \texttt{p}, and Switch \texttt{sw}. A Tuple is created for each wrong SwitchPosition that was found for each Route with a ``GO'' signal. As one can see, Tuples allow for returning matches with multiple elements to the benchmark framework.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={SwitchSet query in ATL}, label=lst:switchset, captionpos=b, frame=tb, belowskip=-10pt]
-query SwitchSet = thisModule.goRoutes
-	->collect(r | r.wrongSwitchPositions
-		->collect(p | 
+query SwitchSet = RAILWAY!Route.allInstances()
+	->select(r | 
+		not r.entry.oclIsUndefined() and r.entry.signal = #GO
+	)->collect(r | r.follows
+		->select(p | 
+			not p.switch.oclIsUndefined() and p.switch.currentPosition <> p.position
+		)->collect(p | 
 			Tuple{r = r, s = r.entry, p = p, sw = p.switch}
 		)
-	)
-	->flatten();
-
---- Returns all Routes with a #GO signal on the entry Semaphore.
-helper def : goRoutes : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->select(r | 
-		not r.entry.oclIsUndefined() and r.entry.signal = #GO
-	);
-
---- Returns all wrong SwitchPositions for the given Route.
-helper context RAILWAY!Route 
-def : wrongSwitchPositions : Sequence(RAILWAY!SwitchPosition) =
-	self.follows->select(p | 
-		not p.switch.oclIsUndefined() and p.switch.currentPosition <> p.position
-	);
+	)->flatten();
 \end{lstlisting}
 
 Listing~\ref{lst:switchsetrepair} shows the ATL repair transformation module for SwitchSet. The \texttt{Repair} rule takes the Tuple match as input element this time, and assigns the SwitchPosition's position to the Switch's currentPosition.
@@ -270,31 +260,21 @@ lazy rule Repair {
 
 The RouteSensor task consists of a query that checks for Sensors that are connected to a Switch, but the Sensor and the Switch are not connected to the same Route. The repair transformation inserts the missing definedBy Sensors for the Route. 
 
-Listing~\ref{lst:routesensor} shows the ATL query for RouteSensor. This query uses two helper attributes, \texttt{routes\-With\-Sensors} and \texttt{wrongSwitchPositions}, to spread the complexity. The main query collects Tuples  of each match, where a match is defined by Route \texttt{r}, SwitchPosition \texttt{p}, Switch \texttt{sw}, and Sensor \texttt{s}. A Tuple is created for each SwitchPosition connected to a Sensor that is not connected to the Route (\texttt{wrongSwitchPositions}), for each Route that has Sensors connected to it (\texttt{routesWithSensors}). 
+Listing~\ref{lst:routesensor} shows the ATL query for RouteSensor. The query collects Tuples of each match, where a match is defined by Route \texttt{r}, SwitchPosition \texttt{p}, Switch \texttt{sw}, and Sensor \texttt{s}. A Tuple is created for each SwitchPosition connected to a Sensor that is not connected to the Route, for each Route that has Sensors connected to it. 
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={RouteSensor query in ATL}, label=lst:routesensor, captionpos=b, frame=tb, belowskip=-10pt]
-query RouteSensor = thisModule.routesWithSensors
-	->collect(r | r.wrongSwitchPositions
-		->collect(p | 
+query RouteSensor = RAILWAY!Route.allInstances()
+	->select(r | r.definedBy->notEmpty())
+	->collect(r |
+		r.follows->select(p | 
+			not p.switch.oclIsUndefined() and 
+			not p.switch.sensor.oclIsUndefined() and
+			r.definedBy->excludes(p.switch.sensor)
+		)->collect(p | 
 			Tuple{r = r, p = p, sw = p.switch, s = p.switch.sensor}
 		)
-	)
-	->flatten();
-
---- Returns all Routes with Sensors.
-helper def : routesWithSensors : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->select(r | r.definedBy->notEmpty());
-
---- Returns all wrong SwitchPositions for the given Route.
-helper context RAILWAY!Route 
-def : wrongSwitchPositions : Sequence(RAILWAY!SwitchPosition) =
-	self.follows->select(p | 
-		let switch : RAILWAY!Switch = p.switch in
-		not switch.oclIsUndefined() and 
-		not switch.sensor.oclIsUndefined() and
-		self.definedBy->excludes(switch.sensor)
-	);
+	)->flatten();
 \end{lstlisting}
 
 Listing~\ref{lst:routesensorrepair} shows the ATL repair transformation module for RouteSensor. The \texttt{Repair} rule takes the Tuple match as input element, and adds the Sensor in the match to the Route's definedBy sensors.
@@ -465,41 +445,27 @@ Fig.~\ref{fig:atl-batch-performance} shows the batch read and check scenario per
 \section{Alternative Solution for SemaphoreNeighbor}
 \label{appendix:a}
 
-Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. This query uses three helper attributes, \texttt{routesWithExitSemaphore}, \texttt{sensorTuples}, and \texttt{routesBySensor}, to spread the complexity. The main query collects the \texttt{sensorTuples} for each Route with an exit Semaphore, and flattens the resulting Sets into a single Set of Tuples. The \texttt{sensorTuples} helper collects the match Tuples, where a match is defined by Semaphore \texttt{s}, Route \texttt{r1}, Route \texttt{r2}, Sensor \texttt{s1}, Sensor \texttt{s2}, TrackElement \texttt{te1}, and TrackElement \texttt{te2}. A Tuple is created for each Route \texttt{r2} that is different from Route \texttt{r1} and of which the entry differs from the \texttt{r1} exit, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this.
+Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. The query collects the match Tuples for each Route \texttt{r1} with an exit Semaphore, for which there is a Route \texttt{r2} that is different from Route \texttt{r1}, and of which the entry differs from the \texttt{r1} exit, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. The resulting nested Collections are flattened into a single Collection of Tuples. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper attribute, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighbor query in ATL}, label=lst:semaphoreneighbor, captionpos=b, frame=tb, belowskip=-10pt]
-query SemaphoreNeighbour = thisModule.routesWithExitSemaphore
-	->collect(r | r.sensorTuples)
-	->flatten();
-
---- Returns all Routes with exit Semaphore.
-helper def : routesWithExitSemaphore : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->reject(r | r.exit.oclIsUndefined());
-
---- Returns the sensor tuples and their track elements that match the given route.
-helper context RAILWAY!Route def : sensorTuples : Sequence(
-		TupleType(
-			s : RAILWAY!Semaphore,
-			r1 : RAILWAY!Route,
-			r2 : RAILWAY!Route,
-			s1 : RAILWAY!Sensor,
-			s2 : RAILWAY!Sensor,
-			te1 : RAILWAY!TrackElement, 
-			te2 : RAILWAY!TrackElement)) =
-	self.definedBy->collect(s1 | 
-		s1.elements->collect(te1 | 
-			te1.connectsTo->reject(te2 | 
-				let s2 : RAILWAY!Sensor = te2.sensor in
-				s2.oclIsUndefined() or 
-				thisModule.routesBySensor.get(s2).oclIsUndefined()
-			)->collect(te2 |
-				let s2 : RAILWAY!Sensor = te2.sensor in
-				let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-				s2routes->select(r2 |
-					r2 <> self and r2.entry <> self.exit
-				)->collect(r2 |
-					Tuple{s = self.exit, r1 = self, r2 = r2, s1 = s1, s2 = s2, te1 = te1, te2 = te2}
+query SemaphoreNeighbour = RAILWAY!Route.allInstances()
+	->reject(r1 | r1.exit.oclIsUndefined())
+	->collect(r1 | 
+		r1.definedBy->collect(s1 | 
+			s1.elements->collect(te1 | 
+				te1.connectsTo->reject(te2 | 
+					let s2 : RAILWAY!Sensor = te2.sensor in
+					s2.oclIsUndefined() or 
+					thisModule.routesBySensor.get(s2).oclIsUndefined()
+				)->collect(te2 |
+					let s2 : RAILWAY!Sensor = te2.sensor in
+					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
+					s2routes->select(r2 |
+						r2 <> r1 and r2.entry <> r1.exit
+					)->collect(r2 |
+						Tuple{s = r1.exit, r1 = r1, r2 = r2, s1 = s1, s2 = s2, te1 = te1, te2 = te2}
+					)
 				)
 			)
 		)

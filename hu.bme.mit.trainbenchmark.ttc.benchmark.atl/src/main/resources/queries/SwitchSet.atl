@@ -4,22 +4,13 @@
 -- The query checks for routes which have a semaphore that show the GO signal. Additionally,
 -- the route follows a switch position (p) that is connected to a switch (sw), but the switch position
 -- (p.position) defines a different position from the current position of the switch (sw.currentPosition).
-query SwitchSet = thisModule.goRoutes
-	->collect(r | r.wrongSwitchPositions
-		->collect(p | 
+query SwitchSet = RAILWAY!Route.allInstances()
+	->select(r | 
+		not r.entry.oclIsUndefined() and r.entry.signal = #GO
+	)->collect(r | r.follows
+		->select(p | 
+			not p.switch.oclIsUndefined() and p.switch.currentPosition <> p.position
+		)->collect(p | 
 			Tuple{r = r, s = r.entry, p = p, sw = p.switch}
 		)
-	)
-	->flatten();
-
---- Returns all Routes with a #GO signal on the entry Semaphore.
-helper def : goRoutes : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->select(r | 
-		not r.entry.oclIsUndefined() and r.entry.signal = #GO
-	);
-
---- Returns all wrong SwitchPositions for the given Route.
-helper context RAILWAY!Route def : wrongSwitchPositions : Sequence(RAILWAY!SwitchPosition) =
-	self.follows->select(p | 
-		not p.switch.oclIsUndefined() and p.switch.currentPosition <> p.position
-	);
+	)->flatten();

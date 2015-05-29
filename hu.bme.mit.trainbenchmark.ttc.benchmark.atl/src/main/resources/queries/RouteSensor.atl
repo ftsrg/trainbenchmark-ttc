@@ -3,23 +3,14 @@
 
 -- The query looks for sensors that are connected to a switch, but the sensor and the switch are
 -- not connected to the same route.
-query RouteSensor = thisModule.routesWithSensors
-	->collect(r | r.wrongSwitchPositions
-		->collect(p | 
+query RouteSensor = RAILWAY!Route.allInstances()
+	->select(r | r.definedBy->notEmpty())
+	->collect(r |
+		r.follows->select(p | 
+			not p.switch.oclIsUndefined() and 
+			not p.switch.sensor.oclIsUndefined() and
+			r.definedBy->excludes(p.switch.sensor)
+		)->collect(p | 
 			Tuple{r = r, p = p, sw = p.switch, s = p.switch.sensor}
 		)
-	)
-	->flatten();
-
---- Returns all Routes with Sensors.
-helper def : routesWithSensors : Sequence(RAILWAY!Route) =
-	RAILWAY!Route.allInstances()->select(r | r.definedBy->notEmpty());
-
---- Returns all wrong SwitchPositions for the given Route.
-helper context RAILWAY!Route def : wrongSwitchPositions : Sequence(RAILWAY!SwitchPosition) =
-	self.follows->select(p | 
-		let switch : RAILWAY!Switch = p.switch in
-		not switch.oclIsUndefined() and 
-		not switch.sensor.oclIsUndefined() and
-		self.definedBy->excludes(switch.sensor)
-	);
+	)->flatten();
