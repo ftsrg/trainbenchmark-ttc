@@ -329,7 +329,7 @@ SimpleGT matches are recorded in the implicit trace model by EMFTVM. The ATL que
 \label{fig:emftvm-trace}
 \end{figure}
 
-Listing~\ref{lst:semaphoreneighborcheck} shows the SimpleGT check transformation for SemaphoreNeighbor. It uses a ``single'' rule (i.e. one-shot, non-recursive matching) to match the required pattern. Whenever a navigation is possible from one element to the next, the SimpleGT compiler produces a local search expression to find the next element. EMFTVM will evaluate this local search expression whenever available instead of iterating over the entire model. There is one situation where direct navigation is not possible: finding Route \texttt{r2} from Sensor \texttt{s2}. To get around this problem, the \texttt{routes} helper attribute is defined on the Sensor metaclass. This helper attribute uses uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper, to reduce the search space for matching Routes \texttt{r2}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this. The \texttt{routes} helper attribute can now be used in the Check rule to navigate from Sensor \texttt{s2} to all possible Routes \texttt{r2}. The \textbf{not} part in the rule represents a \emph{negative application condition} (NAC), which specifies a condition that may not occur in a valid match. A rule can have multiple \textbf{not} parts. SimpleGT requires you to specify a \emph{left-hand-side} (LHS) and \emph{right-hand-side} (RHS) for each rule, represented by the \textbf{from} and the \textbf{to} part, respectively. The LHS is always replaced by the RHS. Because we don't want the Check rule to change anything, we must repeat the LHS in the RHS to prevent it from being deleted.
+Listing~\ref{lst:semaphoreneighborcheck} shows the SimpleGT check transformation for SemaphoreNeighbor. It uses a ``single'' rule (i.e. one-shot, non-recursive matching) to match the required pattern. Whenever a navigation is possible from one element to the next, the SimpleGT compiler produces a local search expression to find the next element. EMFTVM will evaluate this local search expression whenever available instead of iterating over the entire model. There is one situation where direct navigation is not possible: finding Route \texttt{r2} from Sensor \texttt{s2}. To get around this problem, the \texttt{route} helper attribute is defined on the Sensor metaclass. This helper attribute retrieves the container object for the Sensor, as \texttt{Route::definedBy} is a containment reference. The \texttt{route} helper attribute can now be used in the Check rule to navigate from Sensor \texttt{s2} to all possible Routes \texttt{r2}. The \textbf{not} part in the rule represents a \emph{negative application condition} (NAC), which specifies a condition that may not occur in a valid match. A rule can have multiple \textbf{not} parts. SimpleGT requires you to specify a \emph{left-hand-side} (LHS) and \emph{right-hand-side} (RHS) for each rule, represented by the \textbf{from} and the \textbf{to} part, respectively. The LHS is always replaced by the RHS. Because we don't want the Check rule to change anything, we must repeat the LHS in the RHS to prevent it from being deleted.
 
 \lstset{language=simplegt}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighborCheck transformation module in SimpleGT}, label=lst:semaphoreneighborcheck, captionpos=b, frame=tb, belowskip=-10pt]
@@ -345,7 +345,7 @@ single rule Check {
 		s1 : RAILWAY!Sensor (elements =~ te1),
 		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
 		te2 : RAILWAY!TrackElement (sensor =~ s2),
-		s2 : RAILWAY!Sensor (routes =~ r2),
+		s2 : RAILWAY!Sensor (route =~ r2),
 		r2 : RAILWAY!Route
 	not
 		r2 : RAILWAY!Route (entry =~ r1.exit)
@@ -355,23 +355,18 @@ single rule Check {
 		s1 : RAILWAY!Sensor (elements =~ te1),
 		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
 		te2 : RAILWAY!TrackElement (sensor =~ s2),
-		s2 : RAILWAY!Sensor (routes =~ r2),
+		s2 : RAILWAY!Sensor (route =~ r2),
 		r2 : RAILWAY!Route
 }
 
 -- Returns the Routes mapped by their Sensor.
-context RAILWAY!Sensor def : routes : Set(RAILWAY!Route) =
-	let routes : Set(RAILWAY!Route) = Env::routesBySensor.get(self) in
-	if routes.oclIsUndefined() then
-		Set{}
+context RAILWAY!Sensor def : route : RAILWAY!Route =
+	let route : RAILWAY!Route = self.refImmediateComposite() in
+	if route.oclIsKindOf(RAILWAY!Route) then
+		route
 	else
-		routes
+		OclUndefined
 	endif;
-
--- Returns the Routes mapped by their Sensor.
--- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
-static def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
-	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
 \end{lstlisting}
 
 Listing~\ref{lst:semaphoreneighborrepair} shows the ATL repair transformation module for SemaphoreNeighbor. The \texttt{Repair} rule takes the Tuple match as input element, and removes the exit Semaphore from Route \texttt{r1}.
@@ -419,7 +414,7 @@ Most example and production ATL transformation modules are much longer than the 
 
 The benchmark framework supports running the solution against increasing model sizes, starting at $2^0$ and going up by $2^{n+1}$. Within the memory constraints of the SHARE image\footnote{\url{http://is.ieis.tue.nl/staff/pvgorp/share/?trgPage=LookupImage&vdiNameSearch=TTC15_ATL}} of 1 GB RAM, we managed to go up to model size 512 with \texttt{-Xmx512m} as JVM arguments. While all benchmark tasks can be completed on SHARE for this model size within the time constraint of 5 minutes, this does not work all of the time. The performance of a SHARE VM is not consistent, and we sometimes saw simple tasks time out (e.g. RouteSensor, SwitchSensor), while the most complex task (SemaphoreNeighbor) finishes. On local hardware (AMD 1055T\footnote{\url{http://www.cpubenchmark.net/cpu.php?cpu=AMD+Phenom+II+X6+1055T}}), with 8 GB RAM and using \texttt{-Xmx4G} as JVM arguments (\texttt{java-1.7.0-openjdk-1.7.0.79-2.5.5.0.fc20.x86\_64}), we managed to go up to model size 4096 without a single time-out.
 
-In the ATL language, performance is achieved by using helper attributes instead of operations where possible, as helper attribute values are cached; accessing a helper attribute more than once on the same object will not trigger evaluation again, but just returns the cached value. In addition, design patterns specific to model transformation, such as the Object Indexing pattern~\cite{conf/icsea/Lano2011} can be used to reduce the search space for a given model element.
+In the ATL language, performance is achieved by using helper attributes instead of operations where possible, as helper attribute values are cached; accessing a helper attribute more than once on the same object will not trigger evaluation again, but just returns the cached value.
 
 Furthermore, the virtual machine (EMFTVM) also applies certain performance optimisations. Complex code blocks are JIT-compiled to Java bytecode, which in turn may be JIT-compiled to native code by the JVM. Collections and boolean expressions are evaluated lazily, preventing unnecessary navigation and allowing short-circuit evaluation of expressions. Finally, model elements are cached by their type, making repeated lookup of all instances of a certain metaclass more performant.
 
@@ -445,7 +440,7 @@ Fig.~\ref{fig:atl-batch-performance} shows the batch read and check scenario per
 \section{Alternative Solution for SemaphoreNeighbor}
 \label{appendix:a}
 
-Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. The query collects the match Tuples for each Route \texttt{r1} with an exit Semaphore, for which there is a Route \texttt{r2} that is different from Route \texttt{r1}, and of which the entry differs from the \texttt{r1} exit, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. The resulting nested Collections are flattened into a single Collection of Tuples. It uses the Object Indexing pattern~\cite{conf/icsea/Lano2011}, applied in the \texttt{routesBySensor} helper attribute, to reduce the search space for matching Routes \texttt{r3}. This is achieved by pre-indexing all Routes by their definedBy Sensors. ATL/EMFTVM provides the \texttt{mappedBy} collection operation for this.
+Listing~\ref{lst:semaphoreneighbor} shows an alternative ATL query for SemaphoreNeighbor, using only the ATL language. The query collects the match Tuples for each Route \texttt{r1} with an exit Semaphore, for which there is a Route \texttt{r2} that is different from Route \texttt{r1}, and of which the entry differs from the \texttt{r1} exit, connected to Sensor \texttt{s2}, where \texttt{s2} is connected to Sensor \texttt{s1} or Route \texttt{r1} by TrackElements \texttt{te1} and \texttt{te2}. The resulting nested Collections are flattened into a single Collection of Tuples.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighbor query in ATL}, label=lst:semaphoreneighbor, captionpos=b, frame=tb, belowskip=-10pt]
@@ -456,25 +451,17 @@ query SemaphoreNeighbour = RAILWAY!Route.allInstances()
 			s1.elements->collect(te1 | 
 				te1.connectsTo->reject(te2 | 
 					let s2 : RAILWAY!Sensor = te2.sensor in
-					s2.oclIsUndefined() or 
-					thisModule.routesBySensor.get(s2).oclIsUndefined()
+					s2.oclIsUndefined() or not (
+					let r2 : RAILWAY!Route = s2.refImmediateComposite() in
+					r2.oclIsKindOf(RAILWAY!Route) and r2 <> r1 and r2.entry <> r1.exit)
 				)->collect(te2 |
 					let s2 : RAILWAY!Sensor = te2.sensor in
-					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-					s2routes->select(r2 |
-						r2 <> r1 and r2.entry <> r1.exit
-					)->collect(r2 |
-						Tuple{s = r1.exit, r1 = r1, r2 = r2, s1 = s1, s2 = s2, te1 = te1, te2 = te2}
-					)
+					Tuple{s = r1.exit, r1 = r1, r2 = s2.refImmediateComposite(), 
+						s1 = s1, s2 = s2, te1 = te1, te2 = te2}
 				)
 			)
 		)
 	)->flatten();
-
---- Returns the Routes mapped by their Sensor.
---- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
-helper def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
-	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
 \end{lstlisting}
 
 Fig.~\ref{fig:atl-batch-performance-alt} shows the batch read and check scenario performance for the ATL/EMFTVM solution, and Fig.~\ref{fig:atl-recheck-performance-alt} shows the repetitive recheck and repair scenario performance. When comparing these figures to Fig.~\ref{fig:atl-batch-performance} and Fig.~\ref{fig:atl-recheck-performance}, one sees that the performance of this alternative query is consistently worse than the SimpleGT solution. Apparently, the overhead of the OCL collection operations -- many \texttt{collect}s followed by \texttt{flatten} -- makes a bug difference. Apart from that, the local search algorithm implemented here in OCL closely resembles what EMFTVM's built in local search engine does.

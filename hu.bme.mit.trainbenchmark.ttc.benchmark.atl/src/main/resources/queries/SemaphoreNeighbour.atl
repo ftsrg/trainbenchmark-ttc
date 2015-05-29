@@ -12,22 +12,14 @@ query SemaphoreNeighbour = RAILWAY!Route.allInstances()
 			s1.elements->collect(te1 | 
 				te1.connectsTo->reject(te2 | 
 					let s2 : RAILWAY!Sensor = te2.sensor in
-					s2.oclIsUndefined() or 
-					thisModule.routesBySensor.get(s2).oclIsUndefined()
+					s2.oclIsUndefined() or not (
+					let r2 : RAILWAY!Route = s2.refImmediateComposite() in
+					r2.oclIsKindOf(RAILWAY!Route) and r2 <> r1 and r2.entry <> r1.exit)
 				)->collect(te2 |
 					let s2 : RAILWAY!Sensor = te2.sensor in
-					let s2routes : Set(RAILWAY!Route) = thisModule.routesBySensor.get(s2) in
-					s2routes->select(r2 |
-						r2 <> r1 and r2.entry <> r1.exit
-					)->collect(r2 |
-						Tuple{s = r1.exit, r1 = r1, r2 = r2, s1 = s1, s2 = s2, te1 = te1, te2 = te2}
-					)
+					Tuple{s = r1.exit, r1 = r1, r2 = s2.refImmediateComposite(), 
+						s1 = s1, s2 = s2, te1 = te1, te2 = te2}
 				)
 			)
 		)
 	)->flatten();
-
---- Returns the Routes mapped by their Sensor.
---- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
-helper def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
-	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);

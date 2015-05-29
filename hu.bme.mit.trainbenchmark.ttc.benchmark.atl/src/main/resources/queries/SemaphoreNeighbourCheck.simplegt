@@ -13,7 +13,7 @@ single rule Check {
 		s1 : RAILWAY!Sensor (elements =~ te1),
 		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
 		te2 : RAILWAY!TrackElement (sensor =~ s2),
-		s2 : RAILWAY!Sensor (routes =~ r2),
+		s2 : RAILWAY!Sensor (route =~ r2),
 		r2 : RAILWAY!Route
 	not
 		r2 : RAILWAY!Route (entry =~ r1.exit)
@@ -23,20 +23,15 @@ single rule Check {
 		s1 : RAILWAY!Sensor (elements =~ te1),
 		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
 		te2 : RAILWAY!TrackElement (sensor =~ s2),
-		s2 : RAILWAY!Sensor (routes =~ r2),
+		s2 : RAILWAY!Sensor (route =~ r2),
 		r2 : RAILWAY!Route
 }
 
 -- Returns the Routes mapped by their Sensor.
-context RAILWAY!Sensor def : routes : Set(RAILWAY!Route) =
-	let routes : Set(RAILWAY!Route) = Env::routesBySensor.get(self) in
-	if routes.oclIsUndefined() then
-		Set{}
+context RAILWAY!Sensor def : route : RAILWAY!Route =
+	let route : RAILWAY!Route = self.refImmediateComposite() in
+	if route.oclIsKindOf(RAILWAY!Route) then
+		route
 	else
-		routes
+		OclUndefined
 	endif;
-
--- Returns the Routes mapped by their Sensor.
--- See: https://wiki.eclipse.org/ATL/Design_Patterns#Object_indexing
-static def : routesBySensor : Map(RAILWAY!Sensor, Set(RAILWAY!Route)) =
-	RAILWAY!Route.allInstances()->mappedBy(e | e.definedBy);
