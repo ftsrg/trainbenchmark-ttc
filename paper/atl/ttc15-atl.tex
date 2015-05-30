@@ -44,6 +44,10 @@
 
 %Standard listing style
 \lstset{
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
   tabsize=2,
   basicstyle=\scriptsize\tt,
   commentstyle=\scriptsize\tt\color{commentblue},
@@ -369,7 +373,7 @@ context RAILWAY!Sensor def : route : RAILWAY!Route =
 	endif;
 \end{lstlisting}
 
-Listing~\ref{lst:semaphoreneighborrepair} shows the ATL repair transformation module for SemaphoreNeighbor. The \texttt{Repair} rule takes the Tuple match as input element, and removes the exit Semaphore from Route \texttt{r1}.
+Listing~\ref{lst:semaphoreneighborrepair} shows the ATL repair transformation module for SemaphoreNeighbor. The \texttt{Repair} rule takes the Tuple match as input element, and adds the entry Semaphore \texttt{s} to Route \texttt{r2}.
 
 \lstset{language=atl}
 \begin{lstlisting}[float=htb, caption={SemaphoreNeighbor repair transformation module in ATL}, label=lst:semaphoreneighborrepair, captionpos=b, frame=tb, belowskip=-10pt]
@@ -378,17 +382,19 @@ create OUT: RAILWAY refining IN: RAILWAY;
 
 uses Repair;
 
+--- Applies the repair transformation.
 lazy rule Repair {
 	from
 		s : TupleType(
+			s : RAILWAY!Semaphore,
 			r1 : RAILWAY!Route,
-			s1 : RAILWAY!Sensor, 
-			te1 : RAILWAY!TrackElement, 
-			te2 : RAILWAY!TrackElement, 
+			r2 : RAILWAY!Route,
+			s1 : RAILWAY!Sensor,
 			s2 : RAILWAY!Sensor,
-			r3 : RAILWAY!Route)
+			te1 : RAILWAY!TrackElement, 
+			te2 : RAILWAY!TrackElement)
 	do {
-		s.r1.exit <:= OclUndefined;
+		s.r2.entry <:= s.s;
 	}
 }
 \end{lstlisting}
@@ -412,7 +418,7 @@ Most example and production ATL transformation modules are much longer than the 
 
 \subsection{Performance}
 
-The benchmark framework supports running the solution against increasing model sizes, starting at $2^0$ and going up by $2^{n+1}$. Within the memory constraints of the SHARE image\footnote{\url{http://is.ieis.tue.nl/staff/pvgorp/share/?trgPage=LookupImage&vdiNameSearch=TTC15_ATL}} of 1 GB RAM, we managed to go up to model size 512 with \texttt{-Xmx512m} as JVM arguments. While all benchmark tasks can be completed on SHARE for this model size within the time constraint of 5 minutes, this does not work all of the time. The performance of a SHARE VM is not consistent, and we sometimes saw simple tasks time out (e.g. RouteSensor, SwitchSensor), while the most complex task (SemaphoreNeighbor) finishes. On local hardware (AMD 1055T\footnote{\url{http://www.cpubenchmark.net/cpu.php?cpu=AMD+Phenom+II+X6+1055T}}), with 8 GB RAM and using \texttt{-Xmx4G} as JVM arguments (\texttt{java-1.7.0-openjdk-1.7.0.79-2.5.5.0.fc20.x86\_64}), we managed to go up to model size 4096 without a single time-out.
+The benchmark framework supports running the solution against increasing model sizes, starting at $2^0$ and going up by $2^{n+1}$. Within the memory constraints of the SHARE image\footnote{\url{http://is.ieis.tue.nl/staff/pvgorp/share/?trgPage=LookupImage&vdiNameSearch=TTC15_ATL}} of 1 GB RAM, we managed to go up to model size 512 with \texttt{-Xmx512m} as JVM arguments. While all benchmark tasks can be completed on SHARE for this model size within the time constraint of 5 minutes, this does not work all of the time. The performance of a SHARE VM is not consistent, and we sometimes saw simple tasks time out (e.g. RouteSensor, SwitchSensor), while the most complex task (SemaphoreNeighbor) finishes. On local hardware (AMD 1055T\footnote{\url{http://www.cpubenchmark.net/cpu.php?cpu=AMD+Phenom+II+X6+1055T}}), with 8 GB RAM and using \texttt{-Xmx4G} as JVM arguments (\texttt{java-1.7.0-openjdk-1.7.0.79-2.5.5.0.fc20.x86\_64}), we managed to go up to model size 4096 for all tasks except SemaphoreNeighbor. The SemaphoreNeighbor task timed out above size 2048.
 
 In the ATL language, performance is achieved by using helper attributes instead of operations where possible, as helper attribute values are cached; accessing a helper attribute more than once on the same object will not trigger evaluation again, but just returns the cached value.
 
@@ -464,7 +470,7 @@ query SemaphoreNeighbour = RAILWAY!Route.allInstances()
 	)->flatten();
 \end{lstlisting}
 
-Fig.~\ref{fig:atl-batch-performance-alt} shows the batch read and check scenario performance for the ATL/EMFTVM solution, and Fig.~\ref{fig:atl-recheck-performance-alt} shows the repetitive recheck and repair scenario performance. When comparing these figures to Fig.~\ref{fig:atl-batch-performance} and Fig.~\ref{fig:atl-recheck-performance}, one sees that the performance of this alternative query is consistently worse than the SimpleGT solution. Apparently, the overhead of the OCL collection operations -- many \texttt{collect}s followed by \texttt{flatten} -- makes a bug difference. Apart from that, the local search algorithm implemented here in OCL closely resembles what EMFTVM's built in local search engine does.
+Fig.~\ref{fig:atl-batch-performance-alt} shows the batch read and check scenario performance for the ATL/EMFTVM solution, and Fig.~\ref{fig:atl-recheck-performance-alt} shows the repetitive recheck and repair scenario performance. When comparing these figures to Fig.~\ref{fig:atl-batch-performance} and Fig.~\ref{fig:atl-recheck-performance}, one sees that the performance of this alternative query is consistently worse than the SimpleGT solution. Apparently, the overhead of the OCL collection operations -- many \texttt{collect}s followed by \texttt{flatten} -- makes a big difference. Apart from that, the local search algorithm implemented here in OCL closely resembles what EMFTVM's built in local search engine does. To see the exact difference between the ATL and SimpleGT solution, once has to compare the EMFTVM bytecode of both solutions ("SemaphoreNeighbour.emftvm" for ATL, and "SemaphoreNeighbourCheck.emftvm" for SimpleGT). The Eclipse tooling for ATL/EMFTVM\footnote{\url{http://marketplace.eclipse.org/content/atlemftvm}} includes an EMF-based editor for the bytecode.
 
 \begin{figure}[ht]
 \centerline{
