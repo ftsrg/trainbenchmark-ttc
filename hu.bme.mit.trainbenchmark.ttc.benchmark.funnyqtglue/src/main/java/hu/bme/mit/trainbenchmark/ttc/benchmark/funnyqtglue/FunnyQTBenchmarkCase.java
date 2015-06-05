@@ -49,7 +49,7 @@ public class FunnyQTBenchmarkCase extends EMFBenchmarkCase {
 	@Override
 	protected final Collection<Object> check() throws IOException {
 		matches = (Collection<Object>) FunnyQTBenchmarkLogic.CALL_RULE_AS_TEST
-				.invoke(rule, this.resource);
+		    .invoke(rule, this.container);
 		if (matches == null) {
 			matches = new LinkedList<Object>();
 		}
