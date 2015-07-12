@@ -50,10 +50,6 @@ def get_generator_jar():
     """
     folder = "../hu.bme.mit.trainbenchmark.ttc.generator/target/"
     files = glob.glob(folder + "*.jar")
-#    if len(files) > 0:
-#        target = files[0]
-#        return target
-#    else:
     for file in files:
         if not "source" in file:
             return file
