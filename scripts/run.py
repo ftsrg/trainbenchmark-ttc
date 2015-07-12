@@ -22,10 +22,10 @@ def build(skip_tests):
     """Builds the project.
     """
     util.set_working_directory("../")
+    args = ["mvn", "clean", "install"]
     if skip_tests:
-        subprocess.check_call("mvn clean install -DskipTests", shell=True)
-    else:
-        subprocess.check_call("mvn clean install", shell=True)
+        args.append("-DskipTests")
+    subprocess.check_call(args)
     util.set_working_directory()
 
 
@@ -73,6 +73,7 @@ def benchmark(conf):
                             print("Program exited with error")
                             break
 
+
 def clean_dir(dir):
     if os.path.exists(dir):
         shutil.rmtree(dir)
@@ -115,7 +116,7 @@ if __name__ == "__main__":
                         help="run the benchmark",
                         action="store_true")
     parser.add_argument("-s", "--skip-tests",
-                        help="skip JUNIT tests",
+                        help="skip JUnit tests",
                         action="store_true")
     parser.add_argument("-v", "--visualize",
                         help="create visualizations",
@@ -128,6 +129,8 @@ if __name__ == "__main__":
                         action="store_true")
     args = parser.parse_args()
 
+    if (args.skip_tests and not args.build):
+        raise ValueError("skip-tests provided without build argument")
 
     util.set_working_directory()
     logger.init()
