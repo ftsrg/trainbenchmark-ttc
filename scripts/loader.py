@@ -61,7 +61,7 @@ class Loader():
         return config
 
 
-class Configuration:
+class Configuration(object):
     """Represents the configuration.
     """
     change_sets = None
