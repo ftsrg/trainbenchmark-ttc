@@ -18,6 +18,7 @@ from subprocess import CalledProcessError
 def flatten(lst):
     return sum(([x] if not isinstance(x, list) else flatten(x) for x in lst), [])
 
+
 def build(skip_tests):
     """Builds the project.
     """

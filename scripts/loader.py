@@ -13,6 +13,7 @@ class Loader():
     def __init__(self):
         self.config_path = "../config/config.json"
 
+
     def load(self):
         """
         Loads a config.json file and run a validation process.
