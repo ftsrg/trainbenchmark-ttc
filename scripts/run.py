@@ -97,13 +97,6 @@ def extract_results():
     subprocess.call(["Rscript", "extract_results.R"])
 
 
-def test():
-    build(True)
-    generate(config)
-    build(False)
-    benchmark(config)
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--build",
@@ -137,6 +130,14 @@ if __name__ == "__main__":
     loader = Loader()
     config = loader.load()
 
+    # if there are no args, execute a full sequence
+    # with the test and the visualization/reporting
+    no_args = all(val==False for val in vars(args).values())
+    if no_args:
+        args.test = True
+        args.visualize = True
+        args.extract = True
+
     if args.build:
         build(args.skip_tests)
     if args.generate:
@@ -144,16 +145,11 @@ if __name__ == "__main__":
     if args.measure:
         benchmark(config)
     if args.test:
-        test()
+        build(True)
+        generate(config)
+        build(False)
+        benchmark(config)
     if args.visualize:
         visualize()
     if args.extract:
-        extract_results()
-
-    # if there are no args, execute a full sequence
-    # with the test and the visualization/reporting
-    no_args = all(val==False for val in vars(args).values())
-    if no_args:
-        test()
-        visualize()
         extract_results()
