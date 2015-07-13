@@ -61,17 +61,15 @@ class Loader():
 
 
 class Configuration:
-    """Represents the configurations.
+    """Represents the configuration.
     """
-
-    def __init__(self):
-        self.change_sets = None
-        self.tools = None
-        self.sizes = None
-        self.queries = None
-        self.vmargs = None
-        self.runs = None
-        self.iterations = None
+    change_sets = None
+    tools = None
+    sizes = None
+    queries = None
+    vmargs = None
+    runs = None
+    iterations = None
 
 
 def checking_hook(pairs):
