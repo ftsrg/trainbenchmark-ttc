@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
@@ -11,7 +12,7 @@
 	<artifactId>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns</artifactId>
 
 	<properties>
-		<emfincquery.version>1.0.0-SNAPSHOT</emfincquery.version>
+		<emfincquery.version>1.0.0</emfincquery.version>
 	</properties>
 
 	<build>
@@ -53,9 +54,9 @@
 
 	
 	 <repositories>
-		  <repository>
-		   <id>emf-incquery</id>
-		   <url>https://repo.eclipse.org/content/repositories/emf-incquery-snapshots/</url>
-		  </repository>
+		<repository>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+		</repository>
 	 </repositories>
 </project>
