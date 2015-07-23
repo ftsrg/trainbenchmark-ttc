@@ -24,3 +24,4 @@ results/
 __pycache__/
 hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns/src-gen/hu/bme/mit/trainbenchmark/ttc/benchmark/emfincquery/.gitignore
 hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns/src-gen/hu/bme/mit/trainbenchmark/ttc/benchmark/emfincquery/util/.gitignore
+.Rproj.user
