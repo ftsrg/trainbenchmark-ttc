@@ -9,7 +9,6 @@ df <- read.table('../output/output.tsv', header = T)
 
 # for evaluating the performance, we are only concerned about the runtime values
 df <- df[df$MetricName == "time", ]
-head(df)
 
 queries = c('PosLength', 'RouteSensor', 'SemaphoreNeighbor', 'SwitchSensor','SwitchSet')
 changesets = c('fixed', 'proportional')
@@ -44,22 +43,22 @@ for (query in queries) {
     
     ## calculate score_time values
     tournament <- CalculatesTheScoreTimeKForAQueryAndAChangeSet(tournament)
-    print(tournament)
+    #print(tournament)
     
     ## calculate score_size values
     tournament$Score.Size.k <- log2(tournament$Size) + 1
-    print(tournament)
+    #print(tournament)
     
     # calculate score values
     tournament$Score <- tournament$Score.Size.k * tournament$Score.Time.k
-    print(tournament)
+    #print(tournament)
     
     ## calculation of points without normalization
     tournament.results <-
       ddply(tournament, .variables = c("ChangeSet", "Query", "Tool"),
             summarize, SumOfScores = sum(Score))
     
-    print(tournament.results)
+    #print(tournament.results)
     
     ## calculation of point with normalization
     n <- log2(max(tournament$Size)) + 1
@@ -70,12 +69,12 @@ for (query in queries) {
     total.results <- rbind(total.results, tournament.results)
   }
   
-  message("Total results")
-  print(total.results)
+  #message("Total results")
+  #print(total.results)
 
   summarized.results <-
     ddply(total.results, .variables = c("Tool"), summarize, FinalScore = sum(SumOfScores))
-  
-  message("Summarized results")
-  print(summarized.results)
 }
+
+message("Summarized results")
+print(summarized.results)

@@ -87,7 +87,7 @@ def visualize():
     clean_dir("../diagrams")
     util.set_working_directory("../reporting")
     subprocess.call(["Rscript", "visualize.R", "../config/reporting-1.json"])
-    subprocess.call(["Rscript", "visualize.R", "../config/reporting-2.json"])
+    #subprocess.call(["Rscript", "visualize.R", "../config/reporting-2.json"])
 
 
 def extract_results():
