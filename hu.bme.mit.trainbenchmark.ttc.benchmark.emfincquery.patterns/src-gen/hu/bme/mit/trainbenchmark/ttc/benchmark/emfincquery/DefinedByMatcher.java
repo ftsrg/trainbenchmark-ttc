@@ -1,7 +1,7 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.InverseRouteDefinitionMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.InverseRouteDefinitionQuerySpecification;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.DefinedByMatch;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.DefinedByQuerySpecification;
 import hu.bme.mit.trainbenchmark.ttc.railway.Route;
 import hu.bme.mit.trainbenchmark.ttc.railway.Sensor;
 import java.util.Collection;
@@ -18,29 +18,29 @@ import org.eclipse.incquery.runtime.matchers.tuple.Tuple;
 import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
 
 /**
- * Generated pattern matcher API of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.inverseRouteDefinition pattern,
+ * Generated pattern matcher API of the hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.definedBy pattern,
  * providing pattern-specific query methods.
  * 
  * <p>Use the pattern matcher on a given model via {@link #on(IncQueryEngine)},
  * e.g. in conjunction with {@link IncQueryEngine#on(Notifier)}.
  * 
- * <p>Matches of the pattern will be represented as {@link InverseRouteDefinitionMatch}.
+ * <p>Matches of the pattern will be represented as {@link DefinedByMatch}.
  * 
  * <p>Original source:
  * <code><pre>
- * pattern inverseRouteDefinition(sensor, route)
+ * pattern definedBy(route, sensor)
  * {
  * 	Route.definedBy(route, sensor);
  * }
  * </pre></code>
  * 
- * @see InverseRouteDefinitionMatch
- * @see InverseRouteDefinitionProcessor
- * @see InverseRouteDefinitionQuerySpecification
+ * @see DefinedByMatch
+ * @see DefinedByProcessor
+ * @see DefinedByQuerySpecification
  * 
  */
 @SuppressWarnings("all")
-public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefinitionMatch> {
+public class DefinedByMatcher extends BaseMatcher<DefinedByMatch> {
   /**
    * Initializes the pattern matcher within an existing EMF-IncQuery engine.
    * If the pattern matcher is already constructed in the engine, only a light-weight reference is returned.
@@ -49,21 +49,21 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
    * @throws IncQueryException if an error occurs during pattern matcher creation
    * 
    */
-  public static InverseRouteDefinitionMatcher on(final IncQueryEngine engine) throws IncQueryException {
+  public static DefinedByMatcher on(final IncQueryEngine engine) throws IncQueryException {
     // check if matcher already exists
-    InverseRouteDefinitionMatcher matcher = engine.getExistingMatcher(querySpecification());
+    DefinedByMatcher matcher = engine.getExistingMatcher(querySpecification());
     if (matcher == null) {
-    	matcher = new InverseRouteDefinitionMatcher(engine);
+    	matcher = new DefinedByMatcher(engine);
     	// do not have to "put" it into engine.matchers, reportMatcherInitialized() will take care of it
     }
     return matcher;
   }
   
-  private final static int POSITION_SENSOR = 0;
+  private final static int POSITION_ROUTE = 0;
   
-  private final static int POSITION_ROUTE = 1;
+  private final static int POSITION_SENSOR = 1;
   
-  private final static Logger LOGGER = IncQueryLoggingUtil.getLogger(InverseRouteDefinitionMatcher.class);
+  private final static Logger LOGGER = IncQueryLoggingUtil.getLogger(DefinedByMatcher.class);
   
   /**
    * Initializes the pattern matcher over a given EMF model root (recommended: Resource or ResourceSet).
@@ -78,7 +78,7 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
    * 
    */
   @Deprecated
-  public InverseRouteDefinitionMatcher(final Notifier emfRoot) throws IncQueryException {
+  public DefinedByMatcher(final Notifier emfRoot) throws IncQueryException {
     this(IncQueryEngine.on(emfRoot));
   }
   
@@ -92,132 +92,91 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
    * 
    */
   @Deprecated
-  public InverseRouteDefinitionMatcher(final IncQueryEngine engine) throws IncQueryException {
+  public DefinedByMatcher(final IncQueryEngine engine) throws IncQueryException {
     super(engine, querySpecification());
   }
   
   /**
    * Returns the set of all matches of the pattern that conform to the given fixed values of some parameters.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
-   * @return matches represented as a InverseRouteDefinitionMatch object.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
+   * @return matches represented as a DefinedByMatch object.
    * 
    */
-  public Collection<InverseRouteDefinitionMatch> getAllMatches(final Sensor pSensor, final Route pRoute) {
-    return rawGetAllMatches(new Object[]{pSensor, pRoute});
+  public Collection<DefinedByMatch> getAllMatches(final Route pRoute, final Sensor pSensor) {
+    return rawGetAllMatches(new Object[]{pRoute, pSensor});
   }
   
   /**
    * Returns an arbitrarily chosen match of the pattern that conforms to the given fixed values of some parameters.
    * Neither determinism nor randomness of selection is guaranteed.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
-   * @return a match represented as a InverseRouteDefinitionMatch object, or null if no match is found.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
+   * @return a match represented as a DefinedByMatch object, or null if no match is found.
    * 
    */
-  public InverseRouteDefinitionMatch getOneArbitraryMatch(final Sensor pSensor, final Route pRoute) {
-    return rawGetOneArbitraryMatch(new Object[]{pSensor, pRoute});
+  public DefinedByMatch getOneArbitraryMatch(final Route pRoute, final Sensor pSensor) {
+    return rawGetOneArbitraryMatch(new Object[]{pRoute, pSensor});
   }
   
   /**
    * Indicates whether the given combination of specified pattern parameters constitute a valid pattern match,
    * under any possible substitution of the unspecified parameters (if any).
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @return true if the input is a valid (partial) match of the pattern.
    * 
    */
-  public boolean hasMatch(final Sensor pSensor, final Route pRoute) {
-    return rawHasMatch(new Object[]{pSensor, pRoute});
+  public boolean hasMatch(final Route pRoute, final Sensor pSensor) {
+    return rawHasMatch(new Object[]{pRoute, pSensor});
   }
   
   /**
    * Returns the number of all matches of the pattern that conform to the given fixed values of some parameters.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @return the number of pattern matches found.
    * 
    */
-  public int countMatches(final Sensor pSensor, final Route pRoute) {
-    return rawCountMatches(new Object[]{pSensor, pRoute});
+  public int countMatches(final Route pRoute, final Sensor pSensor) {
+    return rawCountMatches(new Object[]{pRoute, pSensor});
   }
   
   /**
    * Executes the given processor on each match of the pattern that conforms to the given fixed values of some parameters.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param processor the action that will process each pattern match.
    * 
    */
-  public void forEachMatch(final Sensor pSensor, final Route pRoute, final IMatchProcessor<? super InverseRouteDefinitionMatch> processor) {
-    rawForEachMatch(new Object[]{pSensor, pRoute}, processor);
+  public void forEachMatch(final Route pRoute, final Sensor pSensor, final IMatchProcessor<? super DefinedByMatch> processor) {
+    rawForEachMatch(new Object[]{pRoute, pSensor}, processor);
   }
   
   /**
    * Executes the given processor on an arbitrarily chosen match of the pattern that conforms to the given fixed values of some parameters.
    * Neither determinism nor randomness of selection is guaranteed.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param processor the action that will process the selected match.
    * @return true if the pattern has at least one match with the given parameter values, false if the processor was not invoked
    * 
    */
-  public boolean forOneArbitraryMatch(final Sensor pSensor, final Route pRoute, final IMatchProcessor<? super InverseRouteDefinitionMatch> processor) {
-    return rawForOneArbitraryMatch(new Object[]{pSensor, pRoute}, processor);
+  public boolean forOneArbitraryMatch(final Route pRoute, final Sensor pSensor, final IMatchProcessor<? super DefinedByMatch> processor) {
+    return rawForOneArbitraryMatch(new Object[]{pRoute, pSensor}, processor);
   }
   
   /**
    * Returns a new (partial) match.
    * This can be used e.g. to call the matcher with a partial match.
    * <p>The returned match will be immutable. Use {@link #newEmptyMatch()} to obtain a mutable match object.
-   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @param pRoute the fixed value of pattern parameter route, or null if not bound.
+   * @param pSensor the fixed value of pattern parameter sensor, or null if not bound.
    * @return the (partial) match object.
    * 
    */
-  public InverseRouteDefinitionMatch newMatch(final Sensor pSensor, final Route pRoute) {
-    return InverseRouteDefinitionMatch.newMatch(pSensor, pRoute);
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for sensor.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  protected Set<Sensor> rawAccumulateAllValuesOfsensor(final Object[] parameters) {
-    Set<Sensor> results = new HashSet<Sensor>();
-    rawAccumulateAllValues(POSITION_SENSOR, parameters, results);
-    return results;
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for sensor.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Sensor> getAllValuesOfsensor() {
-    return rawAccumulateAllValuesOfsensor(emptyArray());
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for sensor.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Sensor> getAllValuesOfsensor(final InverseRouteDefinitionMatch partialMatch) {
-    return rawAccumulateAllValuesOfsensor(partialMatch.toArray());
-  }
-  
-  /**
-   * Retrieve the set of values that occur in matches for sensor.
-   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
-   * 
-   */
-  public Set<Sensor> getAllValuesOfsensor(final Route pRoute) {
-    return rawAccumulateAllValuesOfsensor(new Object[]{
-    null, 
-    pRoute
-    });
+  public DefinedByMatch newMatch(final Route pRoute, final Sensor pSensor) {
+    return DefinedByMatch.newMatch(pRoute, pSensor);
   }
   
   /**
@@ -245,7 +204,7 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
    * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
    * 
    */
-  public Set<Route> getAllValuesOfroute(final InverseRouteDefinitionMatch partialMatch) {
+  public Set<Route> getAllValuesOfroute(final DefinedByMatch partialMatch) {
     return rawAccumulateAllValuesOfroute(partialMatch.toArray());
   }
   
@@ -256,15 +215,56 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
    */
   public Set<Route> getAllValuesOfroute(final Sensor pSensor) {
     return rawAccumulateAllValuesOfroute(new Object[]{
-    pSensor, 
+    null, 
+    pSensor
+    });
+  }
+  
+  /**
+   * Retrieve the set of values that occur in matches for sensor.
+   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
+   * 
+   */
+  protected Set<Sensor> rawAccumulateAllValuesOfsensor(final Object[] parameters) {
+    Set<Sensor> results = new HashSet<Sensor>();
+    rawAccumulateAllValues(POSITION_SENSOR, parameters, results);
+    return results;
+  }
+  
+  /**
+   * Retrieve the set of values that occur in matches for sensor.
+   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
+   * 
+   */
+  public Set<Sensor> getAllValuesOfsensor() {
+    return rawAccumulateAllValuesOfsensor(emptyArray());
+  }
+  
+  /**
+   * Retrieve the set of values that occur in matches for sensor.
+   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
+   * 
+   */
+  public Set<Sensor> getAllValuesOfsensor(final DefinedByMatch partialMatch) {
+    return rawAccumulateAllValuesOfsensor(partialMatch.toArray());
+  }
+  
+  /**
+   * Retrieve the set of values that occur in matches for sensor.
+   * @return the Set of all values, null if no parameter with the given name exists, empty set if there are no matches
+   * 
+   */
+  public Set<Sensor> getAllValuesOfsensor(final Route pRoute) {
+    return rawAccumulateAllValuesOfsensor(new Object[]{
+    pRoute, 
     null
     });
   }
   
   @Override
-  protected InverseRouteDefinitionMatch tupleToMatch(final Tuple t) {
+  protected DefinedByMatch tupleToMatch(final Tuple t) {
     try {
-    	return InverseRouteDefinitionMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Sensor) t.get(POSITION_SENSOR), (hu.bme.mit.trainbenchmark.ttc.railway.Route) t.get(POSITION_ROUTE));
+    	return DefinedByMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Route) t.get(POSITION_ROUTE), (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) t.get(POSITION_SENSOR));
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in tuple not properly typed!",e);
     	return null;
@@ -272,9 +272,9 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
   }
   
   @Override
-  protected InverseRouteDefinitionMatch arrayToMatch(final Object[] match) {
+  protected DefinedByMatch arrayToMatch(final Object[] match) {
     try {
-    	return InverseRouteDefinitionMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE]);
+    	return DefinedByMatch.newMatch((hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
@@ -282,9 +282,9 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
   }
   
   @Override
-  protected InverseRouteDefinitionMatch arrayToMatchMutable(final Object[] match) {
+  protected DefinedByMatch arrayToMatchMutable(final Object[] match) {
     try {
-    	return InverseRouteDefinitionMatch.newMutableMatch((hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR], (hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE]);
+    	return DefinedByMatch.newMutableMatch((hu.bme.mit.trainbenchmark.ttc.railway.Route) match[POSITION_ROUTE], (hu.bme.mit.trainbenchmark.ttc.railway.Sensor) match[POSITION_SENSOR]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
@@ -296,7 +296,7 @@ public class InverseRouteDefinitionMatcher extends BaseMatcher<InverseRouteDefin
    * @throws IncQueryException if the pattern definition could not be loaded
    * 
    */
-  public static IQuerySpecification<InverseRouteDefinitionMatcher> querySpecification() throws IncQueryException {
-    return InverseRouteDefinitionQuerySpecification.instance();
+  public static IQuerySpecification<DefinedByMatcher> querySpecification() throws IncQueryException {
+    return DefinedByQuerySpecification.instance();
   }
 }

@@ -16,8 +16,6 @@ class SigmaBenchmarkLogic(config: BenchmarkConfig) extends BaseBenchmarkLogic {
 
   _benchmarkConfig = config
   
-  override def getTool = "Sigma"
-
   override def getBenchmarkCase(query: String) = query match {
     case QueryConstants.POSLENGTH => Solution.PosLength
     case QueryConstants.SWITCHSENSOR => Solution.SwitchSensor

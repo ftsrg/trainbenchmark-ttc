@@ -23,7 +23,7 @@ public class JavaBenchmarkLogic extends AbstractBenchmarkLogic {
 
 	public JavaBenchmarkLogic(final String[] args) throws ParseException {
 		super();
-		benchmarkConfig = new BenchmarkConfig(args, getTool());
+		benchmarkConfig = new JavaBenchmarkConfig(args);
 	}
 
 	public JavaBenchmarkLogic(final BenchmarkConfig bc) {
@@ -32,14 +32,9 @@ public class JavaBenchmarkLogic extends AbstractBenchmarkLogic {
 	}
 
 	@Override
-	protected String getTool() {
-		return "Java";
-	}
-
-	@Override
 	protected AbstractBenchmarkCase getBenchmarkCase(final String query) {
 		final JavaBenchmarkCaseFactory factory = new JavaBenchmarkCaseFactory();
 		return factory.create(query);
 	}
-	
+
 }

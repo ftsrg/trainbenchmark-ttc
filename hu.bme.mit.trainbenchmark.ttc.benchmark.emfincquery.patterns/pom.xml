@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <project
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
@@ -9,6 +10,10 @@
 		<version>1.0.0</version>
 	</parent>
 	<artifactId>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns</artifactId>
+
+	<properties>
+		<emfincquery.version>1.0.0</emfincquery.version>
+	</properties>
 
 	<build>
 		<sourceDirectory>src-gen</sourceDirectory>
@@ -22,12 +27,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.eclipse.incquery</groupId>
-			<artifactId>incquery-runtime</artifactId>
-			<version>0.9.0</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>hu.bme.mit.trainbenchmark.ttc</groupId>
 			<artifactId>hu.bme.mit.trainbenchmark.ttc.emf.model</artifactId>
 			<version>1.0.0</version>
@@ -39,13 +38,25 @@
 			<version>18.0</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-runtime</artifactId>
+			<version>${emfincquery.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>org.eclipse.incquery.runtime.localsearch</artifactId>
+			<version>${emfincquery.version}</version>
+		</dependency>
+
 	</dependencies>
 
-	<repositories>
+	
+	 <repositories>
 		<repository>
-			<id>emf-incquery</id>
-			<url>https://repo.eclipse.org/content/repositories/emf-incquery-releases/</url>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
 		</repository>
-	</repositories>
-
+	 </repositories>
 </project>

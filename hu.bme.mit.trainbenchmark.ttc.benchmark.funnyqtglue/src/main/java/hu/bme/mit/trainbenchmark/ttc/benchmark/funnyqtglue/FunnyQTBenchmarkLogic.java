@@ -37,17 +37,12 @@ public class FunnyQTBenchmarkLogic extends AbstractBenchmarkLogic {
 
 	public FunnyQTBenchmarkLogic(final String[] args) throws ParseException {
 		super();
-		benchmarkConfig = new BenchmarkConfig(args, getTool());
+		benchmarkConfig = new FunnyQTBenchmarkConfig(args);
 	}
 
 	public FunnyQTBenchmarkLogic(final BenchmarkConfig bc) {
 		super();
 		this.benchmarkConfig = bc;
-	}
-
-	@Override
-	protected String getTool() {
-		return "FunnyQT";
 	}
 
 	@Override

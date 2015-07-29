@@ -3,19 +3,23 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util;
 import com.google.common.collect.Sets;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatcher;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.InverseRouteDefinitionQuerySpecification;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.DefinedByQuerySpecification;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
 import org.eclipse.incquery.runtime.api.impl.BaseGeneratedEMFPQuery;
 import org.eclipse.incquery.runtime.api.impl.BaseGeneratedEMFQuerySpecification;
+import org.eclipse.incquery.runtime.emf.types.EClassTransitiveInstancesKey;
+import org.eclipse.incquery.runtime.emf.types.EStructuralFeatureInstancesKey;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 import org.eclipse.incquery.runtime.matchers.psystem.PBody;
 import org.eclipse.incquery.runtime.matchers.psystem.PVariable;
+import org.eclipse.incquery.runtime.matchers.psystem.basicdeferred.Equality;
 import org.eclipse.incquery.runtime.matchers.psystem.basicdeferred.ExportedParameter;
 import org.eclipse.incquery.runtime.matchers.psystem.basicdeferred.NegativePatternCall;
-import org.eclipse.incquery.runtime.matchers.psystem.basicenumerables.TypeBinary;
+import org.eclipse.incquery.runtime.matchers.psystem.basicenumerables.TypeConstraint;
 import org.eclipse.incquery.runtime.matchers.psystem.queries.PParameter;
 import org.eclipse.incquery.runtime.matchers.psystem.queries.QueryInitializationException;
 import org.eclipse.incquery.runtime.matchers.tuple.FlatTuple;
@@ -97,6 +101,9 @@ public final class RouteSensorQuerySpecification extends BaseGeneratedEMFQuerySp
       	PVariable var_sensor = body.getOrCreateVariableByName("sensor");
       	PVariable var_switchPosition = body.getOrCreateVariableByName("switchPosition");
       	PVariable var_sw = body.getOrCreateVariableByName("sw");
+      	PVariable var__virtual_0_ = body.getOrCreateVariableByName(".virtual{0}");
+      	PVariable var__virtual_1_ = body.getOrCreateVariableByName(".virtual{1}");
+      	PVariable var__virtual_2_ = body.getOrCreateVariableByName(".virtual{2}");
       	body.setExportedParameters(Arrays.<ExportedParameter>asList(
       		new ExportedParameter(body, var_route, "route"),
       				
@@ -106,10 +113,16 @@ public final class RouteSensorQuerySpecification extends BaseGeneratedEMFQuerySp
       				
       		new ExportedParameter(body, var_sw, "sw")
       	));
-      	new TypeBinary(body, CONTEXT, var_route, var_switchPosition, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "follows"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/Route.follows");
-      	new TypeBinary(body, CONTEXT, var_switchPosition, var_sw, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "switch"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/SwitchPosition.switch");
-      	new TypeBinary(body, CONTEXT, var_sw, var_sensor, getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "TrackElement", "sensor"), "http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark/TrackElement.sensor");
-      	new NegativePatternCall(body, new FlatTuple(var_sensor, var_route), InverseRouteDefinitionQuerySpecification.instance().getInternalQueryRepresentation());
+      	new TypeConstraint(body, new FlatTuple(var_route), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route")));
+      	new TypeConstraint(body, new FlatTuple(var_route, var__virtual_0_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "follows")));
+      	new Equality(body, var__virtual_0_, var_switchPosition);
+      	new TypeConstraint(body, new FlatTuple(var_switchPosition), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition")));
+      	new TypeConstraint(body, new FlatTuple(var_switchPosition, var__virtual_1_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "switch")));
+      	new Equality(body, var__virtual_1_, var_sw);
+      	new TypeConstraint(body, new FlatTuple(var_sw), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "TrackElement")));
+      	new TypeConstraint(body, new FlatTuple(var_sw, var__virtual_2_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "TrackElement", "sensor")));
+      	new Equality(body, var__virtual_2_, var_sensor);
+      	new NegativePatternCall(body, new FlatTuple(var_route, var_sensor), DefinedByQuerySpecification.instance().getInternalQueryRepresentation());
       	bodies.add(body);
       }
       	// to silence compiler error

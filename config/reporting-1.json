@@ -5,25 +5,20 @@
       "Iteration": false
     },
     "Groups": {
-      "Query": true,
-      "Tool": false
+      "Query": false,
+      "Tool": true
     }
   },
   "Summarize_Functions": [
     {
-      "Name": "batch-validation",
+      "Name": "total-validation",
       "Phases": [
         "read",
-        "check"
-      ]
-    },
-    {
-      "Name": "revalidation",
-      "Phases": [
+        "check",
         "repair",
         "recheck"
       ]
     }
   ],
-  "Extension": ["png", "pdf"]
+  "Extension": ["png"]
 }

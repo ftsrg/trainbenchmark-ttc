@@ -11,7 +11,8 @@ Require-Bundle: hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns;bun
  com.google.guava;bundle-version="11.0.2",
  org.eclipse.incquery.runtime,
  org.apache.log4j;bundle-version="1.2.15",
- org.junit;bundle-version="4.11.0"
+ org.junit;bundle-version="4.11.0",
+ org.eclipse.incquery.runtime.localsearch
 Export-Package: hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery,
  hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases,
  hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation

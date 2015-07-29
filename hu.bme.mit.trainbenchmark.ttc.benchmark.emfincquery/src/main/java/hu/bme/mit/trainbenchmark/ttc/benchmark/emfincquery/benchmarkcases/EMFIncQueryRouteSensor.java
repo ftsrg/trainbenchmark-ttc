@@ -12,21 +12,25 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatch;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.RouteSensorMatcher;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation.EMFIncQueryRouteSensorTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.RouteSensorQuerySpecification;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.incquery.runtime.api.IncQueryMatcher;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.incquery.runtime.localsearch.matcher.integration.LocalSearchBackend;
+import org.eclipse.incquery.runtime.matchers.backend.QueryEvaluationHint;
+
+import com.google.common.collect.Maps;
 
 public class EMFIncQueryRouteSensor extends EMFIncQueryBenchmarkCase<RouteSensorMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {
 		final Collection<Object> matches = new HashSet<>();
-		for (final RouteSensorMatch match : RouteSensorMatcher.on(engine).getAllMatches()) {
+		for (final RouteSensorMatch match : getMatcher().getAllMatches()) {
 			matches.add(match);
 		}
 		return matches;
@@ -34,7 +38,11 @@ public class EMFIncQueryRouteSensor extends EMFIncQueryBenchmarkCase<RouteSensor
 
 	@Override
 	protected IncQueryMatcher<RouteSensorMatch> getMatcher() throws IncQueryException {
-		return RouteSensorMatcher.on(engine);
+		if (eiqbc.isLocalSearch()) {
+			return engine.getMatcher(RouteSensorQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.<String, Object>newHashMap()));
+		} else {
+			return engine.getMatcher(RouteSensorQuerySpecification.instance());
+		}
 	}
 
 	@Override

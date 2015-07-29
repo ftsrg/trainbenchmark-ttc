@@ -24,17 +24,12 @@ public class ATLBenchmarkLogic extends AbstractBenchmarkLogic {
 
 	public ATLBenchmarkLogic(final String[] args) throws ParseException {
 		super();
-		benchmarkConfig = new BenchmarkConfig(args, getTool());
+		benchmarkConfig = new ATLBenchmarkConfig(args);
 	}
 
 	public ATLBenchmarkLogic(final BenchmarkConfig bc) {
 		super();
 		this.benchmarkConfig = bc;
-	}
-
-	@Override
-	protected String getTool() {
-		return "ATL";
 	}
 
 	@Override

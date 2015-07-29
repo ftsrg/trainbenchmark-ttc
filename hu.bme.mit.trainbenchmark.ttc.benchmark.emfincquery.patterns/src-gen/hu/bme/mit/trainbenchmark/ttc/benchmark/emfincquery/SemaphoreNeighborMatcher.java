@@ -38,7 +38,6 @@ import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
  * 	TrackElement.connectsTo(te1, te2);
  * 	TrackElement.sensor(te2, sensor2);
  * 	Route.definedBy(route2, sensor2);
- * 	
  * 	neg find entrySemaphore(route2, semaphore);
  * 
  * 	route1 != route2;

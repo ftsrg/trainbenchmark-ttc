@@ -14,18 +14,23 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLengthMatch;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.PosLengthMatcher;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation.EMFIncQueryPosLengthTransformation;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.util.PosLengthQuerySpecification;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.incquery.runtime.localsearch.matcher.integration.LocalSearchBackend;
+import org.eclipse.incquery.runtime.matchers.backend.QueryEvaluationHint;
+
+import com.google.common.collect.Maps;
 
 public class EMFIncQueryPosLength extends EMFIncQueryBenchmarkCase<PosLengthMatch> {
 
 	@Override
 	protected Collection<Object> getResultSet() throws IncQueryException {
 		final Collection<Object> matches = new HashSet<>();
-		for (final PosLengthMatch match : PosLengthMatcher.on(engine).getAllMatches()) {
+		for (final PosLengthMatch match : getMatcher().getAllMatches()) {
 			matches.add(match);
 		}
 		return matches;
@@ -33,7 +38,11 @@ public class EMFIncQueryPosLength extends EMFIncQueryBenchmarkCase<PosLengthMatc
 
 	@Override
 	protected PosLengthMatcher getMatcher() throws IncQueryException {
-		return PosLengthMatcher.on(engine);
+		if (eiqbc.isLocalSearch()) {
+			return engine.getMatcher(PosLengthQuerySpecification.instance(), new QueryEvaluationHint(LocalSearchBackend.class, Maps.<String, Object>newHashMap()));
+		} else {
+			return engine.getMatcher(PosLengthQuerySpecification.instance());
+		}
 	}
 
 	@Override

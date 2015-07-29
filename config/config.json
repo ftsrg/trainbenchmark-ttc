@@ -30,5 +30,6 @@
   "JVM": {
     "vmargs": ["-Xmx512m", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
   },
+  "OptionalArguments": [[]],
   "Timeout": 600
 }

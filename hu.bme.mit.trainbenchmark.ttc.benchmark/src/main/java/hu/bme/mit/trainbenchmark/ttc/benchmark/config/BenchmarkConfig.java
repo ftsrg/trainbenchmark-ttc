@@ -16,7 +16,7 @@ import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
 
 import org.apache.commons.cli.ParseException;
 
-public class BenchmarkConfig extends GenericConfig {
+public abstract class BenchmarkConfig extends GenericConfig {
 
 	protected static final String CHANGE_SET = "changeSet";
 	protected static final String RUNS = "runs";
@@ -33,17 +33,14 @@ public class BenchmarkConfig extends GenericConfig {
 	protected int iterationCount;
 	protected int runs;
 	protected String query;
-	protected String tool;
 
-	public BenchmarkConfig(final String args[], final String tool) throws ParseException {
+	public BenchmarkConfig(final String args[]) throws ParseException {
 		super(args);
-		this.tool = tool;
 	}
 
-	public BenchmarkConfig(final String tool, final int size, final int runs, final String query, final int iterationCount,
-			final ChangeSet changeSet, final long transformationConstant) {
+	public BenchmarkConfig(final int size, final int runs, final String query, final int iterationCount, final ChangeSet changeSet,
+			final long transformationConstant) {
 		super(size);
-		this.tool = tool;
 		this.runs = runs;
 		this.query = query;
 		this.iterationCount = iterationCount;
@@ -115,10 +112,6 @@ public class BenchmarkConfig extends GenericConfig {
 		return query;
 	}
 
-	public String getTool() {
-		return tool;
-	}
-
 	public ChangeSet getChangeSet() {
 		return changeSet;
 	}
@@ -126,4 +119,7 @@ public class BenchmarkConfig extends GenericConfig {
 	public long getTransformationConstant() {
 		return transformationConstant;
 	}
+
+	public abstract String getTool();
+
 }

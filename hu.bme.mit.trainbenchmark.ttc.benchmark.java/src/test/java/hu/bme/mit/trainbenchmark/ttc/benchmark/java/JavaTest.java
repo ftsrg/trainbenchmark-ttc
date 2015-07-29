@@ -12,8 +12,11 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.java;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.config.ChangeSet;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.scenarios.AbstractBenchmarkLogic;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.test.TrainBenchmarkTest;
+
+import java.io.IOException;
 
 public class JavaTest extends TrainBenchmarkTest {
 
@@ -21,5 +24,10 @@ public class JavaTest extends TrainBenchmarkTest {
 	protected AbstractBenchmarkLogic getBenchmarkLogic(final BenchmarkConfig bc) {
 		return new JavaBenchmarkLogic(bc);
 	}
-	
+
+	@Override
+	public BenchmarkConfig initialize(final String query) throws IOException {
+		return new JavaBenchmarkConfig(1, 1, query, 1, ChangeSet.FIXED, 1);
+	}
+
 }
