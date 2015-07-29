@@ -32,6 +32,7 @@
 				<module>hu.bme.mit.trainbenchmark.ttc.emf</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.emf.model</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.generator</module>
+				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.funnyqtglue</module>
 			</modules>
 		</profile>
 	</profiles>
