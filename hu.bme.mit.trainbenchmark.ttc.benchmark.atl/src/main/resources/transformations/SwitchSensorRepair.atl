@@ -1,0 +1,19 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- For a given match, a sensor is created and connected to the switch.
+module SwitchSensorRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s: RAILWAY!Switch
+	to
+		se: RAILWAY!Sensor
+	do {
+		s.sensor <:= se;
+	}
+}

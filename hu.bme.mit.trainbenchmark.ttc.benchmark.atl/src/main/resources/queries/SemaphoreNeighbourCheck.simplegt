@@ -1,0 +1,37 @@
+-- The query checks for routes which have an exit semaphore and a sensor connected to another
+-- sensor (which defines another route) by two track elements, but there is no other route that connects the
+-- same semaphore and the other sensor.
+module SemaphoreNeighbourCheck;
+metamodel RAILWAY : '/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore';
+transform IN : RAILWAY;
+
+-- Checks for matches
+single rule Check {
+	from
+		r1 : RAILWAY!Route (definedBy =~ s1, exit =~ s),
+		s : RAILWAY!Semaphore,
+		s1 : RAILWAY!Sensor (elements =~ te1),
+		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
+		te2 : RAILWAY!TrackElement (sensor =~ s2),
+		s2 : RAILWAY!Sensor (route =~ r2),
+		r2 : RAILWAY!Route
+	not
+		r2 : RAILWAY!Route (entry =~ r1.exit)
+	to
+		r1 : RAILWAY!Route (definedBy =~ s1, exit =~ s),
+		s : RAILWAY!Semaphore,
+		s1 : RAILWAY!Sensor (elements =~ te1),
+		te1 : RAILWAY!TrackElement (connectsTo =~ te2),
+		te2 : RAILWAY!TrackElement (sensor =~ s2),
+		s2 : RAILWAY!Sensor (route =~ r2),
+		r2 : RAILWAY!Route
+}
+
+-- Returns the Routes mapped by their Sensor.
+context RAILWAY!Sensor def : route : RAILWAY!Route =
+	let route : RAILWAY!Route = self.refImmediateComposite() in
+	if route.oclIsKindOf(RAILWAY!Route) then
+		route
+	else
+		OclUndefined
+	endif;
