@@ -1,0 +1,16 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- The query looks for sensors that are connected to a switch, but the sensor and the switch are
+-- not connected to the same route.
+query RouteSensor = RAILWAY!Route.allInstances()
+	->select(r | r.definedBy->notEmpty())
+	->collect(r |
+		r.follows->select(p | 
+			not p.switch.oclIsUndefined() and 
+			not p.switch.sensor.oclIsUndefined() and
+			r.definedBy->excludes(p.switch.sensor)
+		)->collect(p | 
+			Tuple{r = r, p = p, sw = p.switch, s = p.switch.sensor}
+		)
+	)->flatten();

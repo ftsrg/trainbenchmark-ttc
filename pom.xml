@@ -28,6 +28,7 @@
 				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.java</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.sigma</module>
+				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.atl</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.emf</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.emf.model</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.generator</module>

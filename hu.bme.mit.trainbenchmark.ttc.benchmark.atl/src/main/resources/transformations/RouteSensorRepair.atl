@@ -1,0 +1,22 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- The missing definedBy edges is inserted by connecting the route in the match
+-- to the sensor.
+module RouteSensorRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s : TupleType(
+			r : RAILWAY!Route, 
+			p : RAILWAY!SwitchPosition, 
+			sw : RAILWAY!Switch,
+			s : RAILWAY!Sensor)
+	do {
+		s.r.definedBy <:= s.r.definedBy->including(s.s);
+	}
+}

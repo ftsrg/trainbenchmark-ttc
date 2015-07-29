@@ -1,6 +1,6 @@
 {
   "MinSize": 1,
-  "MaxSize": 8192,
+  "MaxSize": 512,
   "Queries": [
     "PosLength",
     "SwitchSensor",
@@ -12,9 +12,12 @@
   "_AllQueries": [
     "RouteSensor",
     "SemaphoreNeighbor",
-    "SwitchSet"
+    "SwitchSet",
+    "RouteSensor",
+    "SemaphoreNeighbor"
   ],
   "Tools": [
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.atl",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.java",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma"
   ],
@@ -24,7 +27,7 @@
   "Runs": 2,
   "IterationCount": 5,
   "JVM": {
-    "vmargs": ["-Xmx8G", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
+    "vmargs": ["-Xmx512m", "-Dorg.eclipse.emf.common.util.ReferenceClearingQueue=false"]
   },
   "Timeout": 600
 }

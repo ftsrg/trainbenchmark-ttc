@@ -1,0 +1,6 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- This query checks whether an object is connected to a relation. This pattern is common in more
+-- complex queries, e.g. it is used in the RouteSensor and the SemaphoreNeighbor queries.
+query SwitchSensor = RAILWAY!Switch.allInstances()->select(s | s.sensor.oclIsUndefined());

@@ -1,0 +1,22 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- For a given match, the currentPosition attribute of the switch is set to the
+-- position of the switchPosition.
+module SwitchSetRepair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+uses Repair;
+
+--- Applies the repair transformation.
+lazy rule Repair {
+	from
+		s : TupleType(
+			r : RAILWAY!Route, 
+			s : RAILWAY!Semaphore, 
+			p : RAILWAY!SwitchPosition, 
+			sw : RAILWAY!Switch)
+	do {
+		s.sw.currentPosition <:= s.p.position;
+	}
+}

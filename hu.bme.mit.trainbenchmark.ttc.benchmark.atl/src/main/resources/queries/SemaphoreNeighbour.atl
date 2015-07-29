@@ -1,0 +1,25 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- The query checks for routes (r1) which have an exit semaphore (s) and a sensor
+-- (s1) connected to a track element (te1). This track element is connected to another track element
+-- (te2) which is connected to another sensor (s2) which (partially) defines another, different route
+-- (r2), while the semaphore is not on the entry of this route (r2).
+query SemaphoreNeighbour = RAILWAY!Route.allInstances()
+	->reject(r1 | r1.exit.oclIsUndefined())
+	->collect(r1 | 
+		r1.definedBy->collect(s1 | 
+			s1.elements->collect(te1 | 
+				te1.connectsTo->reject(te2 | 
+					let s2 : RAILWAY!Sensor = te2.sensor in
+					s2.oclIsUndefined() or not (
+					let r2 : RAILWAY!Route = s2.refImmediateComposite() in
+					r2.oclIsKindOf(RAILWAY!Route) and r2 <> r1 and r2.entry <> r1.exit)
+				)->collect(te2 |
+					let s2 : RAILWAY!Sensor = te2.sensor in
+					Tuple{s = r1.exit, r1 = r1, r2 = s2.refImmediateComposite(), 
+						s1 = s1, s2 = s2, te1 = te1, te2 = te2}
+				)
+			)
+		)
+	)->flatten();

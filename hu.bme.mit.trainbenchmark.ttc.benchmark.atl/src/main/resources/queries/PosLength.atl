@@ -1,0 +1,5 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- The query checks for segments with a length less than or equal to zero.
+query PosLength = RAILWAY!Segment.allInstances()->select(s | s.length <= 0);

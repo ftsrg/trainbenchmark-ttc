@@ -1,0 +1,25 @@
+-- @atlcompiler emftvm
+-- @path RAILWAY=/hu.bme.mit.trainbenchmark.ttc.emf.model/model/railway.ecore
+
+-- Base transformation for match repairs.
+module Repair;
+create OUT: RAILWAY refining IN: RAILWAY;
+
+--- Helper attribute that holds the matches to transform.
+--- Injected from outside the transformation.
+helper def : matches : Collection(OclAny) = Sequence{};
+
+--- Base implementation of the Repair rule that does nothing.
+lazy rule Repair {
+	from
+		s: OclAny
+}
+
+--- Applies the Repair rule to all matches.
+endpoint rule Main() {
+	do {
+		for (s in thisModule.matches) {
+			thisModule.Repair(s);
+		}
+	}
+}
