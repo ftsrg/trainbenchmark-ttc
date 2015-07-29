@@ -1,15 +1,15 @@
 {
   "MinSize": 1,
-  "MaxSize": 512,
+  "MaxSize": 2,
   "Queries": [
-    "PosLength",
+    "PosLength"
+  ],
+  "_Comment": "The _AllQueries field is not used by the framework.",
+  "_AllQueries": [
     "RouteSensor",
     "SemaphoreNeighbor",
     "SwitchSensor",
     "SwitchSet"
-  ],
-  "_Comment": "The _AllQueries field is not used by the framework.",
-  "_AllQueries": [
   ],
   "Tools": [
     "hu.bme.mit.trainbenchmark.ttc.benchmark.atl",
