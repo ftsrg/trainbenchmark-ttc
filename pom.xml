@@ -27,6 +27,7 @@
 				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.patterns</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.java</module>
+				<module>hu.bme.mit.trainbenchmark.ttc.benchmark.sigma</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.emf</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.emf.model</module>
 				<module>hu.bme.mit.trainbenchmark.ttc.generator</module>
@@ -99,6 +100,11 @@
 			<id>acceleo</id>
 			<name>Acceleo Repository (with EMF)</name>
 			<url>https://repo.eclipse.org/content/groups/acceleo</url>
+		</repository>
+		<repository>
+			<id>sigma</id>
+			<name>SIGMA repository</name>
+			<url>https://dl.dropboxusercontent.com/u/4168936/mvn-repo</url>
 		</repository>
 	</repositories>
 </project>
