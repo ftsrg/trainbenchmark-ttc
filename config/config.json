@@ -4,8 +4,8 @@
   "Queries": [
     "PosLength"
   ],
-  "_Comment": "The _AllQueries field is not used by the framework.",
-  "_AllQueries": [
+  "_TempQueriesComment": "The _TempQueries field is not used by the framework.",
+  "_TempQueries": [
     "RouteSensor",
     "SemaphoreNeighbor",
     "SwitchSensor",
@@ -18,8 +18,11 @@
     "hu.bme.mit.trainbenchmark.ttc.benchmark.java",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma"
   ],
-  "ChangeSets": [
-    "fixed",
+  "ChangeSets":[
+    "fixed"
+  ],
+  "_TempChangeSetsComment": "The _TempChangeSets field is not used by the framework.",
+  "_TempChangeSets": [
     "proportional"
   ],
   "Runs": 5,
