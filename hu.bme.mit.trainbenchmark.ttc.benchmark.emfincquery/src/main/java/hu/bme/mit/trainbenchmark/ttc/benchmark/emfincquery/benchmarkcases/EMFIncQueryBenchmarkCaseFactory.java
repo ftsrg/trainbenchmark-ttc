@@ -19,7 +19,7 @@ public class EMFIncQueryBenchmarkCaseFactory {
 	public AbstractBenchmarkCase create(final String query) {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
-			return new EMFIncQueryPosLength();
+			return new VIATRAPosLength();
 		case QueryConstants.ROUTESENSOR:
 			return new EMFIncQueryRouteSensor();
 		case QueryConstants.SWITCHSENSOR:
@@ -32,6 +32,5 @@ public class EMFIncQueryBenchmarkCaseFactory {
 			throw new IllegalArgumentException();
 		}
 	}
-	
-	
+
 }
