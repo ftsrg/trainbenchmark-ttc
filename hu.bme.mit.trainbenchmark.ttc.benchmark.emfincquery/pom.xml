@@ -11,6 +11,7 @@
 	<artifactId>hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery</artifactId>
 
 	<properties>
+		<viatra.version>0.8.0-SNAPSHOT</viatra.version>
 		<xtend.version>2.8.2</xtend.version>
 	</properties>
 
@@ -107,5 +108,18 @@
 			<version>${xtend.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.eclipse.viatra</groupId>
+			<artifactId>viatra-emf-runtime</artifactId>
+			<version>${viatra.version}</version>
+		</dependency>
+
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>viatra</id>
+			<url>https://repo.eclipse.org/content/groups/viatra2/</url>
+		</repository>
+	</repositories>
 </project>
