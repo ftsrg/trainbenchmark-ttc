@@ -73,36 +73,28 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 		super.read();
 
 		try {
-			// if(eiqbc.isLocalSearch()){
-			// // When running local search, make sure the factory is registered
-			//
-			// // This solution cannot be used yet, as the getFactory() method
-			// will throw an exception due to unknown backend
-			// // IQueryBackendFactory backendFactory =
-			// QueryBackendRegistry.getInstance().getFactory(LocalSearchBackend.class);
-			// // if(backendFactory == null){
-			// //
-			// QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class,
-			// new LocalSearchBackendFactory());
-			// // }
-			//
-			// Iterable<Entry<Class<? extends IQueryBackend>,
-			// IQueryBackendFactory>> factories =
-			// QueryBackendRegistry.getInstance()
-			// .getAllKnownFactories();
-			// boolean registered = false;
-			// for (Entry<Class<? extends IQueryBackend>, IQueryBackendFactory>
-			// entry : factories) {
-			// if (entry.getKey().equals(LocalSearchBackend.class)) {
-			// registered = true;
-			// }
-			// }
-			// if (!registered) {
-			// QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class,
-			// new LocalSearchBackendFactory());
-			// }
-			//
-			// }
+			if(eiqbc.isLocalSearch()){
+				// When running local search, make sure the factory is registered
+				
+				// This solution cannot be used yet, as the getFactory() method will throw an exception due to unknown backend
+				// IQueryBackendFactory backendFactory = QueryBackendRegistry.getInstance().getFactory(LocalSearchBackend.class);
+				// if(backendFactory == null){
+				// 	QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class, new LocalSearchBackendFactory());
+				// }
+				
+				Iterable<Entry<Class<? extends IQueryBackend>, IQueryBackendFactory>> factories = QueryBackendRegistry.getInstance()
+						.getAllKnownFactories();
+				boolean registered = false;
+				for (Entry<Class<? extends IQueryBackend>, IQueryBackendFactory> entry : factories) {
+					if (entry.getKey().equals(LocalSearchBackend.class)) {
+						registered = true;
+					}
+				}
+				if (!registered) {
+					QueryBackendRegistry.getInstance().registerQueryBackendFactory(LocalSearchBackend.class, new LocalSearchBackendFactory());
+				}
+			
+			}
 
 			final EMFScope emfScope = new EMFScope(resource);
 			engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(emfScope));

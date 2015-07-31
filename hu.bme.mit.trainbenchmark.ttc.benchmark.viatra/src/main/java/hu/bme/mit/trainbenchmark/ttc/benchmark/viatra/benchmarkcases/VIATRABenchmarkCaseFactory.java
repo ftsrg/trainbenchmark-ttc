@@ -9,29 +9,28 @@
  *   Benedek Izso - initial API and implementation
  *   Gabor Szarnyas - initial API and implementation
  *******************************************************************************/
-package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
+package hu.bme.mit.trainbenchmark.ttc.benchmark.viatra.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractBenchmarkCase;
 import hu.bme.mit.trainbenchmark.ttc.constants.QueryConstants;
 
-public class EMFIncQueryBenchmarkCaseFactory {
+public class VIATRABenchmarkCaseFactory {
 
 	public AbstractBenchmarkCase create(final String query) {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
-			return new EMFIncQueryPosLength();
-		case QueryConstants.ROUTESENSOR:
-			return new EMFIncQueryRouteSensor();
-		case QueryConstants.SWITCHSENSOR:
-			return new EMFIncQuerySwitchSensor();
-		case QueryConstants.SEMAPHORENEIGHBOR:
-			return new EMFIncQuerySemaphoreNeighbor();
-		case QueryConstants.SWITCHSET:
-			return new EMFIncQuerySwitchSet();
+			return new VIATRAPosLength();
+		// case QueryConstants.ROUTESENSOR:
+		// return new VIATRARouteSensor();
+		// case QueryConstants.SWITCHSENSOR:
+		// return new VIATRASwitchSensor();
+		// case QueryConstants.SEMAPHORENEIGHBOR:
+		// return new VIATRASemaphoreNeighbor();
+		// case QueryConstants.SWITCHSET:
+		// return new VIATRASwitchSet();
 		default:
 			throw new IllegalArgumentException();
 		}
 	}
-	
-	
+
 }
