@@ -83,12 +83,12 @@ public final class SwitchSetQuerySpecification extends BaseGeneratedEMFQuerySpec
     
     @Override
     public List<String> getParameterNames() {
-      return Arrays.asList("semaphore","route","switchPosition","sw");
+      return Arrays.asList("semaphore","route","swP","sw");
     }
     
     @Override
     public List<PParameter> getParameters() {
-      return Arrays.asList(new PParameter("semaphore", "hu.bme.mit.trainbenchmark.ttc.railway.Semaphore"),new PParameter("route", "hu.bme.mit.trainbenchmark.ttc.railway.Route"),new PParameter("switchPosition", "hu.bme.mit.trainbenchmark.ttc.railway.SwitchPosition"),new PParameter("sw", "hu.bme.mit.trainbenchmark.ttc.railway.Switch"));
+      return Arrays.asList(new PParameter("semaphore", "hu.bme.mit.trainbenchmark.ttc.railway.Semaphore"),new PParameter("route", "hu.bme.mit.trainbenchmark.ttc.railway.Route"),new PParameter("swP", "hu.bme.mit.trainbenchmark.ttc.railway.SwitchPosition"),new PParameter("sw", "hu.bme.mit.trainbenchmark.ttc.railway.Switch"));
     }
     
     @Override
@@ -99,7 +99,7 @@ public final class SwitchSetQuerySpecification extends BaseGeneratedEMFQuerySpec
       	PBody body = new PBody(this);
       	PVariable var_semaphore = body.getOrCreateVariableByName("semaphore");
       	PVariable var_route = body.getOrCreateVariableByName("route");
-      	PVariable var_switchPosition = body.getOrCreateVariableByName("switchPosition");
+      	PVariable var_swP = body.getOrCreateVariableByName("swP");
       	PVariable var_sw = body.getOrCreateVariableByName("sw");
       	PVariable var__virtual_0_ = body.getOrCreateVariableByName(".virtual{0}");
       	PVariable var__virtual_1_ = body.getOrCreateVariableByName(".virtual{1}");
@@ -115,7 +115,7 @@ public final class SwitchSetQuerySpecification extends BaseGeneratedEMFQuerySpec
       				
       		new ExportedParameter(body, var_route, "route"),
       				
-      		new ExportedParameter(body, var_switchPosition, "switchPosition"),
+      		new ExportedParameter(body, var_swP, "swP"),
       				
       		new ExportedParameter(body, var_sw, "sw")
       	));
@@ -124,16 +124,16 @@ public final class SwitchSetQuerySpecification extends BaseGeneratedEMFQuerySpec
       	new Equality(body, var__virtual_0_, var_semaphore);
       	new TypeConstraint(body, new FlatTuple(var_route), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route")));
       	new TypeConstraint(body, new FlatTuple(var_route, var__virtual_1_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Route", "follows")));
-      	new Equality(body, var__virtual_1_, var_switchPosition);
-      	new TypeConstraint(body, new FlatTuple(var_switchPosition), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition")));
-      	new TypeConstraint(body, new FlatTuple(var_switchPosition, var__virtual_2_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "switch")));
+      	new Equality(body, var__virtual_1_, var_swP);
+      	new TypeConstraint(body, new FlatTuple(var_swP), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition")));
+      	new TypeConstraint(body, new FlatTuple(var_swP, var__virtual_2_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "switch")));
       	new Equality(body, var__virtual_2_, var_sw);
       	new ConstantValue(body, var__virtual_3_, getEnumLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Signal", "GO").getInstance());
       	new TypeConstraint(body, new FlatTuple(var_semaphore), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Semaphore")));
       	new TypeConstraint(body, new FlatTuple(var_semaphore, var__virtual_4_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Semaphore", "signal")));
       	new Equality(body, var__virtual_4_, var__virtual_3_);
-      	new TypeConstraint(body, new FlatTuple(var_switchPosition), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition")));
-      	new TypeConstraint(body, new FlatTuple(var_switchPosition, var__virtual_5_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "position")));
+      	new TypeConstraint(body, new FlatTuple(var_swP), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition")));
+      	new TypeConstraint(body, new FlatTuple(var_swP, var__virtual_5_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "SwitchPosition", "position")));
       	new Equality(body, var__virtual_5_, var_swPP);
       	new TypeConstraint(body, new FlatTuple(var_sw), new EClassTransitiveInstancesKey((EClass)getClassifierLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Switch")));
       	new TypeConstraint(body, new FlatTuple(var_sw, var__virtual_6_), new EStructuralFeatureInstancesKey(getFeatureLiteral("http://www.semanticweb.org/ontologies/2015/ttc/trainbenchmark", "Switch", "currentPosition")));

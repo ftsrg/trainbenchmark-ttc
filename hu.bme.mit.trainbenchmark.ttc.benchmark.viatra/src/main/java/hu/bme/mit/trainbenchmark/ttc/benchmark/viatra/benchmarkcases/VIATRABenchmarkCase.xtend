@@ -4,9 +4,12 @@ import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase
 import hu.bme.mit.trainbenchmark.ttc.benchmark.viatra.matches.VIATRABenchmarkComparator
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage
 import java.io.IOException
+import java.util.Collection
+import java.util.HashSet
 import org.apache.log4j.Level
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.incquery.runtime.evm.api.Activation
 import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil
 import org.eclipse.viatra.emf.runtime.modelmanipulation.IModelManipulations
 import org.eclipse.viatra.emf.runtime.modelmanipulation.SimpleModelManipulations
@@ -15,7 +18,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
-abstract class VIATRABenchmarkCase<Match extends IPatternMatch> extends EMFBenchmarkCase {
+abstract class VIATRABenchmarkCase extends EMFBenchmarkCase {
 
 	protected var BatchTransformationRule rule
 
@@ -30,7 +33,7 @@ abstract class VIATRABenchmarkCase<Match extends IPatternMatch> extends EMFBench
 		super.read
 
 		val emfScope = new EMFScope(resource);
-//		val engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(emfScope));
+
 		// extensions are initialized as normal fields in Xtend
 		transformation = new BatchTransformation(resource.resourceSet)
 		statements = new BatchTransformationStatements(transformation)
@@ -44,7 +47,20 @@ abstract class VIATRABenchmarkCase<Match extends IPatternMatch> extends EMFBench
 
 	override protected init() throws IOException {
 		IncQueryLoggingUtil.getDefaultLogger.setLevel(Level.OFF);
-//		val eiqbc = bc as EMFIncQueryBenchmarkConfig;
+	}
+
+	override protected modify(Collection<Object> matches) {
+		matches.forEach [
+			(it as Activation).fire(context)
+		]
+	}
+	
+	override protected check() throws IOException {
+		matches = new HashSet
+		ruleEngine.activations.values.forEach[
+			matches.add(it)
+		]
+		matches
 	}
 
 }

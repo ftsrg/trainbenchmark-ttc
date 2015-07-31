@@ -11,9 +11,9 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.transformation;
 
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSetMatch;
-
 import java.util.Collection;
+
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.SwitchSetMatch;
 
 public class EMFIncQuerySwitchSetTransformation extends EMFIncQueryTransformationAction {
 
@@ -21,7 +21,7 @@ public class EMFIncQuerySwitchSetTransformation extends EMFIncQueryTransformatio
 	public void transform(final Collection<Object> matches) {
 		for (final Object match : matches) {
 			final SwitchSetMatch ssm = (SwitchSetMatch) match;
-			ssm.getSw().setCurrentPosition(ssm.getSwitchPosition().getPosition());
+			ssm.getSw().setCurrentPosition(ssm.getSwP().getPosition());
 		}
 	}
 

@@ -20,14 +20,14 @@ public class VIATRABenchmarkCaseFactory {
 		switch (query) {
 		case QueryConstants.POSLENGTH:
 			return new VIATRAPosLength();
-		// case QueryConstants.ROUTESENSOR:
-		// return new VIATRARouteSensor();
-		// case QueryConstants.SWITCHSENSOR:
-		// return new VIATRASwitchSensor();
-		// case QueryConstants.SEMAPHORENEIGHBOR:
-		// return new VIATRASemaphoreNeighbor();
-		// case QueryConstants.SWITCHSET:
-		// return new VIATRASwitchSet();
+		case QueryConstants.ROUTESENSOR:
+			return new VIATRARouteSensor();
+		case QueryConstants.SWITCHSENSOR:
+			return new VIATRASwitchSensor();
+		case QueryConstants.SEMAPHORENEIGHBOR:
+			return new VIATRASemaphoreNeighbor();
+		case QueryConstants.SWITCHSET:
+			return new VIATRASwitchSet();
 		default:
 			throw new IllegalArgumentException();
 		}
