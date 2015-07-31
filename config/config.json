@@ -16,7 +16,8 @@
     "hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.funnyqtglue",
     "hu.bme.mit.trainbenchmark.ttc.benchmark.java",
-    "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma"
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.sigma",
+    "hu.bme.mit.trainbenchmark.ttc.benchmark.viatra"
   ],
   "ChangeSets":[
     "fixed"

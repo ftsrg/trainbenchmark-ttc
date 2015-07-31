@@ -48,7 +48,6 @@
 			<artifactId>org.eclipse.incquery.runtime.localsearch</artifactId>
 			<version>${emfincquery.version}</version>
 		</dependency>
-
 	</dependencies>
 
 	<repositories>
