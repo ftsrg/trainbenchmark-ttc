@@ -12,11 +12,11 @@
 
 package hu.bme.mit.trainbenchmark.ttc.benchmark.scenarios;
 
+import java.io.IOException;
+
 import hu.bme.mit.trainbenchmark.ttc.benchmark.benchmarkcases.AbstractBenchmarkCase;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.config.BenchmarkConfig;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.util.BenchmarkResult;
-
-import java.io.IOException;
 
 public abstract class AbstractBenchmarkLogic {
 
@@ -39,5 +39,4 @@ public abstract class AbstractBenchmarkLogic {
 		return benchmarkConfig;
 	}
 
-	// protected abstract String getTool();
 }
