@@ -57,7 +57,7 @@ If you'd like to try the **ATL/EMFTVM** implementation, it is recommended to use
   * Use the Orbit update site for your release (<http://download.eclipse.org/tools/orbit/downloads/>) to install the **Apache Commons CLI** and the **Guava: Google Core Libraries for Java Source** plug-ins.
   * To use the **ATL/EMFTVM** implementation, install the **ATL/EMFTVM** and **SimpleGT** plug-ins from <http://marketplace.eclipse.org/content/atlemftvm> and <http://marketplace.eclipse.org/content/simplegt>.
   * To use the **EMF-IncQuery** implementation, install the **EMF-IncQuery SDK** and the **Local Search Engine for EMF-IncQuery Developer Resources** plug-ins from the <http://download.eclipse.org/incquery/updates-extra/release> update site. (This also installs the **EMF-IncQuery Runtime**. The complete list of EMF-IncQuery update sites is available at <https://www.eclipse.org/incquery/download.php>.)
-  * To use the **VIATRA** implementation, install ... from <>.
+  * To use the **VIATRA** implementation, install the **VIATRA EMF Engine** plug-in from <http://download.eclipse.org/viatra2/emf/updates/release>.
 
 In general, we recommend to stick to your proven build solution, else you may spend a lot of time tinkering with the build. In theory, you can build Eclipse plug-ins with the Tycho Maven plug-in, however, it has a steep learning curve and is tricky to debug. For reference, see <https://github.com/FTSRG/cheat-sheets/wiki/Maven-and-Eclipse>.
 
