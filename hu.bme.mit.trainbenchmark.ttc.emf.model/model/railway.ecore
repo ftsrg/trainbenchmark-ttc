@@ -7,8 +7,8 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TrackElement" abstract="true" eSuperTypes="#//RailwayElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sensor" eType="#//Sensor"
-        eOpposite="#//Sensor/elements"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensor" lowerBound="1"
+        upperBound="-1" eType="#//Sensor" eOpposite="#//Sensor/elements"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="connectsTo" upperBound="-1"
         eType="#//TrackElement"/>
   </eClassifiers>
@@ -24,7 +24,7 @@
         eType="#//SwitchPosition" containment="true" eOpposite="#//SwitchPosition/route"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exit" lowerBound="1" eType="#//Semaphore"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="definedBy" lowerBound="2"
-        upperBound="-1" eType="#//Sensor" containment="true"/>
+        upperBound="-1" eType="#//Sensor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Semaphore" eSuperTypes="#//RailwayElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="signal" lowerBound="1"
@@ -43,7 +43,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//RailwayElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"
-        eType="#//TrackElement" containment="true" eOpposite="#//TrackElement/sensor"/>
+        eType="#//TrackElement" eOpposite="#//TrackElement/sensor"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="Signal">
     <eLiterals name="FAILURE" value="1"/>
@@ -59,9 +59,17 @@
   <eClassifiers xsi:type="ecore:EClass" name="RailwayContainer">
     <eStructuralFeatures xsi:type="ecore:EReference" name="invalids" upperBound="-1"
         eType="#//RailwayElement" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="semaphores" upperBound="-1"
-        eType="#//Semaphore" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1"
+        eType="#//RailwayComponent" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="routes" upperBound="-1"
         eType="#//Route" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="RailwayComponent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="trackelements" upperBound="-1"
+        eType="#//TrackElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sensors" upperBound="-1"
+        eType="#//Sensor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="semaphors" upperBound="-1"
+        eType="#//Semaphore" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>
