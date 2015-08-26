@@ -6,7 +6,7 @@
 
 ## Case description
 
-The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/paper/trainbenchmark-ttc.pdf), while the [latest compile](https://www.sharelatex.com/github/repos/FTSRG/trainbenchmark-ttc-paper/builds/latest/output.pdf)  is also available.
+The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/paper/trainbenchmark-ttc.pdf), while the [latest compile](https://www.sharelatex.com/github/repos/FTSRG/paper-ttc15-trainbenchmark/builds/latest/output.pdf)  is also available.
 
 ## Prerequisites
 
