@@ -13,7 +13,7 @@ package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.benchmarkcases;
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase;
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.EMFIncQueryBenchmarkConfig;
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches.EMFIncQueryBenchmarkComparator;
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches.EMFIncQueryMatchComparator;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -42,7 +42,7 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 
 	@Override
 	protected void registerComparator() {
-		comparator = new EMFIncQueryBenchmarkComparator();
+		comparator = new EMFIncQueryMatchComparator();
 	}
 
 	@Override

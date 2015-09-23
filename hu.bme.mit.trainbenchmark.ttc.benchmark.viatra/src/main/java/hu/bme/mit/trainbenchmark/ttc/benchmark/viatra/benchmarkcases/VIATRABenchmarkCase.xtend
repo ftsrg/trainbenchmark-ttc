@@ -1,13 +1,12 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.viatra.benchmarkcases
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase
-import hu.bme.mit.trainbenchmark.ttc.benchmark.viatra.matches.VIATRABenchmarkComparator
+import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches.EMFIncQueryMatchComparator
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage
 import java.io.IOException
 import java.util.Collection
 import java.util.HashSet
 import org.apache.log4j.Level
-import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.incquery.runtime.evm.api.Activation
 import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil
@@ -42,7 +41,7 @@ abstract class VIATRABenchmarkCase extends EMFBenchmarkCase {
 	}
 
 	override protected registerComparator() {
-		comparator = new VIATRABenchmarkComparator
+		comparator = new EMFIncQueryMatchComparator
 	}
 
 	override protected init() throws IOException {
