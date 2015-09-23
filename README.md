@@ -90,3 +90,7 @@ is error-prone and should be avoided.
 
 * **Problem:** if not running with Oracle JDK7, both the generation and the benchmarking freezes sometimes.
 * **Solution:** see [this issue](https://github.com/FTSRG/trainbenchmark-ttc/issues/7) for details.
+
+## Using EMF-IncQuery
+
+To ensure that the **Query Explorer** works without launching a runtime Eclipse instance, go to **Preferences**, **EMF-IncQuery** and **Query Explorer** and tick the **Dynamic EMF mode** checkbox.
