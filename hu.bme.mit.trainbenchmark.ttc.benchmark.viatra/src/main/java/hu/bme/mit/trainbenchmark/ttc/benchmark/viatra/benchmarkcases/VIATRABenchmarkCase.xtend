@@ -1,7 +1,6 @@
 package hu.bme.mit.trainbenchmark.ttc.benchmark.viatra.benchmarkcases
 
 import hu.bme.mit.trainbenchmark.ttc.benchmark.emf.EMFBenchmarkCase
-import hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches.EMFIncQueryMatchComparator
 import hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage
 import java.io.IOException
 import java.util.Collection
@@ -16,6 +15,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
+import hu.bme.mit.trainbenchmark.ttc.benchmark.viatra.matches.VIATRAMatchComparator
 
 abstract class VIATRABenchmarkCase extends EMFBenchmarkCase {
 
@@ -41,7 +41,7 @@ abstract class VIATRABenchmarkCase extends EMFBenchmarkCase {
 	}
 
 	override protected registerComparator() {
-		comparator = new EMFIncQueryMatchComparator
+		comparator = new VIATRAMatchComparator
 	}
 
 	override protected init() throws IOException {
