@@ -4,3 +4,5 @@ python:
 script:
   - scripts/funnyqt.sh
   - scripts/run.py -t
+notifications:
+  slack: ftsrg:HpSBoJSTcMThg9oBgqGdZQso
