@@ -39,7 +39,7 @@
         eOpposite="#//Route/follows"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="RailwayElement" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="id2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Sensor" eSuperTypes="#//RailwayElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="elements" upperBound="-1"

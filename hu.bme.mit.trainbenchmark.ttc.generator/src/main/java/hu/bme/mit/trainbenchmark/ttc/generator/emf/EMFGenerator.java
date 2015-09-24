@@ -15,16 +15,6 @@ package hu.bme.mit.trainbenchmark.ttc.generator.emf;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.CURRENTPOSITION;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.POSITION;
 import static hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants.SIGNAL;
-import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
-import hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants;
-import hu.bme.mit.trainbenchmark.ttc.emf.FileBroker;
-import hu.bme.mit.trainbenchmark.ttc.generator.Generator;
-import hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer;
-import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
-import hu.bme.mit.trainbenchmark.ttc.railway.RailwayFactory;
-import hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage;
-import hu.bme.mit.trainbenchmark.ttc.railway.Route;
-import hu.bme.mit.trainbenchmark.ttc.railway.Semaphore;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,6 +30,17 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import hu.bme.mit.trainbenchmark.ttc.config.GenericConfig;
+import hu.bme.mit.trainbenchmark.ttc.constants.ModelConstants;
+import hu.bme.mit.trainbenchmark.ttc.emf.FileBroker;
+import hu.bme.mit.trainbenchmark.ttc.generator.Generator;
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer;
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayFactory;
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage;
+import hu.bme.mit.trainbenchmark.ttc.railway.Route;
+import hu.bme.mit.trainbenchmark.ttc.railway.Semaphore;
+
 public class EMFGenerator extends Generator {
 
 	public EMFGenerator(final String args[]) throws ParseException {
@@ -53,7 +54,7 @@ public class EMFGenerator extends Generator {
 
 	@Override
 	public void initModel() {
-		final String fileName = generatorConfig.getInstanceModelPath() + "/railway-" + generatorConfig.getSize() + ".railway";
+		final String fileName = generatorConfig.getInstanceModelPath() + "/railway-" + generatorConfig.getSize() + ".xmi";
 		final URI resourceURI = FileBroker.getEMFUri(fileName);
 
 		final ResourceSet resourceSet = new ResourceSetImpl();
@@ -76,7 +77,7 @@ public class EMFGenerator extends Generator {
 			final Map<String, Object> outgoingEdges, final Map<String, Object> incomingEdges) throws IOException {
 		final EClass clazz = (EClass) RailwayPackage.eINSTANCE.getEClassifier(type);
 		final RailwayElement railwayElement = (RailwayElement) RailwayFactory.eINSTANCE.create(clazz);
-		railwayElement.setId(id);
+		railwayElement.setId2(id);
 		for (final Entry<String, Object> attribute : attributes.entrySet()) {
 			setAttribute(clazz, railwayElement, attribute.getKey(), attribute.getValue());
 		}
@@ -91,7 +92,7 @@ public class EMFGenerator extends Generator {
 		default:
 			break;
 		}
-		
+
 		for (final Entry<String, Object> outgoingEdge : outgoingEdges.entrySet()) {
 			createEdge(outgoingEdge.getKey(), railwayElement, outgoingEdge.getValue());
 		}

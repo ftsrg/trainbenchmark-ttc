@@ -365,7 +365,7 @@ public class RailwayPackageImpl extends EPackageImpl implements RailwayPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getRailwayElement_Id() {
+	public EAttribute getRailwayElement_Id2() {
 		return (EAttribute)railwayElementEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -495,7 +495,7 @@ public class RailwayPackageImpl extends EPackageImpl implements RailwayPackage {
 		createEReference(switchPositionEClass, SWITCH_POSITION__ROUTE);
 
 		railwayElementEClass = createEClass(RAILWAY_ELEMENT);
-		createEAttribute(railwayElementEClass, RAILWAY_ELEMENT__ID);
+		createEAttribute(railwayElementEClass, RAILWAY_ELEMENT__ID2);
 
 		sensorEClass = createEClass(SENSOR);
 		createEReference(sensorEClass, SENSOR__ELEMENTS);
@@ -573,7 +573,7 @@ public class RailwayPackageImpl extends EPackageImpl implements RailwayPackage {
 		initEReference(getSwitchPosition_Route(), this.getRoute(), this.getRoute_Follows(), "route", null, 1, 1, SwitchPosition.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(railwayElementEClass, RailwayElement.class, "RailwayElement", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getRailwayElement_Id(), ecorePackage.getEInt(), "id", null, 0, 1, RailwayElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRailwayElement_Id2(), ecorePackage.getEInt(), "id2", null, 0, 1, RailwayElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(sensorEClass, Sensor.class, "Sensor", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSensor_Elements(), this.getTrackElement(), this.getTrackElement_Sensor(), "elements", null, 0, -1, Sensor.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

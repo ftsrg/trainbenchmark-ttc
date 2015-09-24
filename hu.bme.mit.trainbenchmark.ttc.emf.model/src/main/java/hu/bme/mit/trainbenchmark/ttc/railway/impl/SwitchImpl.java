@@ -39,11 +39,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.SwitchImpl#getCurrentPosition <em>Current Position</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.SwitchImpl#getPositions <em>Positions</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

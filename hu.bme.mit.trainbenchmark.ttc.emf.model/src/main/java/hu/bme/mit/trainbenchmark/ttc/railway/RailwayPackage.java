@@ -79,13 +79,13 @@ public interface RailwayPackage extends EPackage {
 	int RAILWAY_ELEMENT = 6;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int RAILWAY_ELEMENT__ID = 0;
+	int RAILWAY_ELEMENT__ID2 = 0;
 
 	/**
 	 * The number of structural features of the '<em>Element</em>' class.
@@ -116,13 +116,13 @@ public interface RailwayPackage extends EPackage {
 	int TRACK_ELEMENT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACK_ELEMENT__ID = RAILWAY_ELEMENT__ID;
+	int TRACK_ELEMENT__ID2 = RAILWAY_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Sensor</b></em>' container reference.
@@ -171,13 +171,13 @@ public interface RailwayPackage extends EPackage {
 	int SEGMENT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEGMENT__ID = TRACK_ELEMENT__ID;
+	int SEGMENT__ID2 = TRACK_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Sensor</b></em>' container reference.
@@ -235,13 +235,13 @@ public interface RailwayPackage extends EPackage {
 	int SWITCH = 2;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SWITCH__ID = TRACK_ELEMENT__ID;
+	int SWITCH__ID2 = TRACK_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Sensor</b></em>' container reference.
@@ -308,13 +308,13 @@ public interface RailwayPackage extends EPackage {
 	int ROUTE = 3;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROUTE__ID = RAILWAY_ELEMENT__ID;
+	int ROUTE__ID2 = RAILWAY_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Entry</b></em>' reference.
@@ -381,13 +381,13 @@ public interface RailwayPackage extends EPackage {
 	int SEMAPHORE = 4;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEMAPHORE__ID = RAILWAY_ELEMENT__ID;
+	int SEMAPHORE__ID2 = RAILWAY_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Signal</b></em>' attribute.
@@ -427,13 +427,13 @@ public interface RailwayPackage extends EPackage {
 	int SWITCH_POSITION = 5;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SWITCH_POSITION__ID = RAILWAY_ELEMENT__ID;
+	int SWITCH_POSITION__ID2 = RAILWAY_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Switch</b></em>' reference.
@@ -491,13 +491,13 @@ public interface RailwayPackage extends EPackage {
 	int SENSOR = 7;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * The feature id for the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SENSOR__ID = RAILWAY_ELEMENT__ID;
+	int SENSOR__ID2 = RAILWAY_ELEMENT__ID2;
 
 	/**
 	 * The feature id for the '<em><b>Elements</b></em>' containment reference list.
@@ -816,15 +816,15 @@ public interface RailwayPackage extends EPackage {
 	EClass getRailwayElement();
 
 	/**
-	 * Returns the meta object for the attribute '{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId <em>Id</em>}'.
+	 * Returns the meta object for the attribute '{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId2 <em>Id2</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Id</em>'.
-	 * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId()
+	 * @return the meta object for the attribute '<em>Id2</em>'.
+	 * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId2()
 	 * @see #getRailwayElement()
 	 * @generated
 	 */
-	EAttribute getRailwayElement_Id();
+	EAttribute getRailwayElement_Id2();
 
 	/**
 	 * Returns the meta object for class '{@link hu.bme.mit.trainbenchmark.ttc.railway.Sensor <em>Sensor</em>}'.
@@ -1108,12 +1108,12 @@ public interface RailwayPackage extends EPackage {
 		EClass RAILWAY_ELEMENT = eINSTANCE.getRailwayElement();
 
 		/**
-		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Id2</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute RAILWAY_ELEMENT__ID = eINSTANCE.getRailwayElement_Id();
+		EAttribute RAILWAY_ELEMENT__ID2 = eINSTANCE.getRailwayElement_Id2();
 
 		/**
 		 * The meta object literal for the '{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.SensorImpl <em>Sensor</em>}' class.

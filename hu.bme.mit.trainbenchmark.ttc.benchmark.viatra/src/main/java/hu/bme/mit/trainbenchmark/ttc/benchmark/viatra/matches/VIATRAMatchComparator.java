@@ -11,8 +11,8 @@ public class VIATRAMatchComparator implements Comparator<Object> {
 
 	@Override
 	public int compare(final Object o1, final Object o2) {
-		Activation<BasePatternMatch> a1 = (Activation<BasePatternMatch>) o1;
-		Activation<BasePatternMatch> a2 = (Activation<BasePatternMatch>) o2;
+		final Activation<BasePatternMatch> a1 = (Activation<BasePatternMatch>) o1;
+		final Activation<BasePatternMatch> a2 = (Activation<BasePatternMatch>) o2;
 		final Object[] m1 = a1.getAtom().toArray();
 		final Object[] m2 = a2.getAtom().toArray();
 
@@ -20,7 +20,7 @@ public class VIATRAMatchComparator implements Comparator<Object> {
 			final RailwayElement t1 = (RailwayElement) m1[i];
 			final RailwayElement t2 = (RailwayElement) m2[i];
 
-			final int comparison = t1.getId() - t2.getId();
+			final int comparison = t1.getId2() - t2.getId2();
 			if (comparison != 0) {
 				return comparison;
 			}

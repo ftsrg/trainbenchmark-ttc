@@ -39,12 +39,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayContainerImpl#getInvalids <em>Invalids</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayContainerImpl#getSemaphores <em>Semaphores</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayContainerImpl#getRoutes <em>Routes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

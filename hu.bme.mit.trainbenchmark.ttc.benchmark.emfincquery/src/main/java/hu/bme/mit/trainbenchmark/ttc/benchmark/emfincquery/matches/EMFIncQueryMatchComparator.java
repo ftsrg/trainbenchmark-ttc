@@ -11,11 +11,11 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.matches;
 
-import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
-
 import java.util.Comparator;
 
 import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
+
+import hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement;
 
 public class EMFIncQueryMatchComparator implements Comparator<Object> {
 
@@ -23,11 +23,11 @@ public class EMFIncQueryMatchComparator implements Comparator<Object> {
 	public int compare(final Object o1, final Object o2) {
 		final Object[] m1 = ((BasePatternMatch) o1).toArray();
 		final Object[] m2 = ((BasePatternMatch) o2).toArray();
-		for (int i = 0; i < m1.length; i++) {		
+		for (int i = 0; i < m1.length; i++) {
 			final RailwayElement t1 = (RailwayElement) m1[i];
 			final RailwayElement t2 = (RailwayElement) m2[i];
 
-			final int comparison = t1.getId() - t2.getId();
+			final int comparison = t1.getId2() - t2.getId2();
 			if (comparison != 0) {
 				return comparison;
 			}

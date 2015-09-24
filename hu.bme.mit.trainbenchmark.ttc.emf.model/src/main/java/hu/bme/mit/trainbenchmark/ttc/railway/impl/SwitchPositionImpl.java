@@ -35,12 +35,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.SwitchPositionImpl#getSwitch <em>Switch</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.SwitchPositionImpl#getPosition <em>Position</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.SwitchPositionImpl#getRoute <em>Route</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

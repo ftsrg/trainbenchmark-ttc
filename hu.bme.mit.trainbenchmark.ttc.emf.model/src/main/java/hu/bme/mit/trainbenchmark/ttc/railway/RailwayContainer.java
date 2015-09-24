@@ -24,12 +24,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer#getInvalids <em>Invalids</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer#getSemaphores <em>Semaphores</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayContainer#getRoutes <em>Routes</em>}</li>
  * </ul>
- * </p>
  *
  * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getRailwayContainer()
  * @model

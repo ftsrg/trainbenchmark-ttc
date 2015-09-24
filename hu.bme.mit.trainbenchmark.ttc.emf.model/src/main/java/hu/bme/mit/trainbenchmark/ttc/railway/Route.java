@@ -22,13 +22,13 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.Route#getEntry <em>Entry</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.Route#getFollows <em>Follows</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.Route#getExit <em>Exit</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.Route#getDefinedBy <em>Defined By</em>}</li>
  * </ul>
- * </p>
  *
  * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getRoute()
  * @model

@@ -22,10 +22,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * <ul>
- *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId <em>Id</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId2 <em>Id2</em>}</li>
+ * </ul>
  *
  * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getRailwayElement()
  * @model abstract="true"
@@ -33,29 +33,29 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface RailwayElement extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Id</b></em>' attribute.
+	 * Returns the value of the '<em><b>Id2</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Id2</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Id</em>' attribute.
-	 * @see #setId(int)
-	 * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getRailwayElement_Id()
+	 * @return the value of the '<em>Id2</em>' attribute.
+	 * @see #setId2(int)
+	 * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getRailwayElement_Id2()
 	 * @model
 	 * @generated
 	 */
-	int getId();
+	int getId2();
 
 	/**
-	 * Sets the value of the '{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId <em>Id</em>}' attribute.
+	 * Sets the value of the '{@link hu.bme.mit.trainbenchmark.ttc.railway.RailwayElement#getId2 <em>Id2</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
-	 * @see #getId()
+	 * @param value the new value of the '<em>Id2</em>' attribute.
+	 * @see #getId2()
 	 * @generated
 	 */
-	void setId(int value);
+	void setId2(int value);
 
 } // RailwayElement

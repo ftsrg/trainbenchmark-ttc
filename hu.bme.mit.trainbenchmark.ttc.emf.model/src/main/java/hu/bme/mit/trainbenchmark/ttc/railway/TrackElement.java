@@ -22,11 +22,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.TrackElement#getSensor <em>Sensor</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.TrackElement#getConnectsTo <em>Connects To</em>}</li>
  * </ul>
- * </p>
  *
  * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getTrackElement()
  * @model abstract="true"

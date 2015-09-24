@@ -29,33 +29,33 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * <ul>
- *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayElementImpl#getId <em>Id</em>}</li>
- * </ul>
  * </p>
+ * <ul>
+ *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RailwayElementImpl#getId2 <em>Id2</em>}</li>
+ * </ul>
  *
  * @generated
  */
 public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container implements RailwayElement {
 	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * The default value of the '{@link #getId2() <em>Id2</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getId()
+	 * @see #getId2()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int ID_EDEFAULT = 0;
+	protected static final int ID2_EDEFAULT = 0;
 
 	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * The cached value of the '{@link #getId2() <em>Id2</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getId()
+	 * @see #getId2()
 	 * @generated
 	 * @ordered
 	 */
-	protected int id = ID_EDEFAULT;
+	protected int id2 = ID2_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -81,8 +81,8 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getId() {
-		return id;
+	public int getId2() {
+		return id2;
 	}
 
 	/**
@@ -90,11 +90,11 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setId(int newId) {
-		int oldId = id;
-		id = newId;
+	public void setId2(int newId2) {
+		int oldId2 = id2;
+		id2 = newId2;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, RailwayPackage.RAILWAY_ELEMENT__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET, RailwayPackage.RAILWAY_ELEMENT__ID2, oldId2, id2));
 	}
 
 	/**
@@ -105,8 +105,8 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case RailwayPackage.RAILWAY_ELEMENT__ID:
-				return getId();
+			case RailwayPackage.RAILWAY_ELEMENT__ID2:
+				return getId2();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -119,8 +119,8 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case RailwayPackage.RAILWAY_ELEMENT__ID:
-				setId((Integer)newValue);
+			case RailwayPackage.RAILWAY_ELEMENT__ID2:
+				setId2((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -134,8 +134,8 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case RailwayPackage.RAILWAY_ELEMENT__ID:
-				setId(ID_EDEFAULT);
+			case RailwayPackage.RAILWAY_ELEMENT__ID2:
+				setId2(ID2_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -149,8 +149,8 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case RailwayPackage.RAILWAY_ELEMENT__ID:
-				return id != ID_EDEFAULT;
+			case RailwayPackage.RAILWAY_ELEMENT__ID2:
+				return id2 != ID2_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -165,8 +165,8 @@ public abstract class RailwayElementImpl extends MinimalEObjectImpl.Container im
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (id: ");
-		result.append(id);
+		result.append(" (id2: ");
+		result.append(id2);
 		result.append(')');
 		return result.toString();
 	}

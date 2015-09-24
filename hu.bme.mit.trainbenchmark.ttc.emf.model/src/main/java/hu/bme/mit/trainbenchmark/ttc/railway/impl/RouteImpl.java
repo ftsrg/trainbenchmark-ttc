@@ -41,13 +41,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RouteImpl#getEntry <em>Entry</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RouteImpl#getFollows <em>Follows</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RouteImpl#getExit <em>Exit</em>}</li>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.impl.RouteImpl#getDefinedBy <em>Defined By</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

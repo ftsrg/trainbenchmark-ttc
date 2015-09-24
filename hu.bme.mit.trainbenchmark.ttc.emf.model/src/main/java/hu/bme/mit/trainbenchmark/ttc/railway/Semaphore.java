@@ -21,10 +21,10 @@ package hu.bme.mit.trainbenchmark.ttc.railway;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link hu.bme.mit.trainbenchmark.ttc.railway.Semaphore#getSignal <em>Signal</em>}</li>
  * </ul>
- * </p>
  *
  * @see hu.bme.mit.trainbenchmark.ttc.railway.RailwayPackage#getSemaphore()
  * @model
