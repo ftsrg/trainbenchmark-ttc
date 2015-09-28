@@ -146,9 +146,9 @@ if __name__ == "__main__":
     if args.measure:
         benchmark(config)
     if args.test:
-        build(True)
+        build(config, True)
         generate(config)
-        build(False)
+        build(config, False)
         benchmark(config)
     if args.visualize:
         visualize()
