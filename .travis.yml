@@ -2,6 +2,7 @@ language: python
 python:
   - "3.4"
 script:
+  - scripts/init-config.sh
   - scripts/funnyqt.sh
   - scripts/run.py -t
 notifications:

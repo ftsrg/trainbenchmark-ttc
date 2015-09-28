@@ -17,12 +17,12 @@ import java.util.Map;
 import org.eclipse.emf.ecore.resource.Resource;
 
 public class EMFUtil {
-	
+
 	public static void registerUUIDXMIResourceFactory() {
 		// register the XMI resource factory for the .emf extension
 		final Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 		final Map<String, Object> m = reg.getExtensionToFactoryMap();
-		m.put("railway", new XMIResourceFactoryImplWithUUID());
+		m.put("xmi", new XMIResourceFactoryImplWithUUID());
 	}
-	
+
 }

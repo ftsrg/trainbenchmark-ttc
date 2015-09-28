@@ -21,6 +21,8 @@ The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://
 
 ## Using the framework
 
+Use the `scripts/init-config.sh` file to initialize the `config/config.json` configuration file.
+
 The `scripts` directory contains the `run.py` script which is used for the following purposes:
 * `run.py -b` -- builds the projects
 * `run.py -b -s` -- builds the projects without testing
@@ -29,7 +31,7 @@ The `scripts` directory contains the `run.py` script which is used for the follo
 * `run.py -v` -- visualizes the results of the latest benchmark
 
 The `config` directory contains the configuration for the scripts:
-* `config.json` -- configuration for the model generation and the benchmark
+* `config.json` -- configuration for the model generation and the benchmark (based on the `config-default.json` file)
 * `reporting.json` -- configuration for the visualization
 
 ### Generating instance models

@@ -19,11 +19,11 @@ def flatten(lst):
     return sum(([x] if not isinstance(x, list) else flatten(x) for x in lst), [])
 
 
-def build(skip_tests):
+def build(conf, skip_tests):
     """Builds the project.
     """
     util.set_working_directory("../")
-    args = ["mvn", "clean", "install"]
+    args = flatten(["mvn", conf.vmargs, "clean", "install"])
     if skip_tests:
         args.append("-DskipTests")
     subprocess.check_call(args)
@@ -35,7 +35,7 @@ def generate(conf):
     """
     target = util.get_generator_jar()
     for size in conf.sizes:
-        subprocess.check_call(flatten(["java", conf.vmargs, "-jar", target, "-size", str(size)]))
+        subprocess.check_call(flatten(["java", conf.vmargs, "-Xmx" + conf.xmx, "-jar", target, "-size", str(size)]))
 
 
 def benchmark(conf):
@@ -140,7 +140,7 @@ if __name__ == "__main__":
         args.extract = True
 
     if args.build:
-        build(args.skip_tests)
+        build(config, args.skip_tests)
     if args.generate:
         generate(config)
     if args.measure:

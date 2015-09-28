@@ -53,7 +53,7 @@ public class EMFGenerator extends Generator {
 
 	@Override
 	public void initModel() {
-		final String fileName = generatorConfig.getInstanceModelPath() + "/railway-" + generatorConfig.getSize() + ".railway";
+		final String fileName = generatorConfig.getInstanceModelPath() + "/railway-" + generatorConfig.getSize() + ".xmi";
 		final URI resourceURI = FileBroker.getEMFUri(fileName);
 
 		final ResourceSet resourceSet = new ResourceSetImpl();
