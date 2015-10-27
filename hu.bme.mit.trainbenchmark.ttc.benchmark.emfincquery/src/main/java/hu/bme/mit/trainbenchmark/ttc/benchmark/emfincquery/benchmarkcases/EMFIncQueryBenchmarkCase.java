@@ -99,8 +99,8 @@ public abstract class EMFIncQueryBenchmarkCase<Match extends IPatternMatch> exte
 			final EMFScope emfScope = new EMFScope(resource);
 			engine = AdvancedIncQueryEngine.from(IncQueryEngine.on(emfScope));
 
-			matches = getResultSet();
 			if (!eiqbc.isLocalSearch()) {
+				matches = getResultSet();
 				engine.addMatchUpdateListener(getMatcher(), new IMatchUpdateListener<Match>() {
 					@Override
 					public void notifyAppearance(final Match match) {
