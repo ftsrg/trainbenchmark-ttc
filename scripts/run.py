@@ -23,7 +23,7 @@ def build(conf, skip_tests):
     """Builds the project.
     """
     util.set_working_directory("../")
-    args = flatten(["mvn", conf.vmargs, "clean", "install"])
+    args = flatten(["mvn", conf.vmargs, "clean", "install", "--fail-at-end"])
     if skip_tests:
         args.append("-DskipTests")
     subprocess.check_call(args)
