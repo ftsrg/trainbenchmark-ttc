@@ -4,6 +4,6 @@ python:
 script:
   - scripts/init-config.sh
   - scripts/funnyqt.sh
-  - scripts/run.py -b
+  - scripts/run.py -bs
 notifications:
   slack: ftsrg:HpSBoJSTcMThg9oBgqGdZQso
