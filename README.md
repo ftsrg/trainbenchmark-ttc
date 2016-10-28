@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/dwagelaar/trainbenchmark-ttc.svg?branch=master)](https://travis-ci.org/dwagelaar/trainbenchmark-ttc)
 
-**Note.** Although closely related, this repository is not to be confused with the `trainbenchmark` repository which is a benchmark framework for comparing various database management tools, including triplestores, relational databases and graph databases.
+**Note.** This repository was used for the 2015 Transformation Tool Contest and is no longer maintained. If you wish to use the benchmark, visit the [Train Benchmark](https://github.com/FTSRG/trainbenchmark) repository, which is actively maintained.
 
 ## Case description
 
