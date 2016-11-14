@@ -6,7 +6,7 @@
 
 ## Case description
 
-The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/paper/trainbenchmark-ttc.pdf), while the [latest compile](https://www.sharelatex.com/github/repos/FTSRG/paper-ttc15-trainbenchmark/builds/latest/output.pdf)  is also available.
+The `paper/trainbenchmark-ttc.pdf` file contains the [case description](https://github.com/FTSRG/trainbenchmark-ttc/blob/master/paper/trainbenchmark-ttc.pdf).
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ Set the `maxSize` variable to the desired value and run the `run.py -g` script. 
 
 The script runs the benchmark for the given number of runs, for the specified tools, queries and sizes.
 
-The benchmark results are stored in a TSV (tab-separated values) file. The header for the TSV file is stored in the `output/header.tsv` file. 
+The benchmark results are stored in a TSV (tab-separated values) file. The header for the TSV file is stored in the `output/header.tsv` file.
 
 ## Reporting and visualization
 
@@ -83,7 +83,7 @@ For implementing a match comparator, we recommend two approaches:
 
 To avoid confusion between the different implementations, we decided to use the [Smurf Naming convention](http://blog.codinghorror.com/new-programming-jargon/) (see #21). This way, the classes in the Java implementation are named `JavaBenchmarkCase`, `JavaPosLength`, `JavaPosLengthMatch`, `JavaPosLengthTransformation`, while the classes in the EMF-IncQuery implementation are named `EMFIncQueryBenchmarkCase`, `EMFIncQueryPosLength`, etc. We found that relying on the package names to differentiate class names like
 
-* `hu.bme.mit.trainbenchmark.ttc.benchmark.java.BenchmarkCase` and 
+* `hu.bme.mit.trainbenchmark.ttc.benchmark.java.BenchmarkCase` and
 * `hu.bme.mit.trainbenchmark.ttc.benchmark.emfincquery.BenchmarkCase`
 
 is error-prone and should be avoided.
