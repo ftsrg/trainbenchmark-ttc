@@ -9,6 +9,5 @@ bwTheme <- theme(text=element_text(family="Helvetica", size=16),
 				 axis.title = element_text(colour="black",size=20),
 				 legend.title = element_text(colour="black",size=20),
 				 legend.text = element_text(colour="black",size=20),
-				 plot.title = element_text(colour="black",size=25),
-                 legend.position="right"
+				 plot.title = element_text(colour="black",size=25)
 )
